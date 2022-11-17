@@ -1498,6 +1498,14 @@ def createfilelist(inpath,includeyears,excludemonths):
         ftime[ctr]=f[fstrind:(fstrind+8)]
         fmonth[ctr]=np.int(f[fstrind:(fstrind+8)][4:6])
         fyear[ctr]=np.int(f[fstrind:(fstrind+8)][0:4])
+        ######### working
+        print("counter = {}; processing file {}".format(ctr, f))
+        print("fstrind: {}".format(fstrind))
+        print("ftime[ctr]: {}".format(ftime[ctr]))
+        print("fmonth[ctr]: {}".format(fmonth[ctr]))
+        print("fyear[ctr]: {}".format(fyear[ctr]))
+        print("########################################")
+        ########## end working
         ctr=ctr+1
     if isinstance(includeyears, (bool))==False:  
         allyears=np.arange(min(fyear),max(fyear)+1)
@@ -1520,12 +1528,12 @@ def createfilelist(inpath,includeyears,excludemonths):
         
     fsort=np.array(sorted(enumerate(ftime), key=lambda x: x[1]))
     ####### working
-    print("ftime:")
-    print(ftime)
-    print("fsort:")
-    print(fsort)
-    print("fsort.shape:")
-    print(fsort.shape)
+    # print("ftime:")
+    # print(ftime)
+    # print("fsort:")
+    # print(fsort)
+    # print("fsort.shape:")
+    # print(fsort.shape)
     ####### end working
     sortind=fsort[:,0]
     flist=flist[sortind]
