@@ -1507,6 +1507,10 @@ def createfilelist(inpath,includeyears,excludemonths):
         print("########################################")
         ########## end working
         ctr=ctr+1
+    ######### working
+    print("ftime 1:")
+    print(ftime)
+    ######### end working
     if isinstance(includeyears, (bool))==False:  
         allyears=np.arange(min(fyear),max(fyear)+1)
         excludeyears=set(allyears)^set(includeyears)
@@ -1528,7 +1532,7 @@ def createfilelist(inpath,includeyears,excludemonths):
         
     fsort=np.array(sorted(enumerate(ftime), key=lambda x: x[1]))
     ####### working
-    print("ftime:")
+    print("ftime 2:")
     print(ftime)
     # print("fsort:")
     # print(fsort)
