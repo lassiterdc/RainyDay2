@@ -1467,12 +1467,7 @@ def subfinder(mylist, pattern):
 def createfilelist(inpath,includeyears,excludemonths):
     flist=glob.glob(inpath)
     flist=np.array(flist)
-    ######### working
-    print("inpath:")
-    print(inpath)
-    print("flist:")
-    print(flist)
-    ######### end working
+
     if len(flist)==0:
         sys.exit("couldn't find any input rainfall files!")
     
