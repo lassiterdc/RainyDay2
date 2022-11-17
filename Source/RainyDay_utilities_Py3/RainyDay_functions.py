@@ -1583,6 +1583,9 @@ def rainprop_setup(infile,catalog=False,lassiterfile=False):
     if len(unqtimes)>1:
         tdiff=unqtimes[1:]-unqtimes[0:-1]
         tempres=np.min(unqtimes[1:]-unqtimes[0:-1])   # temporal resolution
+        ######### DCL working
+        tempres=tempres.astype('timedelta64[m]') # ensure minutes resolution
+        ######### end working
         if np.any(np.not_equal(tdiff,tempres)):
             sys.exit("Uneven time steps. RainyDay can't handle that.")
     else:
@@ -1592,7 +1595,7 @@ def rainprop_setup(infile,catalog=False,lassiterfile=False):
         
     if len(intime)*np.float32(tempres)!=1440. and catalog==False:
         ####### DCL working
-        print("intime: {}".format(intime))
+        # print("intime: {}".format(intime))
         print("tempres: {}".format(tempres))
         print("len(intime)*np.float32(tempres): {}".format(len(intime)*np.float32(tempres)))
         ####### end working
