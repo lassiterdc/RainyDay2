@@ -1508,8 +1508,12 @@ def createfilelist(inpath,includeyears,excludemonths):
         ########## end working
         ctr=ctr+1
     ######### working
-    print("ftime 1:")
-    print(ftime)
+    # print("ftime 1:")
+    # print(ftime)
+    ######### end working
+    ######### working
+    print("includeyears")
+    print(includeyears)
     ######### end working
     if isinstance(includeyears, (bool))==False:  
         allyears=np.arange(min(fyear),max(fyear)+1)
@@ -1519,7 +1523,10 @@ def createfilelist(inpath,includeyears,excludemonths):
         nyears=len(allyears)-len(excludeyears)
     else:
         nyears=len(np.unique(fyear))
-    
+    ######### working
+    print("finclude 1")
+    print(finclude)
+    ######### end working
     #if nyears<1:
     #    sys.exit("Somehow we didn't find any rainfall files. Check your INCLUDEYEARS field!")
     ######### working
@@ -1529,14 +1536,21 @@ def createfilelist(inpath,includeyears,excludemonths):
     if isinstance(excludemonths, (bool))==False:
         for j in excludemonths:
             finclude[fmonth==j]=False
-        
+            ######### working
+            print("j: {}".format(j))
+            # print(excludemonths)
+            ######### end working
+    ######### working
+    print("finclude 2")
+    print(finclude)
+    ######### end working
     flist=flist[finclude==True]
     ftime=ftime[finclude==True]
         
     fsort=np.array(sorted(enumerate(ftime), key=lambda x: x[1]))
     ####### working
-    print("ftime 2:")
-    print(ftime)
+    # print("ftime 2:")
+    # print(ftime)
     # print("fsort:")
     # print(fsort)
     # print("fsort.shape:")
