@@ -1498,20 +1498,20 @@ def createfilelist(inpath,includeyears,excludemonths):
         ftime[ctr]=f[fstrind:(fstrind+8)]
         fmonth[ctr]=np.int(f[fstrind:(fstrind+8)][4:6])
         fyear[ctr]=np.int(f[fstrind:(fstrind+8)][0:4])
-        ######### working
-        print("counter = {}; processing file {}".format(ctr, f))
-        print("fstrind: {}".format(fstrind))
-        print("ftime[ctr]: {}".format(ftime[ctr]))
-        print("fmonth[ctr]: {}".format(fmonth[ctr]))
-        print("fyear[ctr]: {}".format(fyear[ctr]))
-        print("########################################")
+        ######### DCL working
+        # print("counter = {}; processing file {}".format(ctr, f))
+        # print("fstrind: {}".format(fstrind))
+        # print("ftime[ctr]: {}".format(ftime[ctr]))
+        # print("fmonth[ctr]: {}".format(fmonth[ctr]))
+        # print("fyear[ctr]: {}".format(fyear[ctr]))
+        # print("########################################")
         ########## end working
         ctr=ctr+1
-    ######### working
+    ######### DCL working
     # print("ftime 1:")
     # print(ftime)
     ######### end working
-    ######### working
+    ######### DCL working
     print("includeyears")
     print(includeyears)
     ######### end working
@@ -1523,32 +1523,32 @@ def createfilelist(inpath,includeyears,excludemonths):
         nyears=len(allyears)-len(excludeyears)
     else:
         nyears=len(np.unique(fyear))
-    ######### working
-    print("finclude 1")
-    print(finclude)
+    ######### DCL working
+    # print("finclude 1")
+    # print(finclude)
     ######### end working
     #if nyears<1:
     #    sys.exit("Somehow we didn't find any rainfall files. Check your INCLUDEYEARS field!")
-    ######### working
-    print("excludemonths")
-    print(excludemonths)
+    ######### DCL working
+    # print("excludemonths")
+    # print(excludemonths)
     ######### end working
     if isinstance(excludemonths, (bool))==False:
         for j in excludemonths:
             finclude[fmonth==j]=False
-            ######### working
-            print("j: {}".format(j))
+            ######### DCL working
+            # print("j: {}".format(j))
             # print(excludemonths)
             ######### end working
-    ######### working
-    print("finclude 2")
-    print(finclude)
+    ######### DCL working
+    # print("finclude 2")
+    # print(finclude)
     ######### end working
     flist=flist[finclude==True]
     ftime=ftime[finclude==True]
         
     fsort=np.array(sorted(enumerate(ftime), key=lambda x: x[1]))
-    ####### working
+    ####### DCL working
     # print("ftime 2:")
     # print(ftime)
     # print("fsort:")
