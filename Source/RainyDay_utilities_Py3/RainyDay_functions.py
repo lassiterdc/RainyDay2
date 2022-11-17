@@ -1528,8 +1528,8 @@ def createfilelist(inpath,includeyears,excludemonths):
         
     fsort=np.array(sorted(enumerate(ftime), key=lambda x: x[1]))
     ####### working
-    # print("ftime:")
-    # print(ftime)
+    print("ftime:")
+    print(ftime)
     # print("fsort:")
     # print(fsort)
     # print("fsort.shape:")
