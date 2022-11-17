@@ -1522,7 +1522,10 @@ def createfilelist(inpath,includeyears,excludemonths):
     
     #if nyears<1:
     #    sys.exit("Somehow we didn't find any rainfall files. Check your INCLUDEYEARS field!")
-    
+    ######### working
+    print("excludemonths")
+    print(excludemonths)
+    ######### end working
     if isinstance(excludemonths, (bool))==False:
         for j in excludemonths:
             finclude[fmonth==j]=False
