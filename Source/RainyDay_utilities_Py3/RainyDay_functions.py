@@ -1595,7 +1595,7 @@ def rainprop_setup(infile,catalog=False,lassiterfile=False):
         
     if len(intime)*np.float32(tempres)!=1440. and catalog==False:
         ####### DCL working
-        # print("intime: {}".format(intime))
+        print("len(intime): {}".format(len(intime)))
         print("tempres: {}".format(tempres))
         print("len(intime)*np.float32(tempres): {}".format(len(intime)*np.float32(tempres)))
         ####### end working
