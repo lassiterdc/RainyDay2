@@ -1211,9 +1211,9 @@ def readnetcdf(rfile,inbounds=False,lassiterfile=False):
         # print("np.array(infile.variables['time'][:],dtype='datetime64[s]')")
         # print(np.array(infile.variables['time'][:],dtype='datetime64[s]'))
         # print("################################")
-        # print("outtime")
-        # print(outtime)
-        # print("################################")
+        print("outtime")
+        print(outtime)
+        print("################################")
         ####### end working
         #if np.any(inbounds!=False):
          #   outrain=np.array(infile.variables['precrate'][::-1][:,inbounds[3]:inbounds[2]+1,inbounds[0]:inbounds[1]+1])
@@ -1581,18 +1581,18 @@ def rainprop_setup(infile,catalog=False,lassiterfile=False):
     if len(unqtimes)>1:
         tdiff=unqtimes[1:]-unqtimes[0:-1]
         ####### DCL working
-        print("intime:")
-        print(intime)
-        print("################################")
+        # print("intime:")
+        # print(intime)
+        # print("################################")
         print("unqtimes:")
         print(unqtimes)
         print("################################")
-        print("unqtimes[1:]-unqtimes[0:-1]")
-        print(unqtimes[1:]-unqtimes[0:-1])
-        print("################################")
-        print("np.min(unqtimes[1:]-unqtimes[0:-1])")
-        print(np.min(unqtimes[1:]-unqtimes[0:-1]))
-        print("################################")
+        # print("unqtimes[1:]-unqtimes[0:-1]")
+        # print(unqtimes[1:]-unqtimes[0:-1])
+        # print("################################")
+        # print("np.min(unqtimes[1:]-unqtimes[0:-1])")
+        # print(np.min(unqtimes[1:]-unqtimes[0:-1]))
+        # print("################################")
         ####### end working
         tempres=np.min(unqtimes[1:]-unqtimes[0:-1])   # temporal resolution
         if np.any(np.not_equal(tdiff,tempres)):
@@ -1603,11 +1603,11 @@ def rainprop_setup(infile,catalog=False,lassiterfile=False):
         tempres=tempres.astype('timedelta64[m]')      # temporal resolution in minutes-haven't checked to make sure this works right
         
     if len(intime)*np.float32(tempres)!=1440. and catalog==False:
-        ####### DCL working
+        ###### DCL working
         # print("len(intime): {}".format(len(intime)))
         # print("tempres: {}".format(tempres))
         # print("len(intime)*np.float32(tempres): {}".format(len(intime)*np.float32(tempres)))
-        ####### end working
+        ###### end working
         sys.exit("RainyDay requires daily input files, but has detected something different.")
     tempres=np.int(np.float32(tempres))
         
