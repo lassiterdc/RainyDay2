@@ -982,7 +982,7 @@ def writerealization(scenarioname,rlz,nrealizations,writename,outrain,writemax,w
     # Variable Attributes (time since 1970-01-01 00:00:00.0 in numpys)
     latitudes.units = 'degrees_north'
     longitudes.units = 'degrees_east'
-    rainrate.units = 'mm/hr'
+    rainrate.units = 'mm hr^-1'
     times.units = 'minutes since 1970-01-01 00:00.0'
     times.calendar = 'gregorian'
     basinrainfall.units='mm'
@@ -1164,31 +1164,49 @@ def readnetcdf(rfile,inbounds=False,lassiterfile=False):
                 outrain=np.array(infile.variables['rainrate'][:,inbounds[3]:inbounds[2]+1,inbounds[0]:inbounds[1]+1])
                 outlatitude=np.array(infile.variables['latitude'][inbounds[3]:inbounds[2]+1])
             else:
-                outrain=np.array(infile.variables['precrate'][:,inbounds[3]:inbounds[2]+1,inbounds[0]:inbounds[1]+1])[:,::-1,:]
-                outlatitude=np.array(infile.variables['latitude'][inbounds[3]:inbounds[2]+1])[::-1]
+                outrain=np.array(infile.variables['precrate'][:,::-1,:][:,inbounds[3]:inbounds[2]+1,inbounds[0]:inbounds[1]+1])
+                outlatitude=np.array(infile.variables['latitude'][::-1][inbounds[3]:inbounds[2]+1])
             outlongitude=np.array(infile.variables['longitude'][inbounds[0]:inbounds[1]+1])         
         else:
             if oldfile:
-                outrain=np.array(infile.variables['rainrate'][:])
-                outlatitude=np.array(infile.variables['latitude'][:])
+                outrain=np.array(infile.variables['rainrate'])
+                outlatitude=np.array(infile.variables['latitude'])
             else:
-                outrain=np.array(infile.variables['precrate'][:])[:,::-1,:]
-                outlatitude=np.array(infile.variables['latitude'][:])[::-1]
+                outrain=np.array(infile.variables['precrate'][:,::-1,:])
+                outlatitude=np.array(infile.variables['latitude'][::-1])
             outlongitude=np.array(infile.variables['longitude'][:])
         outtime=np.array(infile.variables['time'][:],dtype='datetime64[m]')
     else:       # lassiter time!
-        print("Lassiter style!")
+        print("Lassiter  or FitzGerald style!")
+        #for subhourly lassiter files:
         if np.any(inbounds!=False):
-            outrain=np.array(infile.variables['rainrate'][:,inbounds[3]:inbounds[2]+1,inbounds[0]:inbounds[1]+1])
+            outrain=np.array(infile.variables['rainrate'][:,::-1,:][:,inbounds[3]:inbounds[2]+1,inbounds[0]:inbounds[1]+1])
             outlatitude=np.array(infile.variables['latitude'][inbounds[3]:inbounds[2]+1])[::-1]
+            outlongitude=np.array(infile.variables['longitude'][:])-360. 
         else:
             outrain=np.array(infile.variables['rainrate'][:])[:,::-1,:]
             outlatitude=np.array(infile.variables['latitude'][:])[::-1]
-        outlongitude=np.array(infile.variables['longitude'][:])-360. 
-        # tempdate=rfile.strip('.nc').split('/')[-1]
-        # startdate=np.datetime64(tempdate[0:4]+'-'+tempdate[4:6]+'-'+tempdate[6:8]+'T00:00')
-        # outtime=startdate+np.array(infile.variables['time'][:],dtype='timedelta64[h]')
-        outtime=np.array(infile.variables['time'][:],dtype='datetime64[s]')
+            outlongitude=np.array(infile.variables['longitude'][:])-360. 
+    
+        # for hourly lassiter files:
+        #tempdate=rfile.strip('.nc').split('/')[-1]
+        #startdate=np.datetime64(tempdate[0:4]+'-'+tempdate[4:6]+'-'+tempdate[6:8]+'T00:00')
+        #outtime=startdate+np.array(infile.variables['time'][:],dtype='timedelta64[s]')
+        
+        # for hourly FitzGerald files:
+        tempdate=rfile.strip('.nc').split('/')[-1][-8:]
+        startdate=np.datetime64(tempdate[0:4]+'-'+tempdate[4:6]+'-'+tempdate[6:8]+'T00:00')
+        outtime=startdate+np.array(infile.variables['time'][:],dtype='timedelta64[m]')
+        
+        #if np.any(inbounds!=False):
+         #   outrain=np.array(infile.variables['precrate'][::-1][:,inbounds[3]:inbounds[2]+1,inbounds[0]:inbounds[1]+1])
+        #    outlatitude=np.array(infile.variables['latitude'][::-1][inbounds[3]:inbounds[2]+1])
+        #    outlongitude=np.array(infile.variables['longitude'][inbounds[3]:inbounds[2]+1])
+        #else:
+         #   outrain=np.array(infile.variables['precrate'][:,::-1,:])
+        #    outlatitude=np.array(infile.variables['latitude'][::-1])
+        #    outlongitude=np.array(infile.variables['longitude'][:])
+            
     infile.close()
     return outrain,outtime,outlatitude,outlongitude
     
@@ -1467,7 +1485,7 @@ def subfinder(mylist, pattern):
 def createfilelist(inpath,includeyears,excludemonths):
     flist=glob.glob(inpath)
     flist=np.array(flist)
-
+        
     if len(flist)==0:
         sys.exit("couldn't find any input rainfall files!")
     
@@ -1498,23 +1516,7 @@ def createfilelist(inpath,includeyears,excludemonths):
         ftime[ctr]=f[fstrind:(fstrind+8)]
         fmonth[ctr]=np.int(f[fstrind:(fstrind+8)][4:6])
         fyear[ctr]=np.int(f[fstrind:(fstrind+8)][0:4])
-        ######### DCL working
-        # print("counter = {}; processing file {}".format(ctr, f))
-        # print("fstrind: {}".format(fstrind))
-        # print("ftime[ctr]: {}".format(ftime[ctr]))
-        # print("fmonth[ctr]: {}".format(fmonth[ctr]))
-        # print("fyear[ctr]: {}".format(fyear[ctr]))
-        # print("########################################")
-        ########## end working
         ctr=ctr+1
-    ######### DCL working
-    # print("ftime 1:")
-    # print(ftime)
-    ######### end working
-    ######### DCL working
-    # print("includeyears")
-    # print(includeyears)
-    ######### end working
     if isinstance(includeyears, (bool))==False:  
         allyears=np.arange(min(fyear),max(fyear)+1)
         excludeyears=set(allyears)^set(includeyears)
@@ -1523,39 +1525,18 @@ def createfilelist(inpath,includeyears,excludemonths):
         nyears=len(allyears)-len(excludeyears)
     else:
         nyears=len(np.unique(fyear))
-    ######### DCL working
-    # print("finclude 1")
-    # print(finclude)
-    ######### end working
+    
     #if nyears<1:
     #    sys.exit("Somehow we didn't find any rainfall files. Check your INCLUDEYEARS field!")
-    ######### DCL working
-    # print("excludemonths")
-    # print(excludemonths)
-    ######### end working
+    
     if isinstance(excludemonths, (bool))==False:
         for j in excludemonths:
             finclude[fmonth==j]=False
-            ######### DCL working
-            # print("j: {}".format(j))
-            # print(excludemonths)
-            ######### end working
-    ######### DCL working
-    # print("finclude 2")
-    # print(finclude)
-    ######### end working
+        
     flist=flist[finclude==True]
     ftime=ftime[finclude==True]
         
     fsort=np.array(sorted(enumerate(ftime), key=lambda x: x[1]))
-    ####### DCL working
-    # print("ftime 2:")
-    # print(ftime)
-    # print("fsort:")
-    # print(fsort)
-    # print("fsort.shape:")
-    # print(fsort.shape)
-    ####### end working
     sortind=fsort[:,0]
     flist=flist[sortind]
     return flist,nyears
@@ -1583,9 +1564,6 @@ def rainprop_setup(infile,catalog=False,lassiterfile=False):
     if len(unqtimes)>1:
         tdiff=unqtimes[1:]-unqtimes[0:-1]
         tempres=np.min(unqtimes[1:]-unqtimes[0:-1])   # temporal resolution
-        ######### DCL working
-        tempres=tempres.astype('timedelta64[m]') # ensure minutes resolution
-        ######### end working
         if np.any(np.not_equal(tdiff,tempres)):
             sys.exit("Uneven time steps. RainyDay can't handle that.")
     else:
@@ -1594,11 +1572,6 @@ def rainprop_setup(infile,catalog=False,lassiterfile=False):
         tempres=tempres.astype('timedelta64[m]')      # temporal resolution in minutes-haven't checked to make sure this works right
         
     if len(intime)*np.float32(tempres)!=1440. and catalog==False:
-        ####### DCL working
-        print("len(intime): {}".format(len(intime)))
-        print("tempres: {}".format(tempres))
-        print("len(intime)*np.float32(tempres): {}".format(len(intime)*np.float32(tempres)))
-        ####### end working
         sys.exit("RainyDay requires daily input files, but has detected something different.")
     tempres=np.int(np.float32(tempres))
         
@@ -1644,9 +1617,10 @@ def readrealization(rfile):
     outstormnumber=np.array(infile.variables['stormnumber'][:])
     origstormnumber=np.array(infile.variables['original_stormnumber'][:])
     #outstormtime=np.array(infile.variables['stormtimes'][:],dtype='datetime64[m]')
+    timeunits=infile.variables['time'].units
     
     infile.close()
-    return outrain,outtime,outlatitude,outlongitude,outlocx,outlocy,outmax,outreturnperiod,outstormnumber,origstormnumber
+    return outrain,outtime,outlatitude,outlongitude,outlocx,outlocy,outmax,outreturnperiod,outstormnumber,origstormnumber,timeunits
 
 
 #==============================================================================

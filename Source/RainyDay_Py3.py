@@ -845,17 +845,27 @@ try:
 except Exception:
     timeseparation=0. 
     
-    
+islassiter=False   
 try:    
     if np.any(np.core.defchararray.find(cardinfo[:,0],"ISLASSITER")>-1):
         islassiter=cardinfo[cardinfo[:,0]=="ISLASSITER",1][0]
-        if islassiter.lower()!="pointlist":
+        if islassiter.lower()!="false":
             islassiter=True
+            print("Using Lassiter-style Netcdf files!")
         else:
             islassiter=False
 except Exception:
-    islassiter=False
-        
+    pass
+try:    
+    if np.any(np.core.defchararray.find(cardinfo[:,0],"ISFITZGERALD")>-1):
+        islassiter=cardinfo[cardinfo[:,0]=="ISFITZGERALD",1][0]
+        if islassiter.lower()!="false":
+            islassiter=True
+            print("Using FitzGerald-style Netcdf files!")
+        else:
+            islassiter=False
+except Exception:
+    pass        
   
 
 #==============================================================================
@@ -959,7 +969,6 @@ ingridx,ingridy=np.meshgrid(np.arange(rainprop.subextent[0],rainprop.subextent[1
 lonrange=ingridx[0,:]
 latrange=ingridy[:,0]
 
-
 #============================================================================
 # Do the setup to run for specific times of day!
 #=============================================================================
@@ -1062,7 +1071,7 @@ elif areatype.lower()=="box":
         catmask=block_mean(catmask,25)          # this scheme is a bit of a numerical approximation but I doubt it makes much practical difference  
 else:
     sys.exit("unrecognized area type!")
-    
+
        
 # TRIM THE GRID DOWN
 csum=np.where(np.sum(catmask,axis=0)==0)
@@ -1183,7 +1192,6 @@ if CreateCatalog:
         inrain,intime,_,_=RainyDay.readnetcdf(infile,inbounds=rainprop.subind,lassiterfile=islassiter)
         inrain=inrain[hourinclude,:]
         intime=intime[hourinclude]
-        
         inrain[inrain<0.]=np.nan
         
         print('Processing file '+str(i+1)+' out of '+str(len(flist))+' ('+"{0:0.0f}".format(100*(i+1)/len(flist))+'%): '+infile.split('/')[-1])
@@ -1203,10 +1211,10 @@ if CreateCatalog:
                     rainmax,ycat,xcat=RainyDay.catalogNumba_irregular(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rainsum,domainmask)
                 else:
                     rainmax,ycat,xcat=RainyDay.catalogNumba(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rainsum)
-    
-                tempmin=np.min(catmax)
+                
+                minind=np.argmin(catmax)
+                tempmin=catmax[minind]
                 if rainmax>tempmin:
-                    minind=np.argmin(catmax)
                     checksep=intime[k]-cattime[:,-1]
                     if (checksep<timeseparation).any():
                         checkind=np.where(checksep<timeseparation)
@@ -1494,7 +1502,9 @@ elif transpotype=='kernel' or rescaletype!='none':
 # DO YOU WANT TO CREATE DIAGNOSTIC PLOTS?
 #==============================================================================
 
-if DoDiagnostics:       
+if DoDiagnostics: 
+    for f in glob.glob(diagpath+'*.png'):
+        os.remove(f)      
     if areatype.lower()=="box":
         from shapely.geometry.polygon import LinearRing
         lons = [boxarea[0], boxarea[0], boxarea[1], boxarea[1]]
