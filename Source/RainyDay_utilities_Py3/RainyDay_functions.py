@@ -1564,6 +1564,9 @@ def rainprop_setup(infile,catalog=False,lassiterfile=False):
     if len(unqtimes)>1:
         tdiff=unqtimes[1:]-unqtimes[0:-1]
         ####### DCL working
+        print("intime:")
+        print(intime)
+        print("################################")
         print("unqtimes:")
         print(unqtimes)
         print("################################")
