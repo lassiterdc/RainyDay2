@@ -1196,23 +1196,24 @@ def readnetcdf(rfile,inbounds=False,lassiterfile=False):
         # for hourly FitzGerald files:
         tempdate=rfile.strip('.nc').split('/')[-1][-8:]
         startdate=np.datetime64(tempdate[0:4]+'-'+tempdate[4:6]+'-'+tempdate[6:8]+'T00:00')
-        outtime=startdate+np.array(infile.variables['time'][:],dtype='timedelta64[m]')
+        # outtime=startdate+np.array(infile.variables['time'][:],dtype='timedelta64[m]')
+        outtime=np.array(infile.variables['time'][:],dtype='timedelta64[s]')
         ####### DCL working
-        print("tempdate:")
-        print(tempdate)
-        print("################################")
-        print("startdate:")
-        print(startdate)
-        print("################################")
-        print("np.array(infile.variables['time'][:],dtype='timedelta64[m]')")
-        print(np.array(infile.variables['time'][:],dtype='timedelta64[m]'))
-        print("################################")
-        print("np.array(infile.variables['time'][:],dtype='datetime64[s]')")
-        print(np.array(infile.variables['time'][:],dtype='datetime64[s]'))
-        print("################################")
-        print("outtime")
-        print(outtime)
-        print("################################")
+        # print("tempdate:")
+        # print(tempdate)
+        # print("################################")
+        # print("startdate:")
+        # print(startdate)
+        # print("################################")
+        # print("np.array(infile.variables['time'][:],dtype='timedelta64[m]')")
+        # print(np.array(infile.variables['time'][:],dtype='timedelta64[m]'))
+        # print("################################")
+        # print("np.array(infile.variables['time'][:],dtype='datetime64[s]')")
+        # print(np.array(infile.variables['time'][:],dtype='datetime64[s]'))
+        # print("################################")
+        # print("outtime")
+        # print(outtime)
+        # print("################################")
         ####### end working
         #if np.any(inbounds!=False):
          #   outrain=np.array(infile.variables['precrate'][::-1][:,inbounds[3]:inbounds[2]+1,inbounds[0]:inbounds[1]+1])
@@ -1603,9 +1604,9 @@ def rainprop_setup(infile,catalog=False,lassiterfile=False):
         
     if len(intime)*np.float32(tempres)!=1440. and catalog==False:
         ####### DCL working
-        print("len(intime): {}".format(len(intime)))
-        print("tempres: {}".format(tempres))
-        print("len(intime)*np.float32(tempres): {}".format(len(intime)*np.float32(tempres)))
+        # print("len(intime): {}".format(len(intime)))
+        # print("tempres: {}".format(tempres))
+        # print("len(intime)*np.float32(tempres): {}".format(len(intime)*np.float32(tempres)))
         ####### end working
         sys.exit("RainyDay requires daily input files, but has detected something different.")
     tempres=np.int(np.float32(tempres))
