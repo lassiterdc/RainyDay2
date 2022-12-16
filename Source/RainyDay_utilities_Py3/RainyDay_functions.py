@@ -1197,7 +1197,20 @@ def readnetcdf(rfile,inbounds=False,lassiterfile=False):
         tempdate=rfile.strip('.nc').split('/')[-1][-8:]
         startdate=np.datetime64(tempdate[0:4]+'-'+tempdate[4:6]+'-'+tempdate[6:8]+'T00:00')
         outtime=startdate+np.array(infile.variables['time'][:],dtype='timedelta64[m]')
-        
+        ####### DCL working
+        print("tempdate:")
+        print(tempdate)
+        print("################################")
+        print("startdate:")
+        print(startdate)
+        print("################################")
+        print("np.array(infile.variables['time'][:],dtype='timedelta64[m]')")
+        print(np.array(infile.variables['time'][:],dtype='timedelta64[m]'))
+        print("################################")
+        print("outtime")
+        print(outtime)
+        print("################################")
+        ####### end working
         #if np.any(inbounds!=False):
          #   outrain=np.array(infile.variables['precrate'][::-1][:,inbounds[3]:inbounds[2]+1,inbounds[0]:inbounds[1]+1])
         #    outlatitude=np.array(infile.variables['latitude'][::-1][inbounds[3]:inbounds[2]+1])
