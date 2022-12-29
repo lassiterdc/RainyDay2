@@ -1200,7 +1200,9 @@ if CreateCatalog:
         
         str_prnt = 'Processing file '+str(i+1)+' out of '+str(len(flist))+' ('+"{0:0.0f}".format(100*(i+1)/len(flist))+'%): '+infile.split('/')[-1]
         if count > 0:
-            str_prnt = str_prnt + '; previous loop time = {} sec; avg. loop time = {} sec'.format(prev_loop_dur, round(average(bm_times), 2))
+            bm_av_time = round(average(bm_times), 2)
+            bm_exp_time = round(bm_av_time * len(flist) / 60 / 60, 2)
+            str_prnt = str_prnt + '; previous loop time = {} sec; avg. loop time = {} sec; expected total time = {} hours'.format(prev_loop_dur, bm_av_time, bm_exp_time)
         print(str_prnt)
 
         # THIS FIRST PART BUILDS THE STORM CATALOG
