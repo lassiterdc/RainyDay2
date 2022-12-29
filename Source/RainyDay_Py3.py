@@ -1187,14 +1187,21 @@ if CreateCatalog:
     #filerange=range(2759,2763)
     
     start = time.time()
-    for i in filerange: 
+    bm_times = []
+    count = -1
+    for i in filerange:
+        count += 1
+        bm_start_time = time.time()
         infile=flist[i]
         inrain,intime,_,_=RainyDay.readnetcdf(infile,inbounds=rainprop.subind,lassiterfile=islassiter)
         inrain=inrain[hourinclude,:]
         intime=intime[hourinclude]
         inrain[inrain<0.]=np.nan
         
-        print('Processing file '+str(i+1)+' out of '+str(len(flist))+' ('+"{0:0.0f}".format(100*(i+1)/len(flist))+'%): '+infile.split('/')[-1])
+        str_prnt = 'Processing file '+str(i+1)+' out of '+str(len(flist))+' ('+"{0:0.0f}".format(100*(i+1)/len(flist))+'%): '+infile.split('/')[-1]
+        if count > 0:
+            str_prnt = str_prnt + '; previous loop time = {} sec; avg. loop time = {} sec'.format(prev_loop_dur, round(average(bm_times), 2))
+        print(str_prnt)
 
         # THIS FIRST PART BUILDS THE STORM CATALOG
         for k in np.arange(0,len(intime)):     
@@ -1233,7 +1240,8 @@ if CreateCatalog:
             
             rainarray[0:-1,:]=rainarray[1:int(catduration*60/rainprop.timeres),:]
             raintime[0:-1]=raintime[1:int(catduration*60/rainprop.timeres)]
-
+        prev_loop_dur = round(bm_start_time - time.time(), 2)
+        bm_times.append(prev_loop_dur)
     sind=np.argsort(catmax)
     cattime=cattime[sind,:]
     catx=catx[sind]
