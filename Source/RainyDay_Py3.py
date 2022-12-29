@@ -1242,7 +1242,7 @@ if CreateCatalog:
             
             rainarray[0:-1,:]=rainarray[1:int(catduration*60/rainprop.timeres),:]
             raintime[0:-1]=raintime[1:int(catduration*60/rainprop.timeres)]
-        prev_loop_dur = round(bm_start_time - time.time(), 2)
+        prev_loop_dur = roundtime.time() - (bm_start_time, 2)
         bm_times.append(prev_loop_dur)
     sind=np.argsort(catmax)
     cattime=cattime[sind,:]
