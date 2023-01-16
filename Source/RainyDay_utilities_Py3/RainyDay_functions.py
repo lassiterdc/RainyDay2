@@ -1208,14 +1208,23 @@ def readnetcdf(rfile,inbounds=False,lassiterfile=False):
         print("infile.variables['time'][:]")
         print(infile.variables['time'][:])
         print("####################")
+        print("infile.variables['time'].units")
+        print(infile.variables['time'].units)
+        print("####################")
+        print("infile.variables['time'].calendar")
+        print(infile.variables['time'].calendar)
+        print("####################")
         print("np.array(infile.variables['time'][:],dtype='datetime64[h]')")
         print(np.array(infile.variables['time'][:],dtype='datetime64[h]'))
         print("####################")
-        print("np.array(infile.variables['time'][:],dtype='datetime64[m]')")
-        print(np.array(infile.variables['time'][:],dtype='datetime64[m]'))
+        print("np.array(infile.variables['time'][:],dtype='timedelta64[m]')")
+        print(np.array(infile.variables['time'][:],dtype='timedelta64[m]'))
         print("####################")
         print("np.array(infile.variables['time'][:],dtype='datetime64[s]')")
         print(np.array(infile.variables['time'][:],dtype='datetime64[s]'))
+        from datetime import datetime, timedelta
+        from cftime import num2date, date2num
+
         ############# END WORK
 
         #if np.any(inbounds!=False):
