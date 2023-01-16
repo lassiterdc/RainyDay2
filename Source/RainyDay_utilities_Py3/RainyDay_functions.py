@@ -1574,6 +1574,17 @@ def rainprop_setup(infile,catalog=False,lassiterfile=False):
         tempres=tempres.astype('timedelta64[m]')      # temporal resolution in minutes-haven't checked to make sure this works right
         
     if len(intime)*np.float32(tempres)!=1440. and catalog==False:
+        ### DCL WORK
+        print("####################")
+        print("intime")
+        print(intime)
+        print("####################")
+        print("tempres")
+        print(tempres)
+        print("####################")
+        print("len(intime)*np.float32(tempres)")
+        print(len(intime)*np.float32(tempres))
+        ### END WORK
         sys.exit("RainyDay requires daily input files, but has detected something different.")
     tempres=np.int(np.float32(tempres))
         
