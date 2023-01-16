@@ -1225,9 +1225,12 @@ def readnetcdf(rfile,inbounds=False,lassiterfile=False):
         from datetime import datetime, timedelta
         from cftime import num2date, date2num
         print("####################")
-        print("num2date(infile.variables['time'][:],units=infile.variables['time'].units,calendar=infile.variables['time'].calendar)")
+        print("dates = num2date(infile.variables['time'][:],units=infile.variables['time'].units,calendar=infile.variables['time'].calendar)")
         print(num2date(infile.variables['time'][:],units=infile.variables['time'].units,calendar=infile.variables['time'].calendar))
-        # dates = num2date(infile.variables['time'][:],units=infile.variables['time'].units,calendar=infile.variables['time'].calendar)
+        dates = num2date(infile.variables['time'][:],units=infile.variables['time'].units,calendar=infile.variables['time'].calendar)
+        print("####################")
+        print("np.array(dates,dtype='datetime64[s]')")
+        print(np.array(dates,dtype='datetime64[s]'))
 
         ############# END WORK
 
