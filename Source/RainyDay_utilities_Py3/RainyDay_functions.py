@@ -1566,7 +1566,8 @@ def rainprop_setup(infile,catalog=False,lassiterfile=False):
         tempres=np.min(unqtimes[1:]-unqtimes[0:-1])   # temporal resolution
         tempres=tempres.astype('timedelta64[m]') # DCL mod
         if np.any(np.not_equal(tdiff,tempres)):
-            sys.exit("Uneven time steps. RainyDay can't handle that.")
+            print("WARNING: RainyDay has detected either missing or irregular timesteps. This could cause trouble. The sys.exit statement was commented out by DCL.")
+            # sys.exit("Uneven time steps. RainyDay can't handle that.")
     else:
         #this is to catch daily data where you can't calculate a time resolution
         tempres=np.float32(1440.)
