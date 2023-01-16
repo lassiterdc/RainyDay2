@@ -1197,6 +1197,17 @@ def readnetcdf(rfile,inbounds=False,lassiterfile=False):
         tempdate=rfile.strip('.nc').split('/')[-1][-8:]
         startdate=np.datetime64(tempdate[0:4]+'-'+tempdate[4:6]+'-'+tempdate[6:8]+'T00:00')
         outtime=np.array(infile.variables['time'][:],dtype='datetime64[s]') #DCL MOD
+        ############# DCL WORK
+        # print("####################")
+        # print("tempdate")
+        # print(tempdate)
+        print("####################")
+        print("outtime")
+        print(outtime)
+        print("####################")
+        print("np.array(infile.variables['time'][:],dtype='datetime64[m]')")
+        print(np.array(infile.variables['time'][:],dtype='datetime64[m]'))
+        ############# END WORK
 
         #if np.any(inbounds!=False):
          #   outrain=np.array(infile.variables['precrate'][::-1][:,inbounds[3]:inbounds[2]+1,inbounds[0]:inbounds[1]+1])
