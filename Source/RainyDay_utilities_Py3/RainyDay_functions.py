@@ -1196,44 +1196,8 @@ def readnetcdf(rfile,inbounds=False,lassiterfile=False):
         # for hourly FitzGerald files:
         tempdate=rfile.strip('.nc').split('/')[-1][-8:]
         startdate=np.datetime64(tempdate[0:4]+'-'+tempdate[4:6]+'-'+tempdate[6:8]+'T00:00')
-        # outtime=np.array(infile.variables['time'][:],dtype='datetime64[s]') #DCL MOD
-        ############# DCL WORK
-        # print("####################")
-        # print("tempdate")
-        # print(tempdate)
-        # print("####################")
-        # print("infile.variables['time']")
-        # print(infile.variables['time'])
-        # print("####################")
-        # print("infile.variables['time'][:]")
-        # print(infile.variables['time'][:])
-        # print("####################")
-        # print("infile.variables['time'].units")
-        # print(infile.variables['time'].units)
-        # print("####################")
-        # print("infile.variables['time'].calendar")
-        # print(infile.variables['time'].calendar)
-        # print("####################")
-        # print("np.array(infile.variables['time'][:],dtype='datetime64[h]')")
-        # print(np.array(infile.variables['time'][:],dtype='datetime64[h]'))
-        # print("####################")
-        # print("np.array(infile.variables['time'][:],dtype='timedelta64[m]')")
-        # print(np.array(infile.variables['time'][:],dtype='timedelta64[m]'))
-        # print("####################")
-        # print("np.array(infile.variables['time'][:],dtype='datetime64[s]')")
-        # print(np.array(infile.variables['time'][:],dtype='datetime64[s]'))
-        from datetime import datetime, timedelta
-        from cftime import num2date, date2num
-        # print("####################")
-        # print("dates = num2date(infile.variables['time'][:],units=infile.variables['time'].units,calendar=infile.variables['time'].calendar)")
-        # print(num2date(infile.variables['time'][:],units=infile.variables['time'].units,calendar=infile.variables['time'].calendar))
         dates = num2date(infile.variables['time'][:],units=infile.variables['time'].units,calendar=infile.variables['time'].calendar)
-        outtime = np.array(dates,dtype='datetime64[s]')
-        print("####################")
-        print("outtime = np.array(dates,dtype='datetime64[s]')")
-        print(outtime)
-
-        ############# END WORK
+        outtime = np.array(dates,dtype='datetime64[s]') # DCL mod
 
         #if np.any(inbounds!=False):
          #   outrain=np.array(infile.variables['precrate'][::-1][:,inbounds[3]:inbounds[2]+1,inbounds[0]:inbounds[1]+1])
@@ -1603,25 +1567,14 @@ def rainprop_setup(infile,catalog=False,lassiterfile=False):
         tempres=np.min(unqtimes[1:]-unqtimes[0:-1])   # temporal resolution
         tempres=tempres.astype('timedelta64[m]') # DCL mod
         if np.any(np.not_equal(tdiff,tempres)):
-            print("WARNING: RainyDay has detected either missing or irregular timesteps. This could cause trouble. The sys.exit statement was commented out by DCL.")
-            # sys.exit("Uneven time steps. RainyDay can't handle that.")
+            # print("WARNING: RainyDay has detected either missing or irregular timesteps. This could cause trouble. The sys.exit statement was commented out by DCL.")
+            sys.exit("Uneven time steps. RainyDay can't handle that.")
     else:
         #this is to catch daily data where you can't calculate a time resolution
         tempres=np.float32(1440.)
         tempres=tempres.astype('timedelta64[m]')      # temporal resolution in minutes-haven't checked to make sure this works right
         
     if len(intime)*np.float32(tempres)!=1440. and catalog==False:
-        ### DCL WORK
-        print("####################")
-        print("intime")
-        print(intime)
-        print("####################")
-        print("tempres")
-        print(tempres)
-        print("####################")
-        print("len(intime)*np.float32(tempres)")
-        print(len(intime)*np.float32(tempres))
-        ### END WORK
         sys.exit("RainyDay requires daily input files, but has detected something different.")
     tempres=np.int(np.float32(tempres))
         
