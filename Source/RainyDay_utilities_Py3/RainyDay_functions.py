@@ -1009,12 +1009,14 @@ def writerealization(scenarioname,rlz,nrealizations,writename,outrain,writemax,w
     dataset.description = 'SST Rainfall Scenarios Realization: '+str(rlz+1)+' of '+str(nrealizations)
     dataset.history = 'Created ' + str(datetime.now())
     dataset.source = 'Realization '+str(rlz)+' from scenario '+scenarioname
-    dataset.missing='-9999.'
+    # dataset.missing='-9999.'# original
+    dataset.missing='0.' # DCL mod
 
     # fill the netcdf file
     latitudes[:]=latrange[::-1]
     longitudes[:]=lonrange
-    outrain[np.isnan(outrain)]=-9999.
+    # outrain[np.isnan(outrain)]=-9999. # original
+    outrain[np.isnan(outrain)]=0. # DCL mod
     rainrate[:]=outrain[:,:,::-1,:] 
     basinrainfall[:]=writemax
     times[:]=writetimes
@@ -1070,12 +1072,14 @@ def writerealization_nperyear(scenarioname,writename,rlz,nperyear,nrealizations,
     dataset.description = 'SST Rainfall Scenarios Realization: '+str(rlz+1)+' of '+str(nrealizations)
     dataset.history = 'Created ' + str(datetime.now())
     dataset.source = 'Realization '+str(rlz)+' from scenario '+scenarioname
-    dataset.missing='-9999.'
+    # dataset.missing='-9999.' # original
+    dataset.missing='0.' # DCL mod
 
     # fill the netcdf file
     latitudes[:]=subrangelat[::-1]   # need to check this!
     longitudes[:]=subrangelon
-    outrain_large[np.isnan(outrain_large)]=-9999.
+    # outrain_large[np.isnan(outrain_large)]=-9999. # original
+    outrain_large[np.isnan(outrain_large)]=0. # DCL mod
     rainrate[:]=outrain_large[:,:,:,::-1,:]
     times[:]=outtime_large
     n_evnet = np.nansum(rlz_order>=0,axis=0)
@@ -1125,7 +1129,8 @@ def writemaximized(scenarioname,writename,outrain,writemax,write_ts,writex,write
     
     # Global Attributes
     dataset.description = 'SST Rainfall Maximum Storm'
-    dataset.missing='-9999.'
+    # dataset.missing='-9999.' # original
+    dataset.missing='0.' # DCL mod
     dataset.history = 'Created ' + str(datetime.now())
     dataset.source = "RainyDay Y'all!"
     
@@ -1137,7 +1142,8 @@ def writemaximized(scenarioname,writename,outrain,writemax,write_ts,writex,write
     # fill the netcdf file
     latitudes[:]=latrange[::-1]
     longitudes[:]=lonrange
-    outrain[np.isnan(outrain)]=-9999.
+    # outrain[np.isnan(outrain)]=-9999. # original
+    outrain[np.isnan(outrain)]=0. # DCL mod
     rainrate[:]=outrain[:,::-1,:]
     basinrainfall[:]=writemax
     times[:]=writetimes
@@ -1341,14 +1347,17 @@ def writecatalog(scenarioname,catrain,catmax,catx,caty,cattime,latrange,lonrange
 
     dataset.history = 'Created ' + str(datetime.now())
     dataset.source = 'RainyDay Storm Catalog for scenario '+scenarioname+'. See description for SST file contents.'
-    dataset.missing='-9999.'
+    # dataset.missing='-9999.' # original
+    dataset.missing='0.' # DCL mod
     
     # fill the netcdf file
     latitudes[:]=latrange[::-1]
     longitudes[:]=lonrange
-    catrain[np.isnan(catrain)]=-9999.
+    # catrain[np.isnan(catrain)]=-9999. # original 
+    catrain[np.isnan(catrain)]=0. # DCL mod
     rainrate[:]=catrain[:,:,::-1,:] 
-    catmax[np.isnan(catmax)]=-9999.
+    # catmax[np.isnan(catmax)]=-9999. # original
+    catmax[np.isnan(catmax)]=0.
     basinrainfall[:]=catmax 
     times[:]=cattime
     xlocation[:]=catx
@@ -1377,7 +1386,8 @@ def writeintensityfile(scenarioname,intenserain,filename,latrange,lonrange,inten
     dataset.history = 'Created ' + str(datetime.now())
     dataset.source = 'RainyDay Storm Intensity File for scenario '+scenarioname
     dataset.description = 'this description should be improved :)!'
-    dataset.missing='-9999.'
+    # dataset.missing='-9999.' # original
+    dataset.missing='0' # DCL mod
     
     times.long_name='time'
     latitudes.long_name='latitude'
@@ -1394,7 +1404,8 @@ def writeintensityfile(scenarioname,intenserain,filename,latrange,lonrange,inten
     # fill the netcdf file
     latitudes[:]=latrange[::-1]
     longitudes[:]=lonrange
-    intenserain[np.isnan(intenserain)]=-9999.
+    # intenserain[np.isnan(intenserain)]=-9999. # original
+    intenserain[np.isnan(intenserain)]=0. # DCL mod
     stormtotals[:]=intenserain[:,::-1,:]
     times[:]=intensetime[:,::-1,:]
     dataset.close()
