@@ -1347,16 +1347,16 @@ def writecatalog(scenarioname,catrain,catmax,catx,caty,cattime,latrange,lonrange
     dataset.history = 'Created ' + str(datetime.now())
     dataset.source = 'RainyDay Storm Catalog for scenario '+scenarioname+'. See description for SST file contents.'
     # dataset.missing='-9999.' # original
-    dataset.missing='-9996' # DCL mod
+    dataset.missing='missing values encoded with a zero (DCL MOD)' # DCL mod
     
     # fill the netcdf file
     latitudes[:]=latrange[::-1]
     longitudes[:]=lonrange
     # catrain[np.isnan(catrain)]=-9999. # original 
-    catrain[np.isnan(catrain)]=-9996 # DCL mod
+    catrain[np.isnan(catrain)]=0 # DCL mod
     rainrate[:]=catrain[:,:,::-1,:] 
     # catmax[np.isnan(catmax)]=-9999. # original
-    catmax[np.isnan(catmax)]=-9996.5 # DCL mod
+    catmax[np.isnan(catmax)]=0# DCL mod
     basinrainfall[:]=catmax 
     times[:]=cattime
     xlocation[:]=catx
