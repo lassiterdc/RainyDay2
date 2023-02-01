@@ -1335,7 +1335,6 @@ def writecatalog(scenarioname,catrain,catmax,catx,caty,cattime,latrange,lonrange
     xlocation.units='dimensionless'
     ylocation.units='dimensionless'
     
-    
     # Global Attributes
     dataset.Conventions ='CF1.8'
     with open(parameterfile, "r") as myfile:
@@ -1357,7 +1356,7 @@ def writecatalog(scenarioname,catrain,catmax,catx,caty,cattime,latrange,lonrange
     catrain[np.isnan(catrain)]=-9996 # DCL mod
     rainrate[:]=catrain[:,:,::-1,:] 
     # catmax[np.isnan(catmax)]=-9999. # original
-    catmax[np.isnan(catmax)]=-9996 # DCL mod
+    catmax[np.isnan(catmax)]=-9996.5 # DCL mod
     basinrainfall[:]=catmax 
     times[:]=cattime
     xlocation[:]=catx
