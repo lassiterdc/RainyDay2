@@ -1227,16 +1227,8 @@ if CreateCatalog:
                     checksep=intime[k]-cattime[:,-1]
                     if (checksep<timeseparation).any():
                         checkind=np.where(checksep<timeseparation)
-                        ##### WORK DCL
-                        print("rainmax>=catmax[checkind]")
-                        print(rainmax>=catmax[checkind])
-                        print("(rainmax>=catmax[checkind]).any()")
-                        print((rainmax>=catmax[checkind]).any())
-                        print("(rainmax>=catmax[checkind]).all()")
-                        print((rainmax>=catmax[checkind]).all())
-                        sys.exit("test complete.")
-                        ##### END WORK
-                        if rainmax>=catmax[checkind]:
+                        # if rainmax>=catmax[checkind]: # original
+                        if (rainmax>=catmax[checkind]).any(): # DCL mod
                             catmax[checkind]=rainmax
                             cattime[checkind,:]=subtime
                             catx[checkind]=xcat
