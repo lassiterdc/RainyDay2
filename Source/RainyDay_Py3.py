@@ -194,17 +194,6 @@ else:
         catarea=[lonrange[0],lonrange[-1]+xres,latrange[-1]-yres,latrange[0]]
         # if np.isclose(xres,yres)==False: # ORIGINAL
         if np.isclose(xres,yres,atol=0.00001)==False: # DCL EDIT
-            # # DCL WORK
-            # print("##########################################################")
-            # print("xres:")
-            # print(xres)
-            # print("##########################################################")
-            # print("yres:")
-            # print(yres)
-            # print("##########################################################")
-            # print("np.isclose(xres,yres,atol=0.00001)")
-            # print(np.isclose(xres,yres,atol=0.00001))
-            # # DCL END WORK
             sys.exit('Sadly, RainyDay currently only supports equal x and y resolutions.')
         else:
             res=np.min([yres,xres])
