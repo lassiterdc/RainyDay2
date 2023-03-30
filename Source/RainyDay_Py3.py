@@ -184,7 +184,13 @@ else:
         print("Reading an existing storm catalog!")
         try:
             catrain,cattime,latrange,lonrange,catx,caty,catmax,_,domainmask,timeres=RainyDay.readcatalog(catalogname)
+            # DCL WORK
+            print("Try statement worked....")
+            # DCL END WORK
         except ValueError:
+            # DCL WORK
+            print("Except statement activated......")
+            # DCL END WORK
             catrain,cattime,latrange,lonrange,catx,caty,catmax,_,domainmask=RainyDay.readcatalog(catalogname)
             timeres=RainyDay.readtimeresolution(catalogname)
         #if catrain.shape[1]==1:
@@ -193,6 +199,14 @@ else:
         xres=np.abs(np.mean(lonrange[1:]-lonrange[0:-1])) 
         catarea=[lonrange[0],lonrange[-1]+xres,latrange[-1]-yres,latrange[0]]
         if np.isclose(xres,yres)==False:
+            # DCL WORK
+            print("##########################################################")
+            print("xres:")
+            print(xres)
+            print("##########################################################")
+            print("yres:")
+            print(yres)
+            # DCL END WORK
             sys.exit('Sadly, RainyDay currently only supports equal x and y resolutions.')
         else:
             res=np.min([yres,xres])
