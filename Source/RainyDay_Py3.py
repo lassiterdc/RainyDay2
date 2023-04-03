@@ -1834,7 +1834,42 @@ if FreqAnalysis:
         ncounts=np.random.poisson(lrate,(nsimulations,nrealizations))
         cntr=0
         #ncounts[ncounts==0]=1
-        if calctype.lower()=='npyear' and lrate<nperyear:   
+        # DCL WORK
+        print("#######################################")
+        print("calctype.lower()")
+        print(calctype.lower())
+        print("#######################################")
+        print("calctype.lower()=='npyear'")
+        print(calctype.lower()=='npyear')
+        print("#######################################")
+        print("lrate")
+        print(lrate)
+        print("#######################################")
+        print("nperyear")
+        print(nperyear)
+        print("#######################################")
+        print("lrate<nperyear")
+        print(lrate<nperyear)
+        print("#######################################")
+        print("calctype.lower()=='npyear' and lrate<nperyear)")
+        print(calctype.lower()=='npyear' and lrate<nperyear)
+        print("#######################################")
+        print("samplingtype.lower()=='negbinom'")
+        print(samplingtype.lower()=='negbinom')
+        print("#######################################")
+        print("calctype.lower()=='npyear' and np.mean(yrscount)<nperyear")
+        print(calctype.lower()=='npyear' and np.mean(yrscount)<nperyear)
+        print("calctype.lower()")
+        print(calctype.lower())
+        print("np.mean(yrscount)")
+        print(np.mean(yrscount))
+        print("nperyear")
+        print(nperyear)
+        # END DCL WORK   
+        if calctype.lower()=='npyear' and lrate<nperyear:
+            # DCL WORK
+            print("1")
+            # END DCL WORK
             sys.exit("You specified to write multiple storms per year, but you specified a number that is too large relative to the resampling rate!")
     elif samplingtype.lower()=='negbinom':
         sys.exit("Sorry, the negative binomial resampling isn't set up yet :(")
@@ -1846,14 +1881,19 @@ if FreqAnalysis:
         ncounts=np.random.negative_binomial(rparam,pparam,size=(nsimulations,nrealizations)) 
         if calctype.lower()=='npyear' and np.mean(yrscount)<nperyear :   
             sys.exit("You specified to write multiple storms per year, but you specified a number that is too large relative to the resampling rate!")
-             	
+            # DCL WORK
+            print("2")
+            # END DCL WORK
     else:
         _,yrscount=np.unique(cattime[:,-1].astype('datetime64[Y]').astype(int)+1970,return_counts=True)
         if len(yrscount)<nyears:
             yrscount=np.append(yrscount,np.ones(nyears-len(yrscount),dtype='int32'))
         ncounts=np.random.choice(yrscount,(nsimulations,nrealizations),replace=True)   
-        if calctype.lower()=='npyear' and np.mean(yrscount)<nperyear :   
+        if calctype.lower()=='npyear' and np.mean(yrscount)<nperyear:   
             sys.exit("You specified to write multiple storms per year, but you specified a number that is too large relative to the resampling rate!")
+            # DCL WORK
+            print("3")
+            # END DCL WORK
         #ncounts[ncounts==0]=1
             
     whichstorms=np.empty((np.nanmax(ncounts),ncounts.shape[0],ncounts.shape[1]),dtype='int32')
