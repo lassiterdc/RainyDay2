@@ -1858,13 +1858,32 @@ if FreqAnalysis:
         print(samplingtype.lower()=='negbinom')
         print("#######################################")
         print("calctype.lower()=='npyear' and np.mean(yrscount)<nperyear")
-        print(calctype.lower()=='npyear' and np.mean(yrscount)<nperyear)
+        try:
+            print(calctype.lower()=='npyear' and np.mean(yrscount)<nperyear)
+        except:
+            print("didn't work...")
+            pass
+        print("#######################################")
         print("calctype.lower()")
-        print(calctype.lower())
+        try:
+            print(calctype.lower())
+        except:
+            print("didn't work...")
+            pass
+        print("#######################################")
         print("np.mean(yrscount)")
-        print(np.mean(yrscount))
+        try:
+            print(np.mean(yrscount))
+        except:
+            print("didn't work...")
+            pass
+        print("#######################################")
         print("nperyear")
-        print(nperyear)
+        try:
+            print(nperyear)
+        except:
+            print("didn't work...")
+            pass
         # END DCL WORK   
         if calctype.lower()=='npyear' and lrate<nperyear:
             # DCL WORK
