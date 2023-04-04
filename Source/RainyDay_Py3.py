@@ -1827,7 +1827,7 @@ if FreqAnalysis:
     else:
         nyears=len(includeyears)
         
-        
+
     # resampling counts options:
     if samplingtype.lower()=='poisson':
         lrate=len(catmax)/nyears*FrequencySens                  
