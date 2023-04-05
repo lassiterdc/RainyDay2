@@ -1847,9 +1847,25 @@ if FreqAnalysis:
         if calctype.lower()=='npyear' and np.mean(yrscount)<nperyear :   
             sys.exit("You specified to write multiple storms per year, but you specified a number that is too large relative to the resampling rate!")
     else:
+        # DCL WORK
+        print("Made it to 1")
+        # END DCL WORK
         _,yrscount=np.unique(cattime[:,-1].astype('datetime64[Y]').astype(int)+1970,return_counts=True)
+        # DCL WORK
+        print("Made it to 2")
+        print("yrscount")
+        print(yrscount)
+        print("nyears")
+        print(nyears)
+        # END DCL WORK
         if len(yrscount)<nyears:
+            # DCL WORK
+            print("Made it to 3")
+            # END DCL WORK
             yrscount=np.append(yrscount,np.ones(nyears-len(yrscount),dtype='int32'))
+            # DCL WORK
+            print("Made it to 4")
+            # END DCL WORK
         ncounts=np.random.choice(yrscount,(nsimulations,nrealizations),replace=True)   
         if calctype.lower()=='npyear' and np.mean(yrscount)<nperyear:   
             sys.exit("You specified to write multiple storms per year, but you specified a number that is too large relative to the resampling rate!")
