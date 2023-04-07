@@ -1834,7 +1834,25 @@ if FreqAnalysis:
         ncounts=np.random.poisson(lrate,(nsimulations,nrealizations))
         cntr=0
         #ncounts[ncounts==0]=1
+        # DCL WORK
+        print("#####################################")
+        print("calctype.lower()")
+        print(calctype.lower())
+        print("#####################################")
+        print("lrate")
+        print(lrate)
+        print("#####################################")
+        print("nperyear")
+        print(nperyear)
+        print("#####################################")
+        print("calctype.lower()=='npyear' and lrate<nperyear")
+        print(calctype.lower()=='npyear' and lrate<nperyear)
+        print("#####################################")
+        # END DCL WORK
         if calctype.lower()=='npyear' and lrate<nperyear:
+            # DCL WORK
+            print("Made it to 0")
+            # END DCL WORK
             sys.exit("You specified to write multiple storms per year, but you specified a number that is too large relative to the resampling rate!")
     elif samplingtype.lower()=='negbinom':
         sys.exit("Sorry, the negative binomial resampling isn't set up yet :(")
