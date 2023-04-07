@@ -1835,6 +1835,7 @@ if FreqAnalysis:
         cntr=0
         #ncounts[ncounts==0]=1
         # DCL WORK
+        print("POISSON SAMPLING")
         print("#####################################")
         print("calctype.lower()")
         print(calctype.lower())
@@ -1879,6 +1880,9 @@ if FreqAnalysis:
             # END DCL WORK
             sys.exit("You specified to write multiple storms per year, but you specified a number that is too large relative to the resampling rate!")
     elif samplingtype.lower()=='negbinom':
+        # DCL WORK
+        print("negbinom")
+        # END DCL WORK
         sys.exit("Sorry, the negative binomial resampling isn't set up yet :(")
         _,yrscount=np.unique(cattime[:,-1].astype('datetime64[Y]').astype(int)+1970,return_counts=True)
         if len(yrscount)<nyears:
@@ -1890,11 +1894,10 @@ if FreqAnalysis:
             sys.exit("You specified to write multiple storms per year, but you specified a number that is too large relative to the resampling rate!")
     else:
         # DCL WORK
-        print("Made it to 1")
+        print("not poisson or negbinom")
         # END DCL WORK
         _,yrscount=np.unique(cattime[:,-1].astype('datetime64[Y]').astype(int)+1970,return_counts=True)
         # DCL WORK
-        print("Made it to 2")
         print("yrscount")
         print(yrscount)
         print("nyears")
