@@ -1821,12 +1821,35 @@ if DoDiagnostics:
 
 if FreqAnalysis:
     print("resampling and transposing...")
-    
+    # DCL WORK
+    print("#####################################")
+    print("includeyears")
+    print(includeyears)
+    # END DCL WORK
     if np.all(includeyears==False):
         nyears=len(range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1))
+        # DCL WORK
+        print("#####################################")
+        print("len(range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1))")
+        print(len(range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1)))
+        print("#####################################")
+        print("range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1)")
+        print(range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1))
+        print("#####################################")
+        print("cattime[:,-1].astype('datetime64[Y]').astype(int)")
+        print(cattime[:,-1].astype('datetime64[Y]').astype(int))
+        print("#####################################")
+        print("cattime[:,-1].astype('datetime64[Y]').astype(int)")
+        print(cattime[:,-1].astype('datetime64[Y]').astype(int))
+        # END DCL WORK
     else:
         nyears=len(includeyears)
-        
+        # DCL WORK
+        print("#####################################")
+        print("len(includeyears)")
+        print(len(includeyears))
+        # END DCL WORK
+            
 
     # resampling counts options:
     if samplingtype.lower()=='poisson':
