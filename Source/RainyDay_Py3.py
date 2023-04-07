@@ -528,7 +528,15 @@ except Exception:
     
 # INCLUDE ONLY CERTAIN YEARS
 try:
-    includeyr=cardinfo[cardinfo[:,0]=="INCLUDEYEARS",1][0] 
+    includeyr=cardinfo[cardinfo[:,0]=="INCLUDEYEARS",1][0]
+    # DCL WORK
+    print("#############################")
+    print("includeyr")
+    print(includeyr)
+    print("#############################")
+    print("cardinfo[cardinfo[:,0]==\"INCLUDEYEARS\",1][0]")
+    print(cardinfo[cardinfo[:,0]=="INCLUDEYEARS",1][0])
+    # DCL END WORK
     if includeyr.lower()!="all":
         if ',' in includeyr:
             includeyr=includeyr.split(',')
@@ -1829,6 +1837,7 @@ if FreqAnalysis:
     if np.all(includeyears==False):
         nyears=len(range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1))
         # DCL WORK
+        nyears = 19
         print("#####################################")
         print("len(range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1))")
         print(len(range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1)))
