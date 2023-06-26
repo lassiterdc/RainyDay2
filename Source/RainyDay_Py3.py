@@ -126,7 +126,6 @@ start = time.time()
 parameterfile='ttt'
 try:
     parameterfile=np.str(sys.argv[1])
-    #parameterfile='/Users/daniel/Google_Drive/Presentations/MyPresentations/WisconsinRainfallProject/Wisconsin_24hrIDF_Madison.sst'
 except:
     sys.exit("You didn't specify an input ('.sst') file!")
 

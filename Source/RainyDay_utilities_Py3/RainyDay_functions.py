@@ -1036,8 +1036,10 @@ def writerealization(scenarioname,rlz,nrealizations,writename,outrain,writemax,w
 #==============================================================================    
 def writerealization_nperyear(scenarioname,writename,rlz,nperyear,nrealizations,outrain_large,outtime_large,subrangelat,subrangelon,rlz_order,nsimulations):
     # SAVE outrain AS NETCDF FILE
-    filename=writename+'_SSTrealization'+str(rlz+1)+'_Top'+str(nperyear)+'.nc'
-    dataset=Dataset(filename, 'w', format='NETCDF4')
+    # DCL MOD - commented out the two following lines and added the third on 6/26 based on Dan's changes to RainyDay
+    # filename=writename+'_SSTrealization'+str(rlz+1)+'_Top'+str(nperyear)+'.nc'
+    # dataset=Dataset(filename, 'w', format='NETCDF4')
+    dataset=Dataset(writename, 'w', format='NETCDF4')
 
     # create dimensions
     outlats=dataset.createDimension('latitude',len(subrangelat))
@@ -1618,8 +1620,10 @@ def readrealization(rfile):
         
     if oldfile:
         outrain=np.array(infile.variables['rainrate'][:])
+        outlatitude=np.array(infile.variables['latitude'][:])
     else:
         outrain=np.array(infile.variables['precrate'][:])[:,:,::-1,:]
+        outlatitude=np.array(infile.variables['latitude'][::-1])
     outtime=np.array(infile.variables['time'][:],dtype='datetime64[m]')
     outlatitude=np.array(infile.variables['latitude'][:])
     outlongitude=np.array(infile.variables['longitude'][:])
