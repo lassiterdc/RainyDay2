@@ -125,6 +125,9 @@ print('''Welcome to RainyDay, a framework for coupling remote sensing precipitat
 start = time.time()
 parameterfile='ttt'
 try:
+    # DCL WORK
+    print("parameter file: {}".format(str(sys.argv[1])))
+    # END DCL WORK
     parameterfile=np.str(sys.argv[1])
 except:
     sys.exit("You didn't specify an input ('.sst') file!")
