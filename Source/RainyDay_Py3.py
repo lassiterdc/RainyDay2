@@ -579,7 +579,7 @@ if CreateCatalog:
 try:
     IntensitySens=cardinfo[cardinfo[:,0]=="SENS_INTENSITY",1][0]
     if IntensitySens.lower()!='false':
-        IntensitySens=1.+float(IntensitySens)/100.
+        IntensitySens=1.+np.float(IntensitySens)/100.
     else:
         IntensitySens=1.
 except Exception:
@@ -591,7 +591,7 @@ try:
         if samplingtype.lower()!='poisson':
             sys.exit("Sorry, you can't modify the resampling frequency unless you use the Poisson resampler.")
         else:
-            FrequencySens=1.0+float(FrequencySens)/100.
+            FrequencySens=1.0+np.float(FrequencySens)/100.
     else:
         FrequencySens=1.
 except Exception:
@@ -607,7 +607,7 @@ if areatype=='point' or areatype=='pointlist':
                 ARFval=ARFval.replace(" ","")
                 arfval=np.array(ARFval.split(','),dtype='float32')
             else:
-                arfval=np.array([float(ARFval)])
+                arfval=np.array([np.float(ARFval)])
             
         else:
             FrequencySens=1.
@@ -1003,7 +1003,7 @@ else:
     except Exception:
         sys.exit("Can't find the input files necessary for setup to calculate time-of-day-specific IDF curves")
 
-    starthour=starthour+float(rainprop.timeres/60)   # because the netcdf file timestamps correspond to the end of the accumulation period
+    starthour=starthour+np.float(rainprop.timeres/60)   # because the netcdf file timestamps correspond to the end of the accumulation period
     hourinclude=np.zeros((24*60/rainprop.timeres),dtype='int32')
     temphour=np.zeros((24*60/rainprop.timeres),dtype='float32')
 
@@ -1374,7 +1374,7 @@ catrain=catrain*IntensitySens
 # find the max rainfall for the N-hour duration, not the M-day duration
 #==============================================================================
 
-durationcheck=60./rainprop.timeres*duration==float(catrain.shape[1])
+durationcheck=60./rainprop.timeres*duration==np.float(catrain.shape[1])
 
 #if (durationcheck==False and durcorrection==True) or (durationcheck==False and DoDiagnostics): 
 if (durationcheck==False and durcorrection==False): 
@@ -1547,10 +1547,10 @@ if DoDiagnostics:
     
     if rainprop.subdimensions[0]>rainprop.subdimensions[1]:
         figsizex=5
-        figsizey=5+0.25*5*float(rainprop.subdimensions[0])/rainprop.subdimensions[1]
+        figsizey=5+0.25*5*np.float(rainprop.subdimensions[0])/rainprop.subdimensions[1]
     elif rainprop.subdimensions[0]<rainprop.subdimensions[1]: 
         figsizey=5
-        figsizex=5+0.25*5*float(rainprop.subdimensions[0])/rainprop.subdimensions[1]
+        figsizex=5+0.25*5*np.float(rainprop.subdimensions[0])/rainprop.subdimensions[1]
     else:
         figsizey=5   
         figsizex=5
