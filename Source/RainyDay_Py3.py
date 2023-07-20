@@ -131,9 +131,9 @@ start = time.time()
 parameterfile='ttt'
 try:
     # DCL WORK
-    print("parameter file: {}".format(str(sys.argv[1])))
+    # print("parameter file: {}".format(str(sys.argv[1])))
     # END DCL WORK
-    parameterfile=np.str(sys.argv[1])
+    parameterfile=str(sys.argv[1]) # DCL MOD
 except:
     sys.exit("You didn't specify an input ('.sst') file!")
 
