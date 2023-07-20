@@ -207,7 +207,7 @@ else:
 
 
 try:
-    nstorms=np.int(cardinfo[cardinfo[:,0]=="NSTORMS",1][0])
+    nstorms=np.int32(cardinfo[cardinfo[:,0]=="NSTORMS",1][0])
     defaultstorms=False
     print(str(nstorms)+" storms will be identified for storm catalog!")
 except Exception:
@@ -216,14 +216,14 @@ except Exception:
     defaultstorms=True
 
 try:
-    nsimulations=np.int(cardinfo[cardinfo[:,0]=="NYEARS",1][0])
+    nsimulations=np.int32(cardinfo[cardinfo[:,0]=="NYEARS",1][0])
     print(str(nsimulations)+" years of synthetic storms will be generated, for a max recurrence interval of "+str(nsimulations)+" years!")
 except Exception:
     nsimulations=100
     print("you didn't specify NYEARS, defaulting to 100, for a max recurrence interval of 100 years!")
 
 try:
-    nrealizations=np.int(cardinfo[cardinfo[:,0]=="NREALIZATIONS",1][0])
+    nrealizations=np.int32(cardinfo[cardinfo[:,0]=="NREALIZATIONS",1][0])
     print(str(nrealizations)+" realizations will be performed!")
 except Exception:
     nrealizations=1
@@ -239,7 +239,7 @@ except ImportError:
 
 # this following bit is only needed in the very specific (and generally not recommended) case when the desired analysis/catalog duration is equal to the temporal resolution of the dataset
 # try:
-#     temptimeres=np.int(cardinfo[cardinfo[:,0]=="TIMERESOLUTION",1][0])
+#     temptimeres=np.int32(cardinfo[cardinfo[:,0]=="TIMERESOLUTION",1][0])
 #     print("A resolution of "+str(temptimeres)+" minutes has been provided. Be careful with this, because if it is improperly specified, this will cause errors. Note that TIMERESOLUTION is not needed unless the duration of each storm is to be exactly equal to the temporal resolution of the input data or catalog. In other words, make sure you know what you're doing!")
 # except Exception:
 #     temptimeres=False
@@ -527,7 +527,7 @@ try:
         exclude=exclude.split(',')
         excludemonths=np.empty(len(exclude),dtype="int32")
         for i in np.arange(0,len(exclude)):
-            excludemonths[i]=np.int(exclude[i])
+            excludemonths[i]=np.int32(exclude[i])
     else:
         excludemonths=False
 except Exception:
@@ -549,13 +549,13 @@ try:
             includeyr=includeyr.split(',')
             includeyears=np.empty(len(includeyr),dtype="int32")
             for i in np.arange(0,len(includeyr)):
-                includeyears[i]=np.int(includeyr[i])
+                includeyears[i]=np.int32(includeyr[i])
         elif '-' in includeyr:
             includeyr=includeyr.split('-')
-            includeyears=np.arange(np.int(includeyr[0]),np.int(includeyr[1])+1,dtype='int32')
+            includeyears=np.arange(np.int32(includeyr[0]),np.int32(includeyr[1])+1,dtype='int32')
         else:
             includeyears=np.empty((1),dtype="int32")
-            includeyears[0]=np.int(includeyr)
+            includeyears[0]=np.int32(includeyr)
     else:
         includeyears=False
 except Exception:
@@ -563,7 +563,7 @@ except Exception:
 
 # MINIMUM RETURN PERIOD THRESHOLD FOR WRITING RAINFALL SCENARIO (THIS WILL HAVE A HUGE IMPACT ON THE SIZE OF THE OUTPUT FILES!)  IN PRINCIPLE IT IS PERHAPS BETTER TO USE AN INTENSITY BUT THIS IS CLEANER!
 try:
-    RainfallThreshYear=np.int(cardinfo[cardinfo[:,0]=="RETURNTHRESHOLD",1][0])
+    RainfallThreshYear=np.int32(cardinfo[cardinfo[:,0]=="RETURNTHRESHOLD",1][0])
 except Exception:
     RainfallThreshYear=1
 
@@ -579,7 +579,7 @@ if CreateCatalog:
 try:
     IntensitySens=cardinfo[cardinfo[:,0]=="SENS_INTENSITY",1][0]
     if IntensitySens.lower()!='false':
-        IntensitySens=1.+np.float(IntensitySens)/100.
+        IntensitySens=1.+np.float32(IntensitySens)/100.
     else:
         IntensitySens=1.
 except Exception:
@@ -591,7 +591,7 @@ try:
         if samplingtype.lower()!='poisson':
             sys.exit("Sorry, you can't modify the resampling frequency unless you use the Poisson resampler.")
         else:
-            FrequencySens=1.0+np.float(FrequencySens)/100.
+            FrequencySens=1.0+np.float32(FrequencySens)/100.
     else:
         FrequencySens=1.
 except Exception:
@@ -607,7 +607,7 @@ if areatype=='point' or areatype=='pointlist':
                 ARFval=ARFval.replace(" ","")
                 arfval=np.array(ARFval.split(','),dtype='float32')
             else:
-                arfval=np.array([np.float(ARFval)])
+                arfval=np.array([np.float32(ARFval)])
             
         else:
             FrequencySens=1.
@@ -640,10 +640,10 @@ if calctype=='pds' and Scenarios:
 if Scenarios and areatype.lower()!="pointlist":
     try:
         nperyear=cardinfo[cardinfo[:,0]=="NPERYEAR",1]
-        if nperyear!='false' or np.int(nperyear)!=1:
-            print("RainyDay will output "+str(np.int(nperyear))+" storms per synthetic year! If this is a big number, this could be very slow!")
+        if nperyear!='false' or np.int32(nperyear)!=1:
+            print("RainyDay will output "+str(np.int32(nperyear))+" storms per synthetic year! If this is a big number, this could be very slow!")
             calctype='npyear'
-            nperyear=np.int(nperyear)
+            nperyear=np.int32(nperyear)
             if nperyear==1:
             	nperyear='false'
 #        else:
@@ -678,7 +678,7 @@ if Scenarios:
                 print('spinup precipitation will be not included in precipitation scenarios...')
             else:
                 try:
-                    pretime=np.int(pretime)
+                    pretime=np.int32(pretime)
                     prependrain=True
                     if pretime==0.:
                         prependrain=False
@@ -1003,7 +1003,7 @@ else:
     except Exception:
         sys.exit("Can't find the input files necessary for setup to calculate time-of-day-specific IDF curves")
 
-    starthour=starthour+np.float(rainprop.timeres/60)   # because the netcdf file timestamps correspond to the end of the accumulation period
+    starthour=starthour+np.float32(rainprop.timeres/60)   # because the netcdf file timestamps correspond to the end of the accumulation period
     hourinclude=np.zeros((24*60/rainprop.timeres),dtype='int32')
     temphour=np.zeros((24*60/rainprop.timeres),dtype='float32')
 
@@ -1105,8 +1105,8 @@ maskheight=trimmask.shape[0]
 trimmask=np.array(trimmask,dtype='float32')
 catmask=np.array(catmask,dtype='float32')
 
-timeseparation=np.timedelta64(np.int(timeseparation*60.),'m')
-timestep=np.timedelta64(np.int(rainprop.timeres),'m')
+timeseparation=np.timedelta64(np.int32(timeseparation*60.),'m')
+timestep=np.timedelta64(np.int32(rainprop.timeres),'m')
 
 mnorm=np.sum(trimmask)
 
@@ -1303,8 +1303,8 @@ except Exception:
 if exclude.lower()!="none" and exclude.lower()!="false" and CreateCatalog==False:
 	exclude=exclude.split(',')
 	for i in range(0,len(exclude)):
-		if np.int(exclude[i])-1<len(catmax):
-			includestorms[np.int(exclude[i])-1]=False
+		if np.int32(exclude[i])-1<len(catmax):
+			includestorms[np.int32(exclude[i])-1]=False
 		else:
 			sys.exit("something seems wrong! You are excluding storms that aren't in the catalog.")
 elif exclude.lower()!="none" and CreateCatalog:
@@ -1374,7 +1374,7 @@ catrain=catrain*IntensitySens
 # find the max rainfall for the N-hour duration, not the M-day duration
 #==============================================================================
 
-durationcheck=60./rainprop.timeres*duration==np.float(catrain.shape[1])
+durationcheck=60./rainprop.timeres*duration==np.float32(catrain.shape[1])
 
 #if (durationcheck==False and durcorrection==True) or (durationcheck==False and DoDiagnostics): 
 if (durationcheck==False and durcorrection==False): 
@@ -1547,10 +1547,10 @@ if DoDiagnostics:
     
     if rainprop.subdimensions[0]>rainprop.subdimensions[1]:
         figsizex=5
-        figsizey=5+0.25*5*np.float(rainprop.subdimensions[0])/rainprop.subdimensions[1]
+        figsizey=5+0.25*5*np.float32(rainprop.subdimensions[0])/rainprop.subdimensions[1]
     elif rainprop.subdimensions[0]<rainprop.subdimensions[1]: 
         figsizey=5
-        figsizex=5+0.25*5*np.float(rainprop.subdimensions[0])/rainprop.subdimensions[1]
+        figsizex=5+0.25*5*np.float32(rainprop.subdimensions[0])/rainprop.subdimensions[1]
     else:
         figsizey=5   
         figsizex=5
@@ -2115,8 +2115,8 @@ if FreqAnalysis:
         print('Resampling and transposing storm '+str(i+1)+' out of '+str(nstorms)+' ('"{0:0.0f}".format(100*(i+1)/nstorms)+'%)')
         # UNIFORM RESAMPLING
         if transpotype=='uniform' and domain_type=='rectangular':
-            whichx[whichstorms==i,0]=np.random.randint(0,np.int(rainprop.subdimensions[1])-maskwidth+1,len(whichx[whichstorms==i]))
-            whichy[whichstorms==i,0]=np.random.randint(0,np.int(rainprop.subdimensions[0])-maskheight+1,len(whichy[whichstorms==i]))
+            whichx[whichstorms==i,0]=np.random.randint(0,np.int32(rainprop.subdimensions[1])-maskwidth+1,len(whichx[whichstorms==i]))
+            whichy[whichstorms==i,0]=np.random.randint(0,np.int32(rainprop.subdimensions[0])-maskheight+1,len(whichy[whichstorms==i]))
      
         # KERNEL-BASED AND INTENSITY-BASED RESAMPLING (ALSO NEEDED FOR IRREGULAR TRANSPOSITION DOMAINS)
         elif transpotype=='kernel':
@@ -2667,7 +2667,7 @@ if FreqAnalysis:
                 if len(flist)==0:
                     sys.exit("couldn't prepend the precipitation files for spinup period because the input files weren't available.") 
         
-            tlen=np.int(1440*pretime/rainprop.timeres)
+            tlen=np.int32(1440*pretime/rainprop.timeres)
             
             precat=np.zeros((catrain.shape[0],tlen,catrain.shape[2],catrain.shape[3]),dtype='float32')
     
@@ -2685,7 +2685,7 @@ if FreqAnalysis:
                 startstr=np.str(starttime).replace('-','').split('T')[0]
                 prelist=np.core.defchararray.find(flist,startstr)
                 preind=np.where(prelist==np.max(prelist))[0][0]
-                tlist=flist[preind:preind+np.int(np.round(pretime))] 
+                tlist=flist[preind:preind+np.int32(np.round(pretime))] 
     
                 for j in range(0,len(tlist)):
                     print('Pre-pending precipitation with file '+tlist[j])
