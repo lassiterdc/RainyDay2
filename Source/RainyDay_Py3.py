@@ -1,4 +1,7 @@
-#!/usr/bin/env python
+# DCL WORK
+import cartopy
+# !/usr/bin/env python
+# END DCL WORK 
 
 # give the right permissions (for a Mac or Linux): chmod +x {scriptname}
 
@@ -23,7 +26,9 @@
 #==============================================================================
 # IMPORT STUFF!
 #==============================================================================
-import cartopy
+# DCL WORK
+# import cartopy
+# END DCL WORK
 import os
 import sys
 import numpy as np
