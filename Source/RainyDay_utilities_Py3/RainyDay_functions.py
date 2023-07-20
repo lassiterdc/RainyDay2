@@ -1496,6 +1496,11 @@ def subfinder(mylist, pattern):
 # CREATE FILE LIST
 #==============================================================================
 def createfilelist(inpath,includeyears,excludemonths):
+    # DCL WORK
+    print("inpath: {}".format(inpath))
+    print("glob.glob(inpath)")
+    print(glob.glob(inpath))
+    # END DCL WORK
     flist=glob.glob(inpath)
     flist=np.array(flist)
         
