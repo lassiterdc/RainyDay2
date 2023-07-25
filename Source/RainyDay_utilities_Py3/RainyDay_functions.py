@@ -1555,7 +1555,13 @@ def createfilelist(inpath,includeyears,excludemonths):
     ftime=ftime[finclude==True]
         
     fsort=np.array(sorted(enumerate(ftime), key=lambda x: x[1]))
-    # DCL WORK
+    # DCL WORK ftime=np.zeros(flist.shape,dtype="int")
+    print("flist.shape")
+    print(flist.shape)
+    print("###########################################")
+    print("flist")
+    print(flist)
+    print("###########################################")
     print("ftime")
     print(ftime)
     print("###########################################")
