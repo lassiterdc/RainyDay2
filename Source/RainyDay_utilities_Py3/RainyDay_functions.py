@@ -1500,11 +1500,14 @@ def createfilelist(inpath,includeyears,excludemonths):
     flist=np.array(flist)
     # DCL WORK
     print("inpath: {}".format(inpath))
-    print("flist = glob.glob(inpath)")
-    print(glob.glob(inpath))
-    print("#######################################")
-    print("flist = np.array(flist)")
-    print(np.array(flist))
+    # print("flist = glob.glob(inpath)")
+    # print(glob.glob(inpath))
+    # print("#######################################")
+    # print("flist = np.array(flist)")
+    # print(np.array(flist))
+    # print("#######################################")
+    print("flist")
+    print(flist)
     print("#######################################")
     # END DCL WORK
     if len(flist)==0:
