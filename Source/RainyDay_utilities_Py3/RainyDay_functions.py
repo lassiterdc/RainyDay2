@@ -1548,19 +1548,19 @@ def createfilelist(inpath,includeyears,excludemonths):
         ftime[ctr]=f[fstrind:(fstrind+8)]
         fmonth[ctr]=np.int32(f[fstrind:(fstrind+8)][4:6])
         fyear[ctr]=np.int32(f[fstrind:(fstrind+8)][0:4])
-        ctr=ctr+1
         # DCL WORK
-        print("f")
-        print(f)
-        print("fstrind")
-        print(fstrind)
-        print("ftime[ctr]")
-        print(ftime[ctr])
-        print("fmonth[ctr]")
-        print(fmonth[ctr])
-        print("fyear[ctr]")
-        print(fyear[ctr])
+        # print("f")
+        # print(f)
+        # print("fstrind")
+        # print(fstrind)
+        # print("ftime[ctr]")
+        # print(ftime[ctr])
+        # print("fmonth[ctr]")
+        # print(fmonth[ctr])
+        # print("fyear[ctr]")
+        # print(fyear[ctr])
         # END DCL WORK
+        ctr=ctr+1
     # DCL WORK
     print("isinstance(includeyears, (bool))==False")
     print(isinstance(includeyears, (bool))==False)
