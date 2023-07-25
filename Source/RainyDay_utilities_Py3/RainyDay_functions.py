@@ -1496,14 +1496,17 @@ def subfinder(mylist, pattern):
 # CREATE FILE LIST
 #==============================================================================
 def createfilelist(inpath,includeyears,excludemonths):
-    # DCL WORK
-    # print("inpath: {}".format(inpath))
-    # print("glob.glob(inpath)")
-    # print(glob.glob(inpath))
-    # END DCL WORK
     flist=glob.glob(inpath)
     flist=np.array(flist)
-        
+    # DCL WORK
+    print("inpath: {}".format(inpath))
+    print("flist = glob.glob(inpath)")
+    print(glob.glob(inpath))
+    print("#######################################")
+    print("flist = np.array(flist)")
+    print(np.array(flist))
+    print("#######################################")
+    # END DCL WORK
     if len(flist)==0:
         sys.exit("couldn't find any input rainfall files!")
     
