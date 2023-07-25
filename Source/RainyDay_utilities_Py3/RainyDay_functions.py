@@ -1552,7 +1552,7 @@ def createfilelist(inpath,includeyears,excludemonths):
     print("isinstance(includeyears, (bool))==False")
     print(isinstance(includeyears, (bool))==False)
     # END DCL WORK
-    if isinstance(includeyears, (bool))==False:  
+    if isinstance(includeyears, (bool))==False:
         allyears=np.arange(min(fyear),max(fyear)+1)
         excludeyears=set(allyears)^set(includeyears)
         for j in excludeyears:
@@ -1561,6 +1561,12 @@ def createfilelist(inpath,includeyears,excludemonths):
         # DCL WORK
         print("sum(finclude)")
         print(sum(finclude))
+        print("fyear")
+        print(fyear)
+        print("allyears")
+        print(allyears)
+        print("excludeyears")
+        print(excludeyears)
         # END DCL WORK
     else:
         nyears=len(np.unique(fyear))
