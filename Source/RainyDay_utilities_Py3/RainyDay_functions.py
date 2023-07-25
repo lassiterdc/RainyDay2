@@ -1548,6 +1548,18 @@ def createfilelist(inpath,includeyears,excludemonths):
         fmonth[ctr]=np.int32(f[fstrind:(fstrind+8)][4:6])
         fyear[ctr]=np.int32(f[fstrind:(fstrind+8)][0:4])
         ctr=ctr+1
+        # DCL WORK
+        print("f")
+        print(f)
+        print("fstrind")
+        print(fstrind)
+        print("ftime")
+        print(ftime)
+        print("fmonth")
+        print(fmonth)
+        print("fyear")
+        print(fyear)
+        # END DCL WORK
     # DCL WORK
     print("isinstance(includeyears, (bool))==False")
     print(isinstance(includeyears, (bool))==False)
@@ -1561,7 +1573,7 @@ def createfilelist(inpath,includeyears,excludemonths):
         # DCL WORK
         print("sum(finclude)")
         print(sum(finclude))
-        print("fyear")
+        print("fyear") ############################# this is where the problem is
         print(fyear)
         print("allyears")
         print(allyears)
