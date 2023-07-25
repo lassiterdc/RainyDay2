@@ -1499,6 +1499,7 @@ def createfilelist(inpath,includeyears,excludemonths):
     flist=glob.glob(inpath)
     flist=np.array(flist)
     # DCL WORK
+    flist = np.sort(flist)
     # print("inpath: {}".format(inpath))
     # print("flist = glob.glob(inpath)")
     # print(glob.glob(inpath))
@@ -1553,12 +1554,12 @@ def createfilelist(inpath,includeyears,excludemonths):
         print(f)
         print("fstrind")
         print(fstrind)
-        print("ftime")
-        print(ftime)
-        print("fmonth")
-        print(fmonth)
-        print("fyear")
-        print(fyear)
+        print("ftime[ctr]")
+        print(ftime[ctr])
+        print("fmonth[ctr]")
+        print(fmonth[ctr])
+        print("fyear[ctr]")
+        print(fyear[ctr])
         # END DCL WORK
     # DCL WORK
     print("isinstance(includeyears, (bool))==False")
