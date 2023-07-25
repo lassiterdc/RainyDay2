@@ -537,12 +537,12 @@ except Exception:
 try:
     includeyr=cardinfo[cardinfo[:,0]=="INCLUDEYEARS",1][0]
     # DCL WORK
-    print("#############################")
-    print("includeyr")
-    print(includeyr)
-    print("#############################")
-    print("cardinfo[cardinfo[:,0]==\"INCLUDEYEARS\",1][0]")
-    print(cardinfo[cardinfo[:,0]=="INCLUDEYEARS",1][0])
+    # print("#############################")
+    # print("includeyr")
+    # print(includeyr)
+    # print("#############################")
+    # print("cardinfo[cardinfo[:,0]==\"INCLUDEYEARS\",1][0]")
+    # print(cardinfo[cardinfo[:,0]=="INCLUDEYEARS",1][0])
     # DCL END WORK
     if includeyr.lower()!="all":
         if ',' in includeyr:
@@ -1837,33 +1837,33 @@ if DoDiagnostics:
 if FreqAnalysis:
     print("resampling and transposing...")
     # DCL WORK
-    print("#####################################")
-    print("includeyears")
-    print(includeyears)
+    # print("#####################################")
+    # print("includeyears")
+    # print(includeyears)
     # END DCL WORK
     if np.all(includeyears==False):
         nyears=len(range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1))
         # DCL WORK
-        nyears = 19
-        print("#####################################")
-        print("len(range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1))")
-        print(len(range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1)))
-        print("#####################################")
-        print("range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1)")
-        print(range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1))
-        print("#####################################")
-        print("cattime[:,-1].astype('datetime64[Y]').astype(int)")
-        print(cattime[:,-1].astype('datetime64[Y]').astype(int))
-        print("#####################################")
-        print("cattime[:,-1].astype('datetime64[Y]').astype(int)")
-        print(cattime[:,-1].astype('datetime64[Y]').astype(int))
+        # nyears = 19
+        # print("#####################################")
+        # print("len(range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1))")
+        # print(len(range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1)))
+        # print("#####################################")
+        # print("range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1)")
+        # print(range(min(cattime[:,-1].astype('datetime64[Y]').astype(int)),max(cattime[:,-1].astype('datetime64[Y]').astype(int))+1))
+        # print("#####################################")
+        # print("cattime[:,-1].astype('datetime64[Y]').astype(int)")
+        # print(cattime[:,-1].astype('datetime64[Y]').astype(int))
+        # print("#####################################")
+        # print("cattime[:,-1].astype('datetime64[Y]').astype(int)")
+        # print(cattime[:,-1].astype('datetime64[Y]').astype(int))
         # END DCL WORK
     else:
         nyears=len(includeyears)
         # DCL WORK
-        print("#####################################")
-        print("len(includeyears)")
-        print(len(includeyears))
+        # print("#####################################")
+        # print("len(includeyears)")
+        # print(len(includeyears))
         # END DCL WORK
             
 
@@ -1874,53 +1874,53 @@ if FreqAnalysis:
         cntr=0
         #ncounts[ncounts==0]=1
         # DCL WORK
-        print("POISSON SAMPLING")
-        print("#####################################")
-        print("calctype.lower()")
-        print(calctype.lower())
-        print("#####################################")
-        print("lrate")
-        print(lrate)
-        print("#####################################")
-        print("len(catmax)/nyears*FrequencySens")
-        print(len(catmax)/nyears*FrequencySens)
-        print("#####################################")
-        print("len(catmax)")
-        print(len(catmax))
-        print("#####################################")
-        print("nyears")
-        print(nyears)
-        print("#####################################")
-        print("FrequencySens")
-        print(FrequencySens)
-        print("#####################################")
-        print("ncounts")
-        print(ncounts)
-        print("#####################################")
-        print("np.random.poisson(lrate,(nsimulations,nrealizations))")
-        print(np.random.poisson(lrate,(nsimulations,nrealizations)))
-        print("#####################################")
-        print("nsimulations")
-        print(nsimulations)
-        print("#####################################")
-        print("nrealizations")
-        print(nrealizations)
-        print("#####################################")
-        print("nperyear")
-        print(nperyear)
-        print("#####################################")
-        print("calctype.lower()=='npyear' and lrate<nperyear")
-        print(calctype.lower()=='npyear' and lrate<nperyear)
-        print("#####################################")
+        # print("POISSON SAMPLING")
+        # print("#####################################")
+        # print("calctype.lower()")
+        # print(calctype.lower())
+        # print("#####################################")
+        # print("lrate")
+        # print(lrate)
+        # print("#####################################")
+        # print("len(catmax)/nyears*FrequencySens")
+        # print(len(catmax)/nyears*FrequencySens)
+        # print("#####################################")
+        # print("len(catmax)")
+        # print(len(catmax))
+        # print("#####################################")
+        # print("nyears")
+        # print(nyears)
+        # print("#####################################")
+        # print("FrequencySens")
+        # print(FrequencySens)
+        # print("#####################################")
+        # print("ncounts")
+        # print(ncounts)
+        # print("#####################################")
+        # print("np.random.poisson(lrate,(nsimulations,nrealizations))")
+        # print(np.random.poisson(lrate,(nsimulations,nrealizations)))
+        # print("#####################################")
+        # print("nsimulations")
+        # print(nsimulations)
+        # print("#####################################")
+        # print("nrealizations")
+        # print(nrealizations)
+        # print("#####################################")
+        # print("nperyear")
+        # print(nperyear)
+        # print("#####################################")
+        # print("calctype.lower()=='npyear' and lrate<nperyear")
+        # print(calctype.lower()=='npyear' and lrate<nperyear)
+        # print("#####################################")
         # END DCL WORK
         if calctype.lower()=='npyear' and lrate<nperyear:
             # DCL WORK
-            print("Made it to 0")
+            # print("Made it to 0")
             # END DCL WORK
             sys.exit("You specified to write multiple storms per year, but you specified a number that is too large relative to the resampling rate!")
     elif samplingtype.lower()=='negbinom':
         # DCL WORK
-        print("negbinom")
+        # print("negbinom")
         # END DCL WORK
         sys.exit("Sorry, the negative binomial resampling isn't set up yet :(")
         _,yrscount=np.unique(cattime[:,-1].astype('datetime64[Y]').astype(int)+1970,return_counts=True)
@@ -1933,7 +1933,7 @@ if FreqAnalysis:
             sys.exit("You specified to write multiple storms per year, but you specified a number that is too large relative to the resampling rate!")
     else:
         # DCL WORK
-        print("not poisson or negbinom")
+        # print("not poisson or negbinom")
         # END DCL WORK
         _,yrscount=np.unique(cattime[:,-1].astype('datetime64[Y]').astype(int)+1970,return_counts=True)
         # DCL WORK
@@ -1944,11 +1944,11 @@ if FreqAnalysis:
         # END DCL WORK
         if len(yrscount)<nyears:
             # DCL WORK
-            print("Made it to 3")
+            # print("Made it to 3")
             # END DCL WORK
             yrscount=np.append(yrscount,np.ones(nyears-len(yrscount),dtype='int32'))
             # DCL WORK
-            print("Made it to 4")
+            # print("Made it to 4")
             # END DCL WORK
         ncounts=np.random.choice(yrscount,(nsimulations,nrealizations),replace=True)   
         if calctype.lower()=='npyear' and np.mean(yrscount)<nperyear:   
