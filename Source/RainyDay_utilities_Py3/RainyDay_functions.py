@@ -1509,6 +1509,9 @@ def createfilelist(inpath,includeyears,excludemonths):
     print("flist")
     print(flist)
     print("#######################################")
+    print("flist.shape")
+    print(flist.shape)
+    print("#######################################")
     # END DCL WORK
     if len(flist)==0:
         sys.exit("couldn't find any input rainfall files!")
