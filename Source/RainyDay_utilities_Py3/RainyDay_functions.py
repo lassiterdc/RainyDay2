@@ -1558,6 +1558,10 @@ def createfilelist(inpath,includeyears,excludemonths):
         for j in excludeyears:
             finclude[fyear==j]=False
         nyears=len(allyears)-len(excludeyears)
+        # DCL WORK
+        print("sum(finclude)")
+        print(sum(finclude))
+        # END DCL WORK
     else:
         nyears=len(np.unique(fyear))
     
@@ -1571,6 +1575,10 @@ def createfilelist(inpath,includeyears,excludemonths):
     if isinstance(excludemonths, (bool))==False:
         for j in excludemonths:
             finclude[fmonth==j]=False
+        # DCL WORK
+        print("sum(finclude)")
+        print(sum(finclude))
+        # END DCL WORK
     # DCL WORK
     print("sum(finclude)")
     print(sum(finclude))
