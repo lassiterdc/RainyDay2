@@ -1498,22 +1498,7 @@ def subfinder(mylist, pattern):
 def createfilelist(inpath,includeyears,excludemonths):
     flist=glob.glob(inpath)
     flist=np.array(flist)
-    # DCL WORK
-    flist = np.sort(flist)
-    # print("inpath: {}".format(inpath))
-    # print("flist = glob.glob(inpath)")
-    # print(glob.glob(inpath))
-    # print("#######################################")
-    # print("flist = np.array(flist)")
-    # print(np.array(flist))
-    # print("#######################################")
-    # print("flist")
-    # print(flist)
-    # print("#######################################")
-    # print("flist.shape")
-    # print(flist.shape)
-    # print("#######################################")
-    # END DCL WORK
+    flist = np.sort(flist) # dcl mod - doesn't actually change anything
     if len(flist)==0:
         sys.exit("couldn't find any input rainfall files!")
     
@@ -1540,90 +1525,30 @@ def createfilelist(inpath,includeyears,excludemonths):
     fyear=np.zeros(flist.shape,dtype="int")
     ftime=np.zeros(flist.shape,dtype="int")
     finclude=np.ones(flist.shape,dtype="bool")
-    # DCL WORK
-    print("sum(finclude)")
-    print(sum(finclude))
-    # END DCL WORK
     for f in flist:
         ftime[ctr]=f[fstrind:(fstrind+8)]
         fmonth[ctr]=np.int32(f[fstrind:(fstrind+8)][4:6])
         fyear[ctr]=np.int32(f[fstrind:(fstrind+8)][0:4])
-        # DCL WORK
-        # print("f")
-        # print(f)
-        # print("fstrind")
-        # print(fstrind)
-        # print("ftime[ctr]")
-        # print(ftime[ctr])
-        # print("fmonth[ctr]")
-        # print(fmonth[ctr])
-        # print("fyear[ctr]")
-        # print(fyear[ctr])
-        # END DCL WORK
         ctr=ctr+1
-    # DCL WORK
-    print("isinstance(includeyears, (bool))==False")
-    print(isinstance(includeyears, (bool))==False)
-    # END DCL WORK
     if isinstance(includeyears, (bool))==False:
         allyears=np.arange(min(fyear),max(fyear)+1)
         excludeyears=set(allyears)^set(includeyears)
         for j in excludeyears:
             finclude[fyear==j]=False
         nyears=len(allyears)-len(excludeyears)
-        # DCL WORK
-        print("sum(finclude)")
-        print(sum(finclude))
-        print("fyear") ############################# this is where the problem is
-        print(fyear)
-        print("allyears")
-        print(allyears)
-        print("excludeyears")
-        print(excludeyears)
-        # END DCL WORK
     else:
         nyears=len(np.unique(fyear))
     
     #if nyears<1:
     #    sys.exit("Somehow we didn't find any rainfall files. Check your INCLUDEYEARS field!")
     
-    # DCL WORK
-    print("isinstance(excludemonths, (bool))==False")
-    print(isinstance(excludemonths, (bool))==False)
-    # END DCL WORK
     if isinstance(excludemonths, (bool))==False:
         for j in excludemonths:
             finclude[fmonth==j]=False
-        # DCL WORK
-        print("sum(finclude)")
-        print(sum(finclude))
-        # END DCL WORK
-    # DCL WORK
-    print("sum(finclude)")
-    print(sum(finclude))
-    # END DCL WORK
     flist=flist[finclude==True]
     ftime=ftime[finclude==True]
         
     fsort=np.array(sorted(enumerate(ftime), key=lambda x: x[1]))
-    # DCL WORK ftime=np.zeros(flist.shape,dtype="int")
-    print("flist.shape")
-    print(flist.shape)
-    print("###########################################")
-    print("flist")
-    print(flist)
-    print("###########################################")
-    print("ftime")
-    print(ftime)
-    print("###########################################")
-    print("fsort")
-    print(fsort)
-    print("###########################################")
-    print("fsort[:,0]")
-    print(fsort[:,0])
-    print("###########################################")
-    # END DCL WORK
-
     sortind=fsort[:,0]
     flist=flist[sortind]
     return flist,nyears
