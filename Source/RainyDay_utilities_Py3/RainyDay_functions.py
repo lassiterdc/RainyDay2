@@ -1540,8 +1540,8 @@ def createfilelist(inpath,includeyears,excludemonths):
     ftime=np.zeros(flist.shape,dtype="int")
     finclude=np.ones(flist.shape,dtype="bool")
     # DCL WORK
-    print("finclude")
-    print(finclude)
+    print("sum(finclude)")
+    print(sum(finclude))
     # END DCL WORK
     for f in flist:
         ftime[ctr]=f[fstrind:(fstrind+8)]
@@ -1572,8 +1572,8 @@ def createfilelist(inpath,includeyears,excludemonths):
         for j in excludemonths:
             finclude[fmonth==j]=False
     # DCL WORK
-    print("finclude")
-    print(finclude)
+    print("sum(finclude)")
+    print(sum(finclude))
     # END DCL WORK
     flist=flist[finclude==True]
     ftime=ftime[finclude==True]
