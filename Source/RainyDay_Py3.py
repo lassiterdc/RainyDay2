@@ -2784,7 +2784,27 @@ if FreqAnalysis:
             whichmultiplier=np.ones_like(whichrain)
 
         for i in range(0,nrealizations):
-            outrain_large = np.zeros((nsimulations,nperyear,int(catduration),maskheight,maskwidth),dtype='float32')
+            # DCL WORK
+            print("nsimulations")
+            print(nsimulations)
+            print("###############################")
+            print("nperyear")
+            print(nperyear)
+            print("###############################")
+            print("np.int32(catduration)")
+            print(np.int32(catduration))
+            print("###############################")
+            print("maskheight")
+            print(maskheight)
+            print("###############################")
+            print("maskwidth")
+            print(maskwidth)
+            print("###############################")
+            print("np.zeros((nsimulations,nperyear,np.int32(catduration),maskheight,maskwidth),dtype='float32')")
+            print(np.zeros((nsimulations,nperyear,np.int32(catduration),maskheight,maskwidth),dtype='float32'))
+            print("###############################")
+            # END WORK
+            outrain_large = np.zeros((nsimulations,nperyear,np.int32(catduration),maskheight,maskwidth),dtype='float32')
             outrain_large[:] = -9999.
             outtime_large =  np.empty((nsimulations,nperyear,int(catduration)),dtype='datetime64[m]')
             outtime_large[:] =  np.datetime64(datetime(1900,1,1,0,0,0))
