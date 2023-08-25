@@ -32,6 +32,8 @@ import time
 from copy import deepcopy
 import fiona
 
+from memory_profiler import profile # DCL MOD
+
 import cartopy
 from matplotlib.patches import Polygon   
 from scipy import stats
@@ -956,6 +958,7 @@ def rastermask(shpname,rainprop,masktype='simple',dissolve=True,ngenfile=False):
 #==============================================================================
 # WRITE SCENARIOS TO NETCDF ONE REALIZATION AT A TIME
 #==============================================================================
+@profile
 def writerealization(scenarioname,rlz,nrealizations,writename,outrain,writemax,writestorm,writeperiod,writex,writey,writetimes,latrange,lonrange,whichorigstorm):
     # SAVE outrain AS NETCDF FILE
     dataset=Dataset(writename, 'w', format='NETCDF4')
@@ -1034,6 +1037,7 @@ def writerealization(scenarioname,rlz,nrealizations,writename,outrain,writemax,w
 #==============================================================================
 # WRITE SCENARIOS TO NETCDF ONE REALIZATION AT A TIME-USING THE NPERYEAR OPTION
 #==============================================================================    
+@profile
 def writerealization_nperyear(scenarioname,writename,rlz,nperyear,nrealizations,outrain_large,outtime_large,subrangelat,subrangelon,rlz_order,nsimulations):
     # SAVE outrain AS NETCDF FILE
     # DCL MOD - commented out the two following lines and added the third on 6/26 based on Dan's changes to RainyDay
@@ -1159,6 +1163,7 @@ def writemaximized(scenarioname,writename,outrain,writemax,write_ts,writex,write
 #==============================================================================
 # READ RAINFALL FILE FROM NETCDF (ONLY FOR RAINYDAY NETCDF-FORMATTED DAILY FILES!
 #==============================================================================
+@profile
 def readnetcdf(rfile,inbounds=False,lassiterfile=False):
     infile=Dataset(rfile,'r')
     if lassiterfile==False:
@@ -1223,6 +1228,7 @@ def readnetcdf(rfile,inbounds=False,lassiterfile=False):
 #==============================================================================
 # READ RAINFALL FILE FROM NETCDF
 #==============================================================================
+@profile
 def readcatalog(rfile):
     infile=Dataset(rfile,'r')
     if 'rainrate' in infile.variables.keys():
@@ -1294,7 +1300,7 @@ def readcatalog_LEGACY(rfile):
 
 #RainyDay.writecatalog(scenarioname,catrain,catmax,catx,caty,cattime,latrange,lonrange,catalogname,nstorms,catmask,parameterfile,domainmask,timeresolution=rainprop.timeres)   
     
-
+@profile
 def writecatalog(scenarioname,catrain,catmax,catx,caty,cattime,latrange,lonrange,catalogname,nstorms,gridmask,parameterfile,dmask,timeresolution=False):
     dataset=Dataset(catalogname, 'w', format='NETCDF4')
     
@@ -1384,7 +1390,7 @@ def writecatalog(scenarioname,catrain,catmax,catx,caty,cattime,latrange,lonrange
     domainmask[:]=dmask[::-1,:] 
     dataset.close()
 
-
+@profile
 def writeintensityfile(scenarioname,intenserain,filename,latrange,lonrange,intensetime):
     # SAVE outrain AS NETCDF FILE
     dataset=Dataset(filename, 'w', format='NETCDF4')
@@ -1626,7 +1632,7 @@ def rainprop_setup(infile,catalog=False,lassiterfile=False):
 #==============================================================================
 # READ REALIZATION
 #==============================================================================
-
+@profile
 def readrealization(rfile):
     infile=Dataset(rfile,'r')
     if 'rainrate' in infile.variables.keys():
