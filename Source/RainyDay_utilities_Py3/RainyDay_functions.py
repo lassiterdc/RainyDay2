@@ -1356,6 +1356,23 @@ def writecatalog(scenarioname,catrain,catmax,catx,caty,cattime,latrange,lonrange
     longitudes[:]=lonrange
     # catrain[np.isnan(catrain)]=-9999. # original 
     catrain[np.isnan(catrain)]=0 # DCL mod
+    # DCL WORK
+    print("rainrate.shape")
+    print(rainrate.shape)
+    print("####################################")
+    print("rainrate")
+    print(rainrate)
+    print("####################################")
+    print("catrain.shape")
+    print(catrain.shape)
+    print("####################################")
+    print("catrain")
+    print(catrain)
+    print("####################################")
+    print("cattime")
+    print(cattime)
+    print("####################################")
+    # END DCL WORK
     rainrate[:]=catrain[:,:,::-1,:] 
     # catmax[np.isnan(catmax)]=-9999. # original
     catmax[np.isnan(catmax)]=0# DCL mod

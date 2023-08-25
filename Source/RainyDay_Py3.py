@@ -1225,6 +1225,23 @@ if CreateCatalog:
         for k in np.arange(0,len(intime)):     
             starttime=intime[k]-np.timedelta64(int(catduration*60.),'m')
             raintime[-1]=intime[k]
+            # DCL WORK
+            print("k")
+            print(k)
+            print("#######################################")
+            print("starttime")
+            print(starttime)
+            print("#######################################")
+            print("raintime")
+            print(raintime)
+            print("#######################################")
+            print("inrain[k,:]")
+            print(inrain[k,:])
+            print("#######################################")
+            print("rainarray")
+            print(rainarray)
+            print("#######################################")
+            # END DCL WORK
             rainarray[-1,:]=inrain[k,:]
             #rainarray[-1,:]=np.reshape(inrain[k,:],(rainprop.subdimensions[0],rainprop.subdimensions[1]))
             subtimeind=np.where(np.logical_and(raintime>starttime,raintime<=raintime[-1]))
@@ -2792,7 +2809,7 @@ if FreqAnalysis:
             print(nperyear)
             print("###############################")
             print("np.int32(catduration)")
-            print(np.int32(catduration))
+            print(catduration)
             print("###############################")
             print("maskheight")
             print(maskheight)
@@ -2800,11 +2817,11 @@ if FreqAnalysis:
             print("maskwidth")
             print(maskwidth)
             print("###############################")
-            print("np.zeros((nsimulations,nperyear,np.int32(catduration),maskheight,maskwidth),dtype='float32')")
-            print(np.zeros((nsimulations,nperyear,np.int32(catduration),maskheight,maskwidth),dtype='float32'))
-            print("###############################")
+            # print("np.zeros((nsimulations,nperyear,np.int32(catduration),maskheight,maskwidth),dtype='float32')")
+            # print(np.zeros((int(nsimulations),int(nperyear),int(catduration),int(maskheight),int(maskwidth)),dtype='float32'))
+            # print("###############################")
             # END WORK
-            outrain_large = np.zeros((nsimulations,nperyear,np.int32(catduration),maskheight,maskwidth),dtype='float32')
+            outrain_large = np.zeros((int(nsimulations),int(nperyear),int(catduration),int(maskheight),int(maskwidth)),dtype='float32') # DCL MOD
             outrain_large[:] = -9999.
             outtime_large =  np.empty((nsimulations,nperyear,int(catduration)),dtype='datetime64[m]')
             outtime_large[:] =  np.datetime64(datetime(1900,1,1,0,0,0))
