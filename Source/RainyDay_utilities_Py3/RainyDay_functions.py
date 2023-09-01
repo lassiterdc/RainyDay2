@@ -511,8 +511,8 @@ def killerloop_singlecell(passrain,rainsum,whichstep,nreals,ssty,sstx,nsteps,dur
 # THIS VARIANT IS SIMPLER AND UNLIKE SSTWRITE, IT ACTUALLY WORKS RELIABLY!
 #==============================================================================
 #def SSTwriteAlt(catrain,rlzx,rlzy,rlzstm,trimmask,xmin,xmax,ymin,ymax,maskheight,maskwidth):
-#    nyrs=np.int(rlzx.shape[0])
-#    raindur=np.int(catrain.shape[1])
+#    nyrs=np.int32(rlzx.shape[0])
+#    raindur=np.int32(catrain.shape[1])
 #    outrain=np.zeros((nyrs,raindur,maskheight,maskwidth),dtype='float32')
 #    unqstm,unqind,unqcnts=np.unique(rlzstm,return_inverse=True,return_counts=True)
 #    #ctr=0
@@ -532,8 +532,8 @@ def killerloop_singlecell(passrain,rainsum,whichstep,nreals,ssty,sstx,nsteps,dur
 #def SSTwriteAltPreCat(catrain,rlzx,rlzy,rlzstm,trimmask,xmin,xmax,ymin,ymax,maskheight,maskwidth,precat,ptime):    
 #    catyears=ptime.astype('datetime64[Y]').astype(int)+1970
 #    ptime=ptime.astype('datetime64[M]').astype(int)-(catyears-1970)*12+1
-#    nyrs=np.int(rlzx.shape[0])
-#    raindur=np.int(catrain.shape[1]+precat.shape[1])
+#    nyrs=np.int32(rlzx.shape[0])
+#    raindur=np.int32(catrain.shape[1]+precat.shape[1])
 #    outrain=np.zeros((nyrs,raindur,maskheight,maskwidth),dtype='float32')
 #    unqstm,unqind,unqcnts=np.unique(rlzstm,return_inverse=True,return_counts=True)
 #
@@ -555,8 +555,8 @@ def killerloop_singlecell(passrain,rainsum,whichstep,nreals,ssty,sstx,nsteps,dur
 ##def SSTwriteAltPreCatRotation(catrain,rlzx,rlzy,rlzstm,trimmask,xmin,xmax,ymin,ymax,maskheight,maskwidth,precat,ptime,delarray,rlzanglebin):
 #    catyears=ptime.astype('datetime64[Y]').astype(int)+1970
 #    ptime=ptime.astype('datetime64[M]').astype(int)-(catyears-1970)*12+1
-#    nyrs=np.int(rlzx.shape[0])
-#    raindur=np.int(catrain.shape[1]+precat.shape[1])
+#    nyrs=np.int32(rlzx.shape[0])
+#    raindur=np.int32(catrain.shape[1]+precat.shape[1])
 #    outrain=np.zeros((nyrs,raindur,maskheight,maskwidth),dtype='float32')
 #    unqstm,unqind,unqcnts=np.unique(rlzstm,return_inverse=True,return_counts=True)      # unqstm is the storm number
 #
@@ -591,8 +591,8 @@ def killerloop_singlecell(passrain,rainsum,whichstep,nreals,ssty,sstx,nsteps,dur
 def SSTspin_write_v2(catrain,rlzx,rlzy,rlzstm,trimmask,maskheight,maskwidth,precat,ptime,rainprop,rlzanglebin=None,delarray=None,spin=False,flexspin=True,samptype='uniform',cumkernel=None,rotation=False,domaintype='rectangular'):
     catyears=ptime.astype('datetime64[Y]').astype(int)+1970
     ptime=ptime.astype('datetime64[M]').astype(int)-(catyears-1970)*12+1
-    nyrs=np.int(rlzx.shape[0])
-    raindur=np.int(catrain.shape[1]+precat.shape[1])
+    nyrs=np.int32(rlzx.shape[0])
+    raindur=np.int32(catrain.shape[1]+precat.shape[1])
     outrain=np.zeros((nyrs,raindur,maskheight,maskwidth),dtype='float32')
     unqstm,unqind,unqcnts=np.unique(rlzstm,return_inverse=True,return_counts=True)      # unqstm is the storm number
     
@@ -607,8 +607,8 @@ def SSTspin_write_v2(catrain,rlzx,rlzy,rlzstm,trimmask,maskheight,maskwidth,prec
                 rndloc=np.random.random_sample(len(unqwhere))
                 shiftprex,shiftprey=numbakernel(rndloc,cumkernel)
             else:
-                shiftprex=np.random.random_integers(0,np.int(rainprop.subdimensions[1])-maskwidth-1,len(unqwhere))
-                shiftprey=np.random.random_integers(0,np.int(rainprop.subdimensions[0])-maskheight-1,len(unqwhere))
+                shiftprex=np.random.random_integers(0,np.int32(rainprop.subdimensions[1])-maskwidth-1,len(unqwhere))
+                shiftprey=np.random.random_integers(0,np.int32(rainprop.subdimensions[0])-maskheight-1,len(unqwhere))
             
         ctr=0   
         for j in unqwhere:
@@ -650,8 +650,8 @@ def SSTspin_write_v2(catrain,rlzx,rlzy,rlzstm,trimmask,maskheight,maskwidth,prec
 #def SSTspin_write_v2(catrain,rlzx,rlzy,rlzstm,trimmask,xmin,xmax,ymin,ymax,maskheight,maskwidth,precat,ptime,rainprop,rlzanglebin=None,delarray=None,spin=False,flexspin=True,samptype='uniform',cumkernel=None,rotation=False,domaintype='rectangular',intense_data=False):
 #    catyears=ptime.astype('datetime64[Y]').astype(int)+1970
 #    ptime=ptime.astype('datetime64[M]').astype(int)-(catyears-1970)*12+1
-#    nyrs=np.int(rlzx.shape[0])
-#    raindur=np.int(catrain.shape[1]+precat.shape[1])
+#    nyrs=np.int32(rlzx.shape[0])
+#    raindur=np.int32(catrain.shape[1]+precat.shape[1])
 #    outrain=np.zeros((nyrs,raindur,maskheight,maskwidth),dtype='float32')
 #    unqstm,unqind,unqcnts=np.unique(rlzstm,return_inverse=True,return_counts=True)      # unqstm is the storm number
 #    
@@ -679,8 +679,8 @@ def SSTspin_write_v2(catrain,rlzx,rlzy,rlzstm,trimmask,maskheight,maskwidth,prec
 #                rndloc=np.random.random_sample(len(unqwhere))
 #                shiftprex,shiftprey=numbakernel(rndloc,cumkernel)
 #            else:
-#                shiftprex=np.random.random_integers(0,np.int(rainprop.subdimensions[1])-maskwidth-1,len(unqwhere))
-#                shiftprey=np.random.random_integers(0,np.int(rainprop.subdimensions[0])-maskheight-1,len(unqwhere))
+#                shiftprex=np.random.random_integers(0,np.int32(rainprop.subdimensions[1])-maskwidth-1,len(unqwhere))
+#                shiftprey=np.random.random_integers(0,np.int32(rainprop.subdimensions[0])-maskheight-1,len(unqwhere))
 #            
 #        ctr=0   
 #        for j in unqwhere:
@@ -956,11 +956,11 @@ def writerealization(scenarioname,rlz,nrealizations,writename,outrain,writemax,w
     longitudes=dataset.createVariable('longitude',np.float32, ('longitude'))
     rainrate=dataset.createVariable('precrate',np.float32,('nyears','time','latitude','longitude'),zlib=True,complevel=4,least_significant_digit=1) 
     basinrainfall=dataset.createVariable('basinrainfall',np.float32,('nyears')) 
-    xlocation=dataset.createVariable('xlocation',np.int16,('nyears')) 
-    ylocation=dataset.createVariable('ylocation',np.int16,('nyears')) 
+    xlocation=dataset.createVariable('xlocation',np.int32,('nyears')) 
+    ylocation=dataset.createVariable('ylocation',np.int32,('nyears')) 
     returnperiod=dataset.createVariable('returnperiod',np.float32,('nyears')) 
-    stormnumber=dataset.createVariable('stormnumber',np.int16,('nyears'))
-    original_stormnumber=dataset.createVariable('original_stormnumber',np.int16,('nyears'))
+    stormnumber=dataset.createVariable('stormnumber',np.int32,('nyears'))
+    original_stormnumber=dataset.createVariable('original_stormnumber',np.int32,('nyears'))
     #stormtimes=dataset.createVariable('stormtimes',np.float64,('nyears'))          
     
     # Variable Attributes (time since 1970-01-01 00:00:00.0 in numpys)
@@ -1033,7 +1033,7 @@ def writerealization_nperyear(scenarioname,writename,rlz,nperyear,nrealizations,
     latitudes=dataset.createVariable('latitude',np.float32, ('latitude'))
     longitudes=dataset.createVariable('longitude',np.float32, ('longitude'))
     rainrate=dataset.createVariable('precrate',np.float32,('nyears','nperyear','time','latitude','longitude'),zlib=True,complevel=4,least_significant_digit=1) 
-    top_event=dataset.createVariable('top_event',np.int16, ('nyears'))
+    top_event=dataset.createVariable('top_event',np.int32, ('nyears'))
     
     # Variable Attributes (time since 1970-01-01 00:00:00.0 in numpys)
     latitudes.units = 'degrees_north'
@@ -1085,8 +1085,8 @@ def writemaximized(scenarioname,writename,outrain,writemax,write_ts,writex,write
     longitudes=dataset.createVariable('longitude',np.float32, ('longitude'))
     rainrate=dataset.createVariable('precrate',np.float32,('time','latitude','longitude'),zlib=True,complevel=4,least_significant_digit=1) 
     basinrainfall=dataset.createVariable('basinrainfall',np.float32) 
-    xlocation=dataset.createVariable('xlocation',np.int16) 
-    ylocation=dataset.createVariable('ylocation',np.int16) 
+    xlocation=dataset.createVariable('xlocation',np.int32) 
+    ylocation=dataset.createVariable('ylocation',np.int32) 
     #stormtimes=dataset.createVariable('stormtimes',np.float64,('nyears'))          
     
     # Variable Attributes (time since 1970-01-01 00:00:00.0 in numpys)
@@ -1206,7 +1206,7 @@ def readcatalog(rfile) :
     cattime = np.array(infile['cattime'],dtype='datetime64[m]')
 
     try:
-        timeresolution=np.int(infile.timeresolution)
+        timeresolution=np.int32(infile.timeresolution)
         resexists=True
     except:
         resexists=False
@@ -1220,7 +1220,7 @@ def readcatalog(rfile) :
 def readtimeresolution(rfile):
     infile=Dataset(rfile,'r')
     try:
-        timeresolution=np.int(infile.timeresolution)
+        timeresolution=np.int32(infile.timeresolution)
     except:
         sys.exit("The time resolution of your storm catalog is ambiguous. This only appears in very specific circumstances. You can contact Dr. Daniel Wright if you need help!")
     
@@ -1315,8 +1315,8 @@ def writecatalog(scenarioname,catrain,catmax,catx,caty,cattime,latrange,lonrange
     longitudes=dataset.createVariable('longitude',np.float64, ('longitude',))
     rainrate=dataset.createVariable('precrate',np.float32,('nstorms','time','latitude','longitude',),zlib=True,complevel=4,least_significant_digit=1) 
     basinrainfall=dataset.createVariable('basinrainfall',np.float32,('nstorms')) 
-    xlocation=dataset.createVariable('xlocation',np.int16,('nstorms')) 
-    ylocation=dataset.createVariable('ylocation',np.int16,('nstorms')) 
+    xlocation=dataset.createVariable('xlocation',np.int32,('nstorms')) 
+    ylocation=dataset.createVariable('ylocation',np.int32,('nstorms')) 
     gmask=dataset.createVariable('gridmask',np.float32,('latitude','longitude',)) 
     domainmask=dataset.createVariable('domainmask',np.float32,('latitude','longitude',)) 
     
@@ -1573,7 +1573,7 @@ def rainprop_setup(infile,rainprop,variables,catalog=False):
     # print(type(tempres) , type(tdiff))
     if len(intime)*np.float32(tempres)!=1440. and catalog==False:
         sys.exit("RainyDay requires daily input files, but has detected something different.")
-    tempres=np.int(np.float32(tempres))
+    tempres=np.int32(np.float32(tempres))
 
     nodata=np.unique(inrain[inrain<0.])
     if len(nodata)>1:
@@ -1738,8 +1738,8 @@ def read_arcascii(asciifile):
     cellsize=linecache.getline(asciifile, 5)
     nodata=linecache.getline(asciifile, 6)
     
-    #ncols=np.int(ncols.split('\n')[0].split(' ')[-1])
-    #nrows=np.int(nrows.split('\n')[0].split(' ')[-1])
+    #ncols=np.int32(ncols.split('\n')[0].split(' ')[-1])
+    #nrows=np.int32(nrows.split('\n')[0].split(' ')[-1])
     
     xllcorner=np.float(xllcorner.split('\n')[0].split(' ')[-1])
     yllcorner=np.float(yllcorner.split('\n')[0].split(' ')[-1])

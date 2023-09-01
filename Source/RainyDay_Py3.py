@@ -603,10 +603,10 @@ if calctype=='pds' and Scenarios:
 if Scenarios and areatype.lower()!="pointlist":
     try:
         nperyear=cardinfo["NPERYEAR"]
-        if nperyear!='false' or np.int(nperyear)!=1:
-            print("RainyDay will output "+str(np.int(nperyear))+" storms per synthetic year! If this is a big number, this could be very slow!")
+        if nperyear!='false' or np.int32(nperyear)!=1:
+            print("RainyDay will output "+str(np.int32(nperyear))+" storms per synthetic year! If this is a big number, this could be very slow!")
             calctype='npyear'
-            nperyear=np.int(nperyear)
+            nperyear=np.int32(nperyear)
             if nperyear==1:
                 nperyear='false'
     #        else:
@@ -641,7 +641,7 @@ if Scenarios:
                 print('spinup precipitation will be not included in precipitation scenarios...')
             else:
                 try:
-                    pretime=np.int(pretime)
+                    pretime=np.int32(pretime)
                     prependrain=True
                     if pretime==0.:
                         prependrain=False
@@ -1049,8 +1049,8 @@ maskheight=trimmask.shape[0]
 trimmask=np.array(trimmask,dtype='float32')
 catmask=np.array(catmask,dtype='float32')
 
-timeseparation=np.timedelta64(np.int(timeseparation*60.),'m')
-timestep=np.timedelta64(np.int(rainprop.timeres),'m')
+timeseparation=np.timedelta64(np.int32(timeseparation*60.),'m')
+timestep=np.timedelta64(np.int32(rainprop.timeres),'m')
 
 mnorm=np.sum(trimmask)
 
@@ -2042,8 +2042,8 @@ if FreqAnalysis:
         print('Resampling and transposing storm '+str(i+1)+' out of '+str(nstorms)+' ('"{0:0.0f}".format(100*(i+1)/nstorms)+'%)')
         # UNIFORM RESAMPLING
         if transpotype=='uniform' and domain_type=='rectangular':
-            whichx[whichstorms==i,0]=np.random.randint(0,np.int(rainprop.subdimensions[1])-maskwidth+1,len(whichx[whichstorms==i]))
-            whichy[whichstorms==i,0]=np.random.randint(0,np.int(rainprop.subdimensions[0])-maskheight+1,len(whichy[whichstorms==i]))
+            whichx[whichstorms==i,0]=np.random.randint(0,np.int32(rainprop.subdimensions[1])-maskwidth+1,len(whichx[whichstorms==i]))
+            whichy[whichstorms==i,0]=np.random.randint(0,np.int32(rainprop.subdimensions[0])-maskheight+1,len(whichy[whichstorms==i]))
      
         # KERNEL-BASED AND INTENSITY-BASED RESAMPLING (ALSO NEEDED FOR IRREGULAR TRANSPOSITION DOMAINS)
         elif transpotype=='kernel':
@@ -2594,7 +2594,7 @@ if FreqAnalysis:
                 if len(flist)==0:
                     sys.exit("couldn't prepend the precipitation files for spinup period because the input files weren't available.") 
         
-            tlen=np.int(1440*pretime/rainprop.timeres)
+            tlen=np.int32(1440*pretime/rainprop.timeres)
             
             precat=np.zeros((catrain.shape[0],tlen,catrain.shape[2],catrain.shape[3]),dtype='float32')
     
@@ -2612,7 +2612,7 @@ if FreqAnalysis:
                 startstr=np.str(starttime).replace('-','').split('T')[0]
                 prelist=np.core.defchararray.find(flist,startstr)
                 preind=np.where(prelist==np.max(prelist))[0][0]
-                tlist=flist[preind:preind+np.int(np.round(pretime))] 
+                tlist=flist[preind:preind+np.int32(np.round(pretime))] 
     
                 for j in range(0,len(tlist)):
                     print('Pre-pending precipitation with file '+tlist[j])
