@@ -952,6 +952,24 @@ def rastermask(shpname,rainprop,masktype='simple',dissolve=True,ngenfile=False):
         kernel = np.ones((n, n))
         convolved = convolve2d(rastertemplate, kernel, mode='valid')
         rastertemplate=convolved[::n, ::n] / n /n 
+
+        # DCL WORK
+        print("bndcoords")
+        print(bndcoords)
+        print("###################################")
+        print("rainprop")
+        print(rainprop)
+        print("###################################")
+        print("rainprop.subdimensions")
+        print(rainprop.subdimensions)
+        print("###################################")
+        print("xdim")
+        print(xdim)
+        print("###################################")
+        print("ydim")
+        print(ydim)
+        print("###################################")
+        # DCL END WORK
         
     else:
         sys.exit("You entered an incorrect mask type, options are 'simple' or 'fraction'")
