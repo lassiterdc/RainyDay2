@@ -518,7 +518,7 @@ except Exception:
 try:
     includeyr=cardinfo["INCLUDEYEARS"]
     if includeyr.lower()!="all":
-        includeyears = includeyr
+        includeyears = list(includeyr) # DCL MOD
     else:
         includeyears=False
 except Exception:
