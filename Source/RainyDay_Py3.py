@@ -128,14 +128,21 @@ print('''Welcome to RainyDay, a framework for coupling remote sensing precipitat
 #==============================================================================
 start = time.time()
 parameterfile='ttt'
+# BEGIN DCL WORK
+parameterfile=sys.argv[1]
+print(parameterfile)  # DCL WORK
+print("reading in the parameter file...")
+### Cardinfo takes in the  'JSON' file parameters
+with open(parameterfile, 'r') as read_file:
+    cardinfo = json.loads(read_file.read())
+    print(cardinfo)
+# END DCL WORK
 try:
     parameterfile=sys.argv[1]
-    print(parameterfile)  # DCL WORK
     print("reading in the parameter file...")
     ### Cardinfo takes in the  'JSON' file parameters
     with open(parameterfile, 'r') as read_file:
         cardinfo = json.loads(read_file.read())
-        print(cardinfo) # DCL WORK
 except :
     print("You either didn't specify a parameter file, or it doesn't exist on the source path given.")
 #%%
