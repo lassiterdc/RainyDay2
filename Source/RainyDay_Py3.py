@@ -171,7 +171,7 @@ except ImportError:
 #
 # # PROPERTIES RELATED TO SST PROCEDURE:
 try:
-    variables= cardinfo["Variables"]
+    variables= cardinfo["VARIABLES"] # DCL MOD
 except ValueError:
     sys.exit("Please enter the valid names of the variables and the coordinates in your dataset")
 try:
