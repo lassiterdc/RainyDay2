@@ -54,7 +54,7 @@ import matplotlib
 #matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 # import RainyDay functions
-import RainyDay_utilities_Py3.RainyDay_functions as RainyDay
+import RainyDay_utilities_Py3.RainyDay_functions as RainyDay # DCL MOD
 
 from numba.types import int32
 
@@ -134,6 +134,7 @@ try:
     ### Cardinfo takes in the  'JSON' file parameters
     with open(parameterfile, 'r') as read_file:
         cardinfo = json.loads(read_file.read())
+        print(cardinfo)
 except :
     print("You either didn't specify a parameter file, or it doesn't exist on the source path given.")
 #%%
