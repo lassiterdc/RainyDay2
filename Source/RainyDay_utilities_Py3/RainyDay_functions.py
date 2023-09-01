@@ -1521,6 +1521,20 @@ def createfilelist(inpath, includeyears, excludemonths):
             if file_month not in excludemonths:
                 new_list.append(file); years.add(file_year)
         else:
+            # DCL WORK
+            print("file_year")
+            print(file_year)
+            print("###############")
+            print("includeyears")
+            print(includeyears)
+            print("###############")
+            print("file_month")
+            print(file_month)
+            print("###############")
+            print("excludemonths")
+            print(excludemonths)
+            print("###############")
+            # END DCL WORK
             if file_year in includeyears and file_month not in excludemonths:
                 new_list.append(file); years.add(file_year)
     nyears = len(years) ## can be made more efficient
