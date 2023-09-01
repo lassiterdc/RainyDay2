@@ -380,7 +380,7 @@ if domain_type.lower()=='irregular':
                 shpdom=True
                 ds = shapefile.Reader(domainshp,'rb')
                 tempbox= ds.bbox
-                inarea=np.array([tempbox[0]+360,tempbox[2]+360,tempbox[1],tempbox[3]],dtype='float32') # DCL MOD - ADDING 360 TO CONVERT FROM DEGREES EAST TO DEGREES WEST
+                inarea=np.array([tempbox[0],tempbox[2],tempbox[1],tempbox[3]],dtype='float32') # DCL MOD - ADDING 360 TO CONVERT FROM DEGREES EAST TO DEGREES WEST
 
         except Exception:
             pass
