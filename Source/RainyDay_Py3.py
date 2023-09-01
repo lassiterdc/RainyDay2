@@ -519,6 +519,12 @@ try:
     includeyr=cardinfo["INCLUDEYEARS"]
     if includeyr.lower()!="all":
         includeyears = list(includeyr) # DCL MOD
+        # DCL WORK
+        print("includeyears")
+        print(includeyears)
+        print("type(includeyears)")
+        print(type(includeyears))
+        # END DCL WORK
     else:
         includeyears=False
 except Exception:
