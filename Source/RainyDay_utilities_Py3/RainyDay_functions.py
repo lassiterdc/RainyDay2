@@ -838,6 +838,20 @@ def findsubbox(inarea,variables,flist):
     rain_name,lat_name,lon_name = variables.values()
     outrain=infile[rain_name].sel(**{lat_name:slice(latmin,latmax)},\
                                               **{lon_name:slice(longmin,longmax)})
+    # DCL WORK
+    print("lat_name")
+    print(lat_name)
+    print("##########################################")
+    print("lon_name")
+    print(lon_name)
+    print("##########################################")
+    print("infile")
+    print(infile)
+    print("##########################################")
+    print("outrain")
+    print(outrain)
+    print("##########################################")
+    # END DCL WORK
     outextent[2], outextent[3],outextent[0], outextent[1]=outrain[lat_name][0],outrain[lat_name][-1],\
                                 outrain[lon_name][0], outrain[lon_name][-1]       
     outdim[0], outdim[1] = len(outrain[lat_name]), len(outrain[lon_name])
