@@ -1581,17 +1581,17 @@ def createfilelist(inpath, includeyears, excludemonths):
                 new_list.append(file); years.add(file_year)
         else:
             # DCL WORK
-            print("file_year")
-            print(file_year)
+            print("type(file_year)")
+            print(type(file_year))
             print("###############")
-            print("includeyears")
-            print(includeyears)
+            print("type(includeyears)")
+            print(type(includeyears))
             print("###############")
-            print("file_month")
-            print(file_month)
+            print("type(file_month)")
+            print(type(file_month))
             print("###############")
-            print("excludemonths")
-            print(excludemonths)
+            print("type(excludemonths)")
+            print(type(excludemonths))
             print("###############")
             # END DCL WORK
             if file_year in includeyears and file_month not in excludemonths:
