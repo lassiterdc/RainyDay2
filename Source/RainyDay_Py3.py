@@ -542,7 +542,7 @@ if CreateCatalog:
 try:
     IntensitySens=cardinfo["SENS_INTENSITY"]
     if IntensitySens.lower()!='false':
-        IntensitySens=1.+np.float(IntensitySens)/100.
+        IntensitySens=1.+np.float32(IntensitySens)/100.
     else:
         IntensitySens=1.
 except Exception:
@@ -554,7 +554,7 @@ try:
         if samplingtype.lower()!='poisson':
             sys.exit("Sorry, you can't modify the resampling frequency unless you use the Poisson resampler.")
         else:
-            FrequencySens=1.0+np.float(FrequencySens)/100.
+            FrequencySens=1.0+np.float32(FrequencySens)/100.
     else:
         FrequencySens=1.
 except Exception:
@@ -570,7 +570,7 @@ if areatype=='point' or areatype=='pointlist':
                 ARFval=ARFval.replace(" ","")
                 arfval=np.array(ARFval.split(','),dtype='float32')
             else:
-                arfval=np.array([np.float(ARFval)])
+                arfval=np.array([np.float32(ARFval)])
 
         else:
             FrequencySens=1.
@@ -947,7 +947,7 @@ else:
     except Exception:
         sys.exit("Can't find the input files necessary for setup to calculate time-of-day-specific IDF curves")
 
-    starthour=starthour+np.float(rainprop.timeres/60)   # because the netcdf file timestamps correspond to the end of the accumulation period
+    starthour=starthour+np.float32(rainprop.timeres/60)   # because the netcdf file timestamps correspond to the end of the accumulation period
     hourinclude=np.zeros((24*60/rainprop.timeres),dtype='int32')
     temphour=np.zeros((24*60/rainprop.timeres),dtype='float32')
 
@@ -1340,7 +1340,7 @@ else:
 # find the max rainfall for the N-hour duration, not the M-day duration
 #==============================================================================
 
-durationcheck=60./rainprop.timeres*duration==np.float(catrain.shape[0])
+durationcheck=60./rainprop.timeres*duration==np.float32(catrain.shape[0])
 
 # # if (durationcheck==False and durcorrection==True) or (durationcheck==False and DoDiagnostics): 
 # if (durationcheck==False and durcorrection==False): 
@@ -1481,7 +1481,7 @@ elif transpotype=='kernel' or rescaletype!='none':
         rescaler=np.nansum(transpokernel)
         transpokernel=transpokernel/rescaler  
         
-        cumkernel=np.array(np.reshape(np.cumsum(transpokernel),(kx.shape)),dtype=np.float64)
+        cumkernel=np.array(np.reshape(np.cumsum(transpokernel),(kx.shape)),dtype=np.float32)
         tempmask[np.equal(tempmask,0.)]=100.
         cumkernel[np.equal(tempmask,100.)]=100.
         cumkernel=np.expand_dims(cumkernel,2)    # do we need this??? 
@@ -1509,10 +1509,10 @@ if DoDiagnostics:
     
     if rainprop.subdimensions[0]>rainprop.subdimensions[1]:
         figsizex=5
-        figsizey=5+0.25*5*np.float(rainprop.subdimensions[0])/rainprop.subdimensions[1]
+        figsizey=5+0.25*5*np.float32(rainprop.subdimensions[0])/rainprop.subdimensions[1]
     elif rainprop.subdimensions[0]<rainprop.subdimensions[1]: 
         figsizey=5
-        figsizex=5+0.25*5*np.float(rainprop.subdimensions[0])/rainprop.subdimensions[1]
+        figsizex=5+0.25*5*np.float32(rainprop.subdimensions[0])/rainprop.subdimensions[1]
     else:
         figsizey=5   
         figsizex=5
@@ -2765,7 +2765,7 @@ if FreqAnalysis:
         
         
             # # create variables
-            # times=dataset.createVariable('time',np.float64, ('nyears','topN','time'))
+            # times=dataset.createVariable('time',np.float32, ('nyears','topN','time'))
             # latitudes=dataset.createVariable('latitude',np.float32, ('outlat'))
             # longitudes=dataset.createVariable('longitude',np.float32, ('outlon'))
             # rainrate=dataset.createVariable('rainrate',np.float32,('nyears','topN','time','outlat','outlon'),zlib=True,complevel=4,least_significant_digit=2)

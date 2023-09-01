@@ -934,7 +934,7 @@ def rastermask(shpname,rainprop,masktype='simple',dissolve=True,ngenfile=False):
     elif masktype=="fraction":
         print('creating fractional mask (range from 0.0-1.0)')
         n=10
-        trans = from_origin(bndcoords[0], bndcoords[3], rainprop.spatialres[0]/np.float(n), rainprop.spatialres[1]/np.float(n))
+        trans = from_origin(bndcoords[0], bndcoords[3], rainprop.spatialres[0]/np.float32(n), rainprop.spatialres[1]/np.float32(n))
         rastertemplate=np.ones((ydim,xdim),dtype='float32')
 
         memfile = MemoryFile()
@@ -1764,11 +1764,11 @@ def read_arcascii(asciifile):
     #ncols=np.int32(ncols.split('\n')[0].split(' ')[-1])
     #nrows=np.int32(nrows.split('\n')[0].split(' ')[-1])
     
-    xllcorner=np.float(xllcorner.split('\n')[0].split(' ')[-1])
-    yllcorner=np.float(yllcorner.split('\n')[0].split(' ')[-1])
+    xllcorner=np.float32(xllcorner.split('\n')[0].split(' ')[-1])
+    yllcorner=np.float32(yllcorner.split('\n')[0].split(' ')[-1])
     
-    cellsize=np.float(cellsize.split('\n')[0].split(' ')[-1])
-    nodata=np.float(nodata.split('\n')[0].split(' ')[-1])
+    cellsize=np.float32(cellsize.split('\n')[0].split(' ')[-1])
+    nodata=np.float32(nodata.split('\n')[0].split(' ')[-1])
     
     #asciigrid = np.loadtxt(asciifile, skiprows=6)
     asciigrid = np.array(pd.read_csv(asciifile, skiprows=6,delimiter=' ', header=None),dtype='float32')
