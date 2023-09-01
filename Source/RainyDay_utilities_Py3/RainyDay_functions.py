@@ -944,14 +944,28 @@ def rastermask(shpname,rainprop,masktype='simple',dissolve=True,ngenfile=False):
                                  crs='+proj=longlat +datum=WGS84 +no_defs',
                                  transform=trans)
         rastermask.write(rastertemplate,1)
+        # DCL WORK
+        print("rastermask")
+        print(rastermask)
+        print("###################################")
+        print("shapes")
+        print(shapes)
+        print("###################################")
+        # END DCL WORK
         simplemask, out_transform = mask(rastermask, shapes, crop=False,all_touched=True)
         rastertemplate=simplemask[0,:]
+        print("rastertemplate")
+        print(rastertemplate)
+        print("###################################")
         
         from scipy.signal import convolve2d
         
         kernel = np.ones((n, n))
         convolved = convolve2d(rastertemplate, kernel, mode='valid')
         rastertemplate=convolved[::n, ::n] / n /n 
+        print("rastertemplate")
+        print(rastertemplate)
+        print("###################################")
 
         # DCL WORK
         print("bndcoords")
