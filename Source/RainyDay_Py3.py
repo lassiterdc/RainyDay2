@@ -1045,7 +1045,14 @@ if CreateCatalog:
 csum=np.where(np.sum(catmask,axis=0)==0)
 rsum=np.where(np.sum(catmask,axis=1)==0)
 
-
+# DCL WORK
+print("np.sum(catmask,axis=0)")
+print(np.sum(catmask,axis=0))
+print("###############################################")
+print("np.sum(catmask,axis=0)!=0")
+print(np.sum(catmask,axis=0)!=0)
+print("###############################################")
+# DCL WORK
 
 xmin=np.min(np.where(np.sum(catmask,axis=0)!=0))
 xmax=np.max(np.where(np.sum(catmask,axis=0)!=0))
