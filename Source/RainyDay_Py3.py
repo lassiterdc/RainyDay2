@@ -518,7 +518,7 @@ except Exception:
 # DCL WORK
 includeyr=cardinfo["INCLUDEYEARS"]
 if includeyr.lower()!="all":
-    includeyears = list(includeyr)
+    includeyears = [np.int32(includeyr)]
     print("#########################################")
     print("includeyears")
     print(includeyears)
