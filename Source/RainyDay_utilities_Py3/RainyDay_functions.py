@@ -836,6 +836,8 @@ def findsubbox(inarea,variables,flist):
     infile=xr.open_dataset(flist)
     latmin,latmax,longmin,longmax = inarea[2],inarea[3],inarea[0],inarea[1]
     rain_name,lat_name,lon_name = variables.values()
+    if max(infile[lat_name].values) > 180: # convert from positive degrees west to negative degrees west
+        infile[lat_name] = infile[lat_name] - 360 # DLC MOD - IT SEEMS THE CODE ASSUMES DEGREES WEST THAT GO NEGATIVE
     outrain=infile[rain_name].sel(**{lat_name:slice(latmin,latmax)},\
                                               **{lon_name:slice(longmin,longmax)})
     # DCL WORK
@@ -1212,6 +1214,8 @@ def readnetcdf(rfile,variables,inbounds=False):
     """
     infile=xr.open_dataset(rfile)
     rain_name,lat_name,lon_name = variables.values()
+    if max(infile[lat_name].values) > 180: # convert from positive degrees west to negative degrees west
+        infile[lat_name] = infile[lat_name] - 360 # DLC MOD - IT SEEMS THE CODE ASSUMES DEGREES WEST THAT GO NEGATIVE
     if np.any(inbounds!=False):
         latmin,latmax,longmin,longmax = inbounds[2],inbounds[3],inbounds[0],inbounds[1]
         outrain=infile[rain_name].sel(**{lat_name:slice(latmin,latmax)},\
