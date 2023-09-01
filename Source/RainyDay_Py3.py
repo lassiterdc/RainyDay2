@@ -975,6 +975,14 @@ if CreateCatalog:
         else:
             catmask=RainyDay.rastermask(wsmaskshp,rainprop,'fraction')
             #catmask=catmask.reshape(ingridx.shape,order='F')
+            # DCL WORK
+            print("catmask.shape")
+            print(catmask.shape)
+            print("############################################")
+            print("catmask")
+            print(catmask)
+            print("############################################")
+            # END DCL WORK
     
     elif areatype.lower()=="point":
         catmask=np.zeros((rainprop.subdimensions))
@@ -1036,6 +1044,8 @@ if CreateCatalog:
 # TRIM THE GRID DOWN
 csum=np.where(np.sum(catmask,axis=0)==0)
 rsum=np.where(np.sum(catmask,axis=1)==0)
+
+
 
 xmin=np.min(np.where(np.sum(catmask,axis=0)!=0))
 xmax=np.max(np.where(np.sum(catmask,axis=0)!=0))
