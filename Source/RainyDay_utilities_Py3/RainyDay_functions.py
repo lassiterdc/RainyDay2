@@ -850,6 +850,18 @@ def findsubbox(inarea,variables,fname):
         infile[lon_name] = infile[lon_name] - 360 # DCL MOD - IT SEEMS THE CODE ASSUMES DEGREES WEST THAT GO NEGATIVE
     outrain=infile[rain_name].sel(**{lat_name:slice(latmin,latmax)},\
                                               **{lon_name:slice(longmin,longmax)})
+    print("(latmin,latmax)")
+    print((latmin,latmax))
+    print("################################")
+    print("(longmin,longmax)")
+    print((longmin,longmax))
+    print("################################")
+    print("outrain")
+    print(outrain)
+    print("################################")
+    print("outrain[lat_name]")
+    print(outrain[lat_name])
+    print("################################")
     outextent[2], outextent[3],outextent[0], outextent[1]=outrain[lat_name][0],outrain[lat_name][-1],\
                                 outrain[lon_name][0], outrain[lon_name][-1]       
     outdim[0], outdim[1] = len(outrain[lat_name]), len(outrain[lon_name])
