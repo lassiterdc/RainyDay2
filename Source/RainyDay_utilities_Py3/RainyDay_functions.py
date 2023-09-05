@@ -26,17 +26,15 @@ import sys
 import numpy as np
 import scipy as sp
 import glob
-import math
 import re     
-from datetime import datetime, date, time, timedelta      
+from datetime import datetime, date    
 import time
-from copy import deepcopy
 import fiona
+import copy
+#import nctoolkit
 
-import cartopy
-from matplotlib.patches import Polygon   
-from scipy import stats
-from netCDF4 import Dataset, num2date, date2num
+#from netCDF4 import Dataset, num2date, date2num
+import h5netcdf
 import rasterio
 from rasterio.transform import from_origin
 from rasterio.shutil import delete
@@ -126,6 +124,17 @@ def convert_3D_2D(geometry):
 
 
 
+# adapted from https://pythonadventures.wordpress.com/2016/03/06/detect-duplicate-keys-in-a-json-file/
+def dict_raise_on_duplicates(ordered_pairs):
+    """Reject duplicate keys."""
+    d = {}
+    for k, v in ordered_pairs:
+        if k in d:
+           sys.exit("duplicate key: %r" % (k,))
+        else:
+           d[k] = v
+    return d
+
 #==============================================================================
 # LOOP TO DO SPATIAL SEARCHING FOR MAXIMUM RAINFALL LOCATION AT EACH TIME STEP
 # THIS IS THE CORE OF THE STORM CATALOG CREATION TECHNIQUE
@@ -181,6 +190,7 @@ def catalogAlt_irregular(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rains
     wheremax=np.where(rainsum==rmax)
     
     return rmax, wheremax[0][0], wheremax[1][0]
+
 
 
 
@@ -511,8 +521,8 @@ def killerloop_singlecell(passrain,rainsum,whichstep,nreals,ssty,sstx,nsteps,dur
 # THIS VARIANT IS SIMPLER AND UNLIKE SSTWRITE, IT ACTUALLY WORKS RELIABLY!
 #==============================================================================
 #def SSTwriteAlt(catrain,rlzx,rlzy,rlzstm,trimmask,xmin,xmax,ymin,ymax,maskheight,maskwidth):
-#    nyrs=np.int32(rlzx.shape[0])
-#    raindur=np.int32(catrain.shape[1])
+#    nyrs=np.int(rlzx.shape[0])
+#    raindur=np.int(catrain.shape[1])
 #    outrain=np.zeros((nyrs,raindur,maskheight,maskwidth),dtype='float32')
 #    unqstm,unqind,unqcnts=np.unique(rlzstm,return_inverse=True,return_counts=True)
 #    #ctr=0
@@ -532,8 +542,8 @@ def killerloop_singlecell(passrain,rainsum,whichstep,nreals,ssty,sstx,nsteps,dur
 #def SSTwriteAltPreCat(catrain,rlzx,rlzy,rlzstm,trimmask,xmin,xmax,ymin,ymax,maskheight,maskwidth,precat,ptime):    
 #    catyears=ptime.astype('datetime64[Y]').astype(int)+1970
 #    ptime=ptime.astype('datetime64[M]').astype(int)-(catyears-1970)*12+1
-#    nyrs=np.int32(rlzx.shape[0])
-#    raindur=np.int32(catrain.shape[1]+precat.shape[1])
+#    nyrs=np.int(rlzx.shape[0])
+#    raindur=np.int(catrain.shape[1]+precat.shape[1])
 #    outrain=np.zeros((nyrs,raindur,maskheight,maskwidth),dtype='float32')
 #    unqstm,unqind,unqcnts=np.unique(rlzstm,return_inverse=True,return_counts=True)
 #
@@ -555,8 +565,8 @@ def killerloop_singlecell(passrain,rainsum,whichstep,nreals,ssty,sstx,nsteps,dur
 ##def SSTwriteAltPreCatRotation(catrain,rlzx,rlzy,rlzstm,trimmask,xmin,xmax,ymin,ymax,maskheight,maskwidth,precat,ptime,delarray,rlzanglebin):
 #    catyears=ptime.astype('datetime64[Y]').astype(int)+1970
 #    ptime=ptime.astype('datetime64[M]').astype(int)-(catyears-1970)*12+1
-#    nyrs=np.int32(rlzx.shape[0])
-#    raindur=np.int32(catrain.shape[1]+precat.shape[1])
+#    nyrs=np.int(rlzx.shape[0])
+#    raindur=np.int(catrain.shape[1]+precat.shape[1])
 #    outrain=np.zeros((nyrs,raindur,maskheight,maskwidth),dtype='float32')
 #    unqstm,unqind,unqcnts=np.unique(rlzstm,return_inverse=True,return_counts=True)      # unqstm is the storm number
 #
@@ -591,8 +601,8 @@ def killerloop_singlecell(passrain,rainsum,whichstep,nreals,ssty,sstx,nsteps,dur
 def SSTspin_write_v2(catrain,rlzx,rlzy,rlzstm,trimmask,maskheight,maskwidth,precat,ptime,rainprop,rlzanglebin=None,delarray=None,spin=False,flexspin=True,samptype='uniform',cumkernel=None,rotation=False,domaintype='rectangular'):
     catyears=ptime.astype('datetime64[Y]').astype(int)+1970
     ptime=ptime.astype('datetime64[M]').astype(int)-(catyears-1970)*12+1
-    nyrs=np.int32(rlzx.shape[0])
-    raindur=np.int32(catrain.shape[1]+precat.shape[1])
+    nyrs=np.int(rlzx.shape[0])
+    raindur=np.int(catrain.shape[1]+precat.shape[1])
     outrain=np.zeros((nyrs,raindur,maskheight,maskwidth),dtype='float32')
     unqstm,unqind,unqcnts=np.unique(rlzstm,return_inverse=True,return_counts=True)      # unqstm is the storm number
     
@@ -607,8 +617,8 @@ def SSTspin_write_v2(catrain,rlzx,rlzy,rlzstm,trimmask,maskheight,maskwidth,prec
                 rndloc=np.random.random_sample(len(unqwhere))
                 shiftprex,shiftprey=numbakernel(rndloc,cumkernel)
             else:
-                shiftprex=np.random.random_integers(0,np.int32(rainprop.subdimensions[1])-maskwidth-1,len(unqwhere))
-                shiftprey=np.random.random_integers(0,np.int32(rainprop.subdimensions[0])-maskheight-1,len(unqwhere))
+                shiftprex=np.random.random_integers(0,np.int(rainprop.subdimensions[1])-maskwidth-1,len(unqwhere))
+                shiftprey=np.random.random_integers(0,np.int(rainprop.subdimensions[0])-maskheight-1,len(unqwhere))
             
         ctr=0   
         for j in unqwhere:
@@ -650,8 +660,8 @@ def SSTspin_write_v2(catrain,rlzx,rlzy,rlzstm,trimmask,maskheight,maskwidth,prec
 #def SSTspin_write_v2(catrain,rlzx,rlzy,rlzstm,trimmask,xmin,xmax,ymin,ymax,maskheight,maskwidth,precat,ptime,rainprop,rlzanglebin=None,delarray=None,spin=False,flexspin=True,samptype='uniform',cumkernel=None,rotation=False,domaintype='rectangular',intense_data=False):
 #    catyears=ptime.astype('datetime64[Y]').astype(int)+1970
 #    ptime=ptime.astype('datetime64[M]').astype(int)-(catyears-1970)*12+1
-#    nyrs=np.int32(rlzx.shape[0])
-#    raindur=np.int32(catrain.shape[1]+precat.shape[1])
+#    nyrs=np.int(rlzx.shape[0])
+#    raindur=np.int(catrain.shape[1]+precat.shape[1])
 #    outrain=np.zeros((nyrs,raindur,maskheight,maskwidth),dtype='float32')
 #    unqstm,unqind,unqcnts=np.unique(rlzstm,return_inverse=True,return_counts=True)      # unqstm is the storm number
 #    
@@ -679,8 +689,8 @@ def SSTspin_write_v2(catrain,rlzx,rlzy,rlzstm,trimmask,maskheight,maskwidth,prec
 #                rndloc=np.random.random_sample(len(unqwhere))
 #                shiftprex,shiftprey=numbakernel(rndloc,cumkernel)
 #            else:
-#                shiftprex=np.random.random_integers(0,np.int32(rainprop.subdimensions[1])-maskwidth-1,len(unqwhere))
-#                shiftprey=np.random.random_integers(0,np.int32(rainprop.subdimensions[0])-maskheight-1,len(unqwhere))
+#                shiftprex=np.random.random_integers(0,np.int(rainprop.subdimensions[1])-maskwidth-1,len(unqwhere))
+#                shiftprey=np.random.random_integers(0,np.int(rainprop.subdimensions[0])-maskheight-1,len(unqwhere))
 #            
 #        ctr=0   
 #        for j in unqwhere:
@@ -830,44 +840,19 @@ def kernelloop(nlocs,rndloc,flatkern,ncols,tempx,tempy):
 #============================================================================== 
 
 
-def findsubbox(inarea,variables,flist):
+def findsubbox(inarea,variables,fname):
     outextent = np.empty([4])
     outdim=np.empty([2], dtype= 'int')
-    infile=xr.open_dataset(flist)
+    infile=xr.open_dataset(fname)
     latmin,latmax,longmin,longmax = inarea[2],inarea[3],inarea[0],inarea[1]
     rain_name,lat_name,lon_name = variables.values()
-    if max(infile[lon_name].values) > 180: # convert from positive degrees west to negative degrees west
-        infile[lon_name] = infile[lon_name] - 360 # DLC MOD - IT SEEMS THE CODE ASSUMES DEGREES WEST THAT GO NEGATIVE
     outrain=infile[rain_name].sel(**{lat_name:slice(latmin,latmax)},\
                                               **{lon_name:slice(longmin,longmax)})
-    # DCL WORK
-    print("inarea (passed to fundsubbox function)")
-    print(inarea)
-    print("##########################################")
-    print("(latmin,latmax)")
-    print((latmin,latmax))
-    print("##########################################")
-    print("(longmin,longmax)")
-    print((longmin,longmax))
-    print("##########################################")
-    print("lat_name")
-    print(lat_name)
-    print("##########################################")
-    print("lon_name")
-    print(lon_name)
-    print("##########################################")
-    print("infile")
-    print(infile)
-    print("##########################################")
-    print("outrain")
-    print(outrain)
-    print("##########################################")
-    # END DCL WORK
     outextent[2], outextent[3],outextent[0], outextent[1]=outrain[lat_name][0],outrain[lat_name][-1],\
                                 outrain[lon_name][0], outrain[lon_name][-1]       
     outdim[0], outdim[1] = len(outrain[lat_name]), len(outrain[lon_name])
     infile.close()
-    return outextent, outdim, np.array(outrain[lat_name])[::-1], np.array(outrain[lon_name])
+    return outextent, outdim, outrain[lat_name], outrain[lon_name]
     
     
     
@@ -936,7 +921,7 @@ def rastermask(shpname,rainprop,masktype='simple',dissolve=True,ngenfile=False):
     elif masktype=="fraction":
         print('creating fractional mask (range from 0.0-1.0)')
         n=10
-        trans = from_origin(bndcoords[0], bndcoords[3], rainprop.spatialres[0]/np.float32(n), rainprop.spatialres[1]/np.float32(n))
+        trans = from_origin(bndcoords[0], bndcoords[3], rainprop.spatialres[0]/np.float(n), rainprop.spatialres[1]/np.float(n))
         rastertemplate=np.ones((ydim,xdim),dtype='float32')
 
         memfile = MemoryFile()
@@ -946,46 +931,14 @@ def rastermask(shpname,rainprop,masktype='simple',dissolve=True,ngenfile=False):
                                  crs='+proj=longlat +datum=WGS84 +no_defs',
                                  transform=trans)
         rastermask.write(rastertemplate,1)
-        # DCL WORK
-        print("rastermask")
-        print(rastermask)
-        print("###################################")
-        print("shapes")
-        print(shapes)
-        print("###################################")
-        # END DCL WORK
         simplemask, out_transform = mask(rastermask, shapes, crop=False,all_touched=True)
         rastertemplate=simplemask[0,:]
-        print("rastertemplate")
-        print(rastertemplate)
-        print("###################################")
         
         from scipy.signal import convolve2d
         
         kernel = np.ones((n, n))
         convolved = convolve2d(rastertemplate, kernel, mode='valid')
         rastertemplate=convolved[::n, ::n] / n /n 
-        print("rastertemplate")
-        print(rastertemplate)
-        print("###################################")
-
-        # DCL WORK
-        print("bndcoords")
-        print(bndcoords)
-        print("###################################")
-        print("rainprop")
-        print(rainprop)
-        print("###################################")
-        print("rainprop.subdimensions")
-        print(rainprop.subdimensions)
-        print("###################################")
-        print("xdim")
-        print(xdim)
-        print("###################################")
-        print("ydim")
-        print(ydim)
-        print("###################################")
-        # DCL END WORK
         
     else:
         sys.exit("You entered an incorrect mask type, options are 'simple' or 'fraction'")
@@ -1013,11 +966,11 @@ def writerealization(scenarioname,rlz,nrealizations,writename,outrain,writemax,w
     longitudes=dataset.createVariable('longitude',np.float32, ('longitude'))
     rainrate=dataset.createVariable('precrate',np.float32,('nyears','time','latitude','longitude'),zlib=True,complevel=4,least_significant_digit=1) 
     basinrainfall=dataset.createVariable('basinrainfall',np.float32,('nyears')) 
-    xlocation=dataset.createVariable('xlocation',np.int32,('nyears')) 
-    ylocation=dataset.createVariable('ylocation',np.int32,('nyears')) 
+    xlocation=dataset.createVariable('xlocation',np.int16,('nyears')) 
+    ylocation=dataset.createVariable('ylocation',np.int16,('nyears')) 
     returnperiod=dataset.createVariable('returnperiod',np.float32,('nyears')) 
-    stormnumber=dataset.createVariable('stormnumber',np.int32,('nyears'))
-    original_stormnumber=dataset.createVariable('original_stormnumber',np.int32,('nyears'))
+    stormnumber=dataset.createVariable('stormnumber',np.int16,('nyears'))
+    original_stormnumber=dataset.createVariable('original_stormnumber',np.int16,('nyears'))
     #stormtimes=dataset.createVariable('stormtimes',np.float64,('nyears'))          
     
     # Variable Attributes (time since 1970-01-01 00:00:00.0 in numpys)
@@ -1090,7 +1043,7 @@ def writerealization_nperyear(scenarioname,writename,rlz,nperyear,nrealizations,
     latitudes=dataset.createVariable('latitude',np.float32, ('latitude'))
     longitudes=dataset.createVariable('longitude',np.float32, ('longitude'))
     rainrate=dataset.createVariable('precrate',np.float32,('nyears','nperyear','time','latitude','longitude'),zlib=True,complevel=4,least_significant_digit=1) 
-    top_event=dataset.createVariable('top_event',np.int32, ('nyears'))
+    top_event=dataset.createVariable('top_event',np.int16, ('nyears'))
     
     # Variable Attributes (time since 1970-01-01 00:00:00.0 in numpys)
     latitudes.units = 'degrees_north'
@@ -1142,8 +1095,8 @@ def writemaximized(scenarioname,writename,outrain,writemax,write_ts,writex,write
     longitudes=dataset.createVariable('longitude',np.float32, ('longitude'))
     rainrate=dataset.createVariable('precrate',np.float32,('time','latitude','longitude'),zlib=True,complevel=4,least_significant_digit=1) 
     basinrainfall=dataset.createVariable('basinrainfall',np.float32) 
-    xlocation=dataset.createVariable('xlocation',np.int32) 
-    ylocation=dataset.createVariable('ylocation',np.int32) 
+    xlocation=dataset.createVariable('xlocation',np.int16) 
+    ylocation=dataset.createVariable('ylocation',np.int16) 
     #stormtimes=dataset.createVariable('stormtimes',np.float64,('nyears'))          
     
     # Variable Attributes (time since 1970-01-01 00:00:00.0 in numpys)
@@ -1193,7 +1146,7 @@ def writemaximized(scenarioname,writename,outrain,writemax,write_ts,writex,write
 # READ RAINFALL FILE FROM NETCDF (ONLY FOR RAINYDAY NETCDF-FORMATTED DAILY FILES!
 #==============================================================================
 
-def readnetcdf(rfile,variables,inbounds=False):
+def readnetcdf(rfile,variables,inbounds=False,dropvars=False):
     """
     Used to trim the dataset with defined inbounds or transposition domain
 
@@ -1212,10 +1165,11 @@ def readnetcdf(rfile,variables,inbounds=False):
         DESCRIPTION.
 
     """
-    infile=xr.open_dataset(rfile)
+    if dropvars==False:
+        infile=xr.open_dataset(rfile)
+    else:
+        infile=xr.open_dataset(rfile,drop_variables=dropvars)  # added DBW 07282023 to avoid reading in unnecessary variables
     rain_name,lat_name,lon_name = variables.values()
-    if max(infile[lon_name].values) > 180: # convert from positive degrees west to negative degrees west
-        infile[lon_name] = infile[lon_name] - 360 # DLC MOD - IT SEEMS THE CODE ASSUMES DEGREES WEST THAT GO NEGATIVE
     if np.any(inbounds!=False):
         latmin,latmax,longmin,longmax = inbounds[2],inbounds[3],inbounds[0],inbounds[1]
         outrain=infile[rain_name].sel(**{lat_name:slice(latmin,latmax)},\
@@ -1247,11 +1201,11 @@ def readcatalog(rfile) :
     Returns
     -------
     arrays
-        This returns all the properties of a storm including storm rain array, storm time, storm depth, storm center and the extent of the transpositio domain.
+        returns all the properties of a storm including storm rain array, storm time, storm depth, storm center and the extent of the transpositio domain.
         The all storms cattime, catmax, catx and caty are also returned.
 
     """
-    infile=xr.open_dataset(rfile)
+    infile=xr.open_dataset(rfile, engine='h5netcdf')
 
     outrain=infile['rain']
     outlatitude=infile['latitude']
@@ -1261,11 +1215,11 @@ def readcatalog(rfile) :
     outlongitude=infile['longitude']
     outlocx=np.array(infile['xlocation'])
     outlocy=np.array(infile['ylocation'])
-    outmax=infile['basinrainfall']
+    outmax=np.array(infile['basinrainfall'])
     cattime = np.array(infile['cattime'],dtype='datetime64[m]')
 
     try:
-        timeresolution=np.int32(infile.timeresolution)
+        timeresolution=np.int(infile.timeresolution)
         resexists=True
     except:
         resexists=False
@@ -1276,42 +1230,32 @@ def readcatalog(rfile) :
     else:
         return outrain,stormtime,outlatitude,outlongitude,outlocx,outlocy,outmax,outmask,domainmask,cattime
 
-def readtimeresolution(rfile):
-    infile=Dataset(rfile,'r')
-    try:
-        timeresolution=np.int32(infile.timeresolution)
-    except:
-        sys.exit("The time resolution of your storm catalog is ambiguous. This only appears in very specific circumstances. You can contact Dr. Daniel Wright if you need help!")
+def check_time(datetime_obj):
+    """
     
-    return timeresolution
- 
 
-#==============================================================================
-# READ RAINFALL FILE FROM NETCDF: LEGACY VERSION! ONLY NEEDED IF READING AN OLDER DATASET
-#==============================================================================
-def readcatalog_LEGACY(rfile):
-    infile=Dataset(rfile,'r')
-    outrain=np.array(infile.variables['rainrate'][:])
-    outtime=np.array(infile.variables['time'][:],dtype='datetime64[m]')
-    outlatitude=np.array(infile.variables['latitude'][:])
-    outlongitude=np.array(infile.variables['longitude'][:])
-    outlocx=np.array(infile.variables['xlocation'][:])
-    outlocy=np.array(infile.variables['ylocation'][:])
-    outmax=np.array(infile.variables['basinrainfall'][:])
-    outmask=np.array(infile.variables['gridmask'][:])
-    #domainmask=np.array(infile.variables['domainmask'][:])
-    infile.close()
-    return outrain,outtime,outlatitude,outlongitude,outlocx,outlocy,outmax,outmask
+    Parameters
+    ----------
+    datetime_obj : numpy datetime object
+        Datetime object to check the time component of the object
 
+    Returns
+    -------
+    boolean
+        returns True if the datetime object is either '12:00:00' or '00:00:00' 
+        else false
 
-    
+    """
+    time_str = str(datetime_obj).split('T')[1][:8]  # Extract the time part
+    return time_str == '00:00' or time_str == '12:00:00'
+
 #==============================================================================
 # WRITE RAINFALL FILE TO NETCDF
 #==============================================================================
 
 
 #RainyDay.writecatalog(scenarioname,catrain,catmax,catx,caty,cattime,latrange,lonrange,catalogname,nstorms,catmask,parameterfile,domainmask,timeresolution=rainprop.timeres)   
-def writecatalog_ash(scenarioname, catrain, catmax, catx, caty, cattime, latrange, lonrange, catalogname, gridmask,
+def writecatalog(scenarioname, catrain, catmax, catx, caty, cattime, latrange, lonrange, catalogname, gridmask,
                  parameterfile, dmask, nstorms, duration,storm_num,timeresolution=False):
 
     with open(parameterfile,'r') as f:
@@ -1336,18 +1280,22 @@ def writecatalog_ash(scenarioname, catrain, catmax, catx, caty, cattime, latrang
     history, missing = 'Created ' + str(datetime.now()), '-9999.'
     source = 'RainyDay Storm Catalog for scenario ' + scenarioname + '. See description for JSON file contents.'
 
-
-    data_vars = dict(rain = (("time","latitude", "longitude"),catrain[:, ::-1, :],{'units': rainrate_units, 'long_name': rainrate_name}),
-                     basinrainfall = (("catmax"),catmax.reshape(nstorms),{'units': basinrainfall_units, 'long_name': basinrainfall_name}),
-                     xlocation = (("xloc"),catx.reshape(nstorms),{'units': 'dimensionless', 'long_name': xlocation_name}),
-                     ylocation = (("yloc"),caty.reshape(nstorms),{'units': 'dimensionless', 'long_name': ylocation_name}),
-                     cattime = (("stormtime","duration"), cattime),
-                     gridmask= (("latitude", "longitude"), gridmask[::-1, :],{'units': 'dimensionless', 'long_name': gmask_name}),
-                     domainmask = (("latitude", "longitude"),dmask[::-1, :],{'units': 'dimensionless', 'long_name': domainmask_name}),
+    data_vars = dict(
+                     rain = (("time","latitude", "longitude"),catrain,{'units': rainrate_units, 'long_name': rainrate_name}),
+                    # rain = (("time","latitude", "longitude"),catrain[:, ::-1, :],{'units': rainrate_units, 'long_name': rainrate_name}),
+                     basinrainfall = (("storm_dim"),catmax.reshape(nstorms),{'units': basinrainfall_units, 'long_name': basinrainfall_name}),
+                     xlocation = (("storm_dim"),catx.reshape(nstorms),{'units': 'dimensionless', 'long_name': xlocation_name}),
+                     ylocation = (("storm_dim"),caty.reshape(nstorms),{'units': 'dimensionless', 'long_name': ylocation_name}),
+                     cattime = (("storm_dim","time"), cattime),
+                     gridmask= (("latitude", "longitude"), gridmask,{'units': 'dimensionless', 'long_name': gmask_name}),
+                     domainmask = (("latitude", "longitude"),dmask,{'units': 'dimensionless', 'long_name': domainmask_name}),
+                     # gridmask= (("latitude", "longitude"), gridmask[::-1, :],{'units': 'dimensionless', 'long_name': gmask_name}),
+                     # domainmask = (("latitude", "longitude"),dmask[::-1, :],{'units': 'dimensionless', 'long_name': domainmask_name}),
                      timeresolution = ((), timeresolution) )
     coords = dict(time = ((times_name),cattime[storm_num,:]),
-                  longitude = (("longitude"), lonrange, {'units': longitudes_units, 'long_name': longitudes_name}),
-                  latitude =  (("latitude"), latrange[::-1], {'units': latitudes_units, 'long_name': latitudes_name}),
+                  longitude = (("longitude"), lonrange.data , {'units': longitudes_units, 'long_name': longitudes_name}),
+                  latitude =  (("latitude"), latrange.data, {'units': latitudes_units, 'long_name': latitudes_name}),
+                  #latitude =  (("latitude"), latrange[::-1].data, {'units': latitudes_units, 'long_name': latitudes_name}),
                   )
 
 
@@ -1357,77 +1305,6 @@ def writecatalog_ash(scenarioname, catrain, catmax, catx, caty, cattime, latrang
 
     catalog.to_netcdf(catalogname)
     catalog.close()
-
-#### Ashar : The files are somehow not opening in the xarray.
-def writecatalog(scenarioname,catrain,catmax,catx,caty,cattime,latrange,lonrange,catalogname,nstorms,gridmask,parameterfile,dmask,timeresolution=False):
-    dataset=Dataset(catalogname, 'w', format='NETCDF4')
-    
-    # create dimensions
-    lat_dim=dataset.createDimension('latitude',len(latrange))
-    lon_dim=dataset.createDimension('longitude',len(lonrange))
-    time_dim=dataset.createDimension('time',cattime.shape[1])
-    nstorms=dataset.createDimension('nstorms',nstorms)
-
-    # create variables
-    times=dataset.createVariable('time',np.float64, ('nstorms','time',))
-    latitudes=dataset.createVariable('latitude',np.float64, ('latitude',))
-    longitudes=dataset.createVariable('longitude',np.float64, ('longitude',))
-    rainrate=dataset.createVariable('precrate',np.float32,('nstorms','time','latitude','longitude',),zlib=True,complevel=4,least_significant_digit=1) 
-    basinrainfall=dataset.createVariable('basinrainfall',np.float32,('nstorms')) 
-    xlocation=dataset.createVariable('xlocation',np.int32,('nstorms')) 
-    ylocation=dataset.createVariable('ylocation',np.int32,('nstorms')) 
-    gmask=dataset.createVariable('gridmask',np.float32,('latitude','longitude',)) 
-    domainmask=dataset.createVariable('domainmask',np.float32,('latitude','longitude',)) 
-    
-    times.long_name='time'
-    latitudes.long_name='latitude'
-    longitudes.long_name='longitude'
-    rainrate.long_name='precipitation rate'
-    basinrainfall.long_name='storm total basin averaged precipitation'
-    xlocation.long_name='x index of storm'
-    ylocation.long_name='y index of storm'
-    gmask.long_name='mask for Aw (control volume)'
-    domainmask.long_name='mask for transposition domain'
-    
-    # Variable Attributes (time since 1970-01-01 00:00:00.0 in numpys)
-    latitudes.units = 'degrees_north'
-    longitudes.units = 'degrees_east'
-    rainrate.units = 'mm hr^-1'
-    basinrainfall.units='mm'
-    times.units = 'minutes since 1970-01-01 00:00.0'
-    times.calendar = 'gregorian'
-    gmask.units="dimensionless"
-    domainmask.units="dimensionless"
-    xlocation.units='dimensionless'
-    ylocation.units='dimensionless'
-    
-    
-    # Global Attributes
-    dataset.Conventions ='CF1.8'
-    with open(parameterfile, "r") as myfile:
-        params=myfile.read()
-    myfile.close
-    dataset.description=params
-    if timeresolution!=False:
-        dataset.timeresolution=timeresolution
-
-    dataset.history = 'Created ' + str(datetime.now())
-    dataset.source = 'RainyDay Storm Catalog for scenario '+scenarioname+'. See description for SST file contents.'
-    dataset.missing='-9999.'
-    
-    # fill the netcdf file
-    latitudes[:]=latrange[::-1]
-    longitudes[:]=lonrange
-    catrain[np.isnan(catrain)]=-9999.
-    rainrate[:]=catrain[:,:,::-1,:] 
-    catmax[np.isnan(catmax)]=-9999.
-    basinrainfall[:]=catmax 
-    times[:]=cattime
-    xlocation[:]=catx
-    ylocation[:]=caty
-    gmask[:]=gridmask[::-1,:] 
-    domainmask[:]=dmask[::-1,:] 
-    dataset.close()
 
 
 def writeintensityfile(scenarioname,intenserain,filename,latrange,lonrange,intensetime):
@@ -1539,6 +1416,138 @@ def writedomain(domain,mainpath,latrange,lonrange,parameterfile):
     
     dataset.close()
 
+# =============================================================================
+# added Ashar 08162023: To extract numbers from storm files.
+# =============================================================================
+def extract_storm_number(file_path, catalogname):
+    """
+    
+
+    Parameters
+    ----------
+    file_path : string
+        File path for the storms .nc files
+    catalogname : string
+        Name of the storm catalog given in JSON file
+
+    Returns
+    -------
+    integer
+        returns the storm number from the path given in "file_path".
+
+    """
+    base_name = os.path.basename(file_path)
+    match = re.search(catalogname +r'(\d+)', base_name)
+    if match:
+        return np.int32(match.group(1))
+    return 0  
+
+def extract_date(file_path, pattern):
+    """
+    
+
+    Parameters
+    ----------
+    file_path : string
+        File path for the storm catalog file
+    pattern : string
+        catalogname gievn in the JSON file
+
+    Returns
+    -------
+    string
+        returns the date of the storm catalog in the YYYYMMDD format(string)
+
+    """
+    base_name = os.path.basename(file_path)
+    match = re.search(pattern + r'\d+_(\d{8})\.nc', base_name)
+    if match:
+        return match.group(1)
+    return None
+# =============================================================================
+# added DBW 08152023: delete existing scenario files recursively before writing new ones
+# this was provided by ChatGPT
+# =============================================================================
+def delete_files_in_directory(directory_path):
+    for item in os.listdir(directory_path):
+        item_path = os.path.join(directory_path, item)
+        if os.path.isfile(item_path):
+            try:
+                os.remove(item_path)
+                #print(f"Deleted: {item_path}")
+            except Exception as e:
+                print(f"Error deleting {item_path}: {e}")
+        elif os.path.isdir(item_path):
+            delete_files_in_directory(item_path)  # Recursively call the function for subdirectories
+
+
+# =============================================================================
+# added DBW 08142023: writing single storm scenario file using xarray
+# =============================================================================
+def writescenariofile(catrain,raintime,rainlocx,rainlocy,name_scenariofile,tstorm,tyear,trealization,maskheight,maskwidth,subrangelat,subrangelon,scenarioname,mask):
+    # the following line extracts only the transposed rainfall within the area of interest
+    transposedrain=np.multiply(catrain[:,rainlocy[0] : (rainlocy[0]+maskheight), rainlocx[0] : (rainlocx[0]+maskwidth)],mask)
+    
+    description_string='RainyDay storm scenario file for storm '+str(tstorm)+', year '+str(tyear)+', realization '+str(trealization)+', created from ' + scenarioname
+    latitudes_units,longitudes_units = 'degrees_north', 'degrees_east'
+    rainrate_units = 'mm hr^-1'
+    times_units, times_calendar = 'minutes since 1970-01-01 00:00.0' , 'gregorian'
+    
+    # Variable Names
+    times_name = 'time'                     ## change here
+    latitudes_name,longitudes_name  = 'latitude', 'longitude'
+    rainrate_name= 'precipitation rate'
+    xlocation_name, ylocation_name = 'x index of transposition', 'y index of transposition'
+    
+    history, missing = 'Created ' + str(datetime.now()), '-9999.'
+    source = 'RainyDay storm scenario file created from ' + scenarioname + '. See description for JSON file contents.'
+    
+    data=xr.Dataset(
+         {
+                "rain": (["time","latitude", "longitude"], transposedrain),
+                "xlocation": (["scalar_dim"], rainlocx),
+                "ylocation": (["scalar_dim"], rainlocy)
+                #"scenariotime":(["time"],raintime)
+            },
+            coords={
+                "time": raintime,   
+                "latitude": subrangelat, 
+                "longitude": subrangelon,
+                "scalar_dim": [0]
+            },
+            attrs={
+            "history":history, 
+            "source" :  source, 
+            "missing" : missing, 
+            "description" : description_string,  
+            "calendar" : times_calendar    
+            }   
+    )
+    
+    # # 
+    # data_vars = dict(
+    #                  rain = (("time","latitude", "longitude"),transposedrain,{'units': rainrate_units, 'long_name': rainrate_name}),
+    #                 # rain = (("time","latitude", "longitude"),catrain[:, ::-1, :],{'units': rainrate_units, 'long_name': rainrate_name}),
+    #                  xlocation = (("scalar_dim"),[rainlocx],{'units': 'dimensionless', 'long_name': xlocation_name}),
+    #                  ylocation = (("scalar_dim"),[rainlocy],{'units': 'dimensionless', 'long_name': ylocation_name}),
+    #                  time = (("time"), raintime)),
+    # coords = dict(time = ((times_name),raintime),
+    #                  longitude = (("longitude"), subrangelon.data , {'units': longitudes_units, 'long_name': longitudes_name}),
+    #                  latitude =  (("latitude"), subrangelat.data, {'units': latitudes_units, 'long_name': latitudes_name}),
+    #                  scalar_dim=(("scalar_dim"),[0])
+    #                  #latitude =  (("latitude"), latrange[::-1].data, {'units': latitudes_units, 'long_name': latitudes_name}),
+    #               )
+    
+    #attrs  = dict(history =history, source =  source, missing = missing, description = description_string,  calendar = times_calendar)
+    
+    #scenario = xr.Dataset(data_vars = data_vars, coords = coords, attrs = attrs)
+    #scenario.time.encoding['units'] = "minutes since 1970-01-01 00:00:00"
+    
+    data.to_netcdf(name_scenariofile)
+    data.close()    
+
+
+
 
 
 #==============================================================================    
@@ -1563,7 +1572,30 @@ def try_parsing_date(text):
         except ValueError:
             pass
     raise ValueError('no valid date format found')  ### This fucntion is not tested yet
+    
+    
 def createfilelist(inpath, includeyears, excludemonths):
+    """
+    
+
+    Parameters
+    ----------
+    inpath : string
+        inpath takes in the file path for the rainfall data .nc files.
+    includeyears : list
+        includeyears are the years user want to include in the storm catalog analysis
+        Default: False
+    excludemonths : list
+        exludemonths are the list of months user want to exclude from the analysis
+        Default: none    
+    Returns
+    -------
+    new_list : list
+        returns the list of files including mentioned years and excluding described months
+    nyears : int
+        returns the lenght of years inlcuded in the analysis.
+
+    """
     flist = sorted(glob.glob(inpath))
     new_list = [] ; years = set()
     for file in flist:
@@ -1580,20 +1612,6 @@ def createfilelist(inpath, includeyears, excludemonths):
             if file_month not in excludemonths:
                 new_list.append(file); years.add(file_year)
         else:
-            # DCL WORK
-            # print("type(file_year)")
-            # print(type(file_year))
-            # print("###############")
-            # print("type(includeyears)")
-            # print(type(includeyears))
-            # print("###############")
-            # print("type(file_month)")
-            # print(type(file_month))
-            # print("###############")
-            # print("type(excludemonths)")
-            # print(type(excludemonths))
-            # print("###############")
-            # END DCL WORK
             if file_year in includeyears and file_month not in excludemonths:
                 new_list.append(file); years.add(file_year)
     nyears = len(years) ## can be made more efficient
@@ -1608,7 +1626,21 @@ def rainprop_setup(infile,rainprop,variables,catalog=False):
     if catalog:
         inrain,intime,inlatitude,inlongitude,catx,caty,catmax,_,domainmask=readcatalog(infile)
     else:
-        inrain,intime,inlatitude,inlongitude=readnetcdf(infile,variables)
+        # configure things so that in the storm catalog creation loop, we only read in the necessary variables
+        invars=copy.deepcopy(variables)
+        # we don't want to drop these:
+        del invars['latname']   
+        del invars['longname']
+        keepvars=list(invars.values())
+
+        # open the "entire" netcdf file once in order to get the list of all variables:        
+        inds=xr.open_dataset(infile)
+
+        # this will only keep the variables that we need to read in. 
+        droplist=find_unique_elements(inds.keys(),keepvars) # droplist will be passed to the 'drop_variables=' in xr.open_dataset within the storm catalog creation loop in RainyDay
+        inds.close()
+        
+        inrain,intime,inlatitude,inlongitude=readnetcdf(infile,variables,dropvars=droplist)
 
     if len(inlatitude.shape)>1 or len(inlongitude.shape)>1:
         sys.exit("RainyDay isn't set up for netcdf files that aren't on a regular lat/lon grid!")
@@ -1632,7 +1664,7 @@ def rainprop_setup(infile,rainprop,variables,catalog=False):
     # print(type(tempres) , type(tdiff))
     if len(intime)*np.float32(tempres)!=1440. and catalog==False:
         sys.exit("RainyDay requires daily input files, but has detected something different.")
-    tempres=np.int32(np.float32(tempres))
+    tempres=np.int(np.float32(tempres))
 
     nodata=np.unique(inrain[inrain<0.])
     if len(nodata)>1:
@@ -1648,7 +1680,7 @@ def rainprop_setup(infile,rainprop,variables,catalog=False):
     if catalog:
         return [xres,yres], [len(inlatitude),len(inlongitude)],[np.min(inlongitude),np.max(inlongitude),np.min(inlatitude),np.max(inlatitude)],tempres,nodata,inrain,intime,inlatitude,inlongitude,catx,caty,catmax,domainmask
     else:
-        return [xres,yres], [len(inlatitude),len(inlongitude)],[np.min(inlongitude),np.max(inlongitude)+xres,np.min(inlatitude)-yres,np.max(inlatitude)],tempres,nodata
+        return [xres,yres], [len(inlatitude),len(inlongitude)],[np.min(inlongitude),np.max(inlongitude)+xres,np.min(inlatitude)-yres,np.max(inlatitude)],tempres,nodata,droplist
 
 
 #==============================================================================
@@ -1797,14 +1829,14 @@ def read_arcascii(asciifile):
     cellsize=linecache.getline(asciifile, 5)
     nodata=linecache.getline(asciifile, 6)
     
-    #ncols=np.int32(ncols.split('\n')[0].split(' ')[-1])
-    #nrows=np.int32(nrows.split('\n')[0].split(' ')[-1])
+    #ncols=np.int(ncols.split('\n')[0].split(' ')[-1])
+    #nrows=np.int(nrows.split('\n')[0].split(' ')[-1])
     
-    xllcorner=np.float32(xllcorner.split('\n')[0].split(' ')[-1])
-    yllcorner=np.float32(yllcorner.split('\n')[0].split(' ')[-1])
+    xllcorner=np.float(xllcorner.split('\n')[0].split(' ')[-1])
+    yllcorner=np.float(yllcorner.split('\n')[0].split(' ')[-1])
     
-    cellsize=np.float32(cellsize.split('\n')[0].split(' ')[-1])
-    nodata=np.float32(nodata.split('\n')[0].split(' ')[-1])
+    cellsize=np.float(cellsize.split('\n')[0].split(' ')[-1])
+    nodata=np.float(nodata.split('\n')[0].split(' ')[-1])
     
     #asciigrid = np.loadtxt(asciifile, skiprows=6)
     asciigrid = np.array(pd.read_csv(asciifile, skiprows=6,delimiter=' ', header=None),dtype='float32')
@@ -1817,7 +1849,24 @@ def read_arcascii(asciifile):
 
 
 
+#==============================================================================
+# used for prepping "drop_variables" so we don't read in unnecessary variables using xarray
+#==============================================================================
+def find_unique_elements(list1, list2):
+    """
+    Used to return only the elements of list1 that are not present in list2
 
+    Parameters
+    ----------
+    list1 : target list of values to be reduced according to list2
+    variables : list of values used to identify the values to keep in list1
 
+    Returns
+    -------
+    list with only the values in list1 that were not present in list2
 
-# %%
+    """
+    unique_elements_in_list1 = [x for x in list1 if x not in list2]
+    #unique_elements_in_list2 = [x for x in list2 if x not in list1]
+    return unique_elements_in_list1
+
