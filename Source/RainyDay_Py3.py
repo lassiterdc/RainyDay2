@@ -391,6 +391,20 @@ if domain_type.lower()=='irregular':
                 ds = shapefile.Reader(domainshp,'rb')
                 tempbox= ds.bbox
                 inarea=np.array([tempbox[0],tempbox[2],tempbox[1],tempbox[3]],dtype='float32')
+                # DCL WORK
+                print("domainshp")
+                print(domainshp)
+                print("###################################")
+                print("ds")
+                print(ds)
+                print("###################################")
+                print("tempbox")
+                print(tempbox)
+                print("###################################")
+                print("inarea")
+                print(inarea)
+                print("###################################")
+                # END DCL WORK
 
         except Exception:
             pass
