@@ -389,6 +389,8 @@ if domain_type.lower()=='irregular':
                 print("You selected 'irregular' for 'DOMAINTYPE', please note that if the domain shapefile is not in a regular lat/lon projection such as EPSG4326/WGS 84, the results will likely be incorrect!")
                 shpdom=True
                 ds = shapefile.Reader(domainshp,'rb')
+                if ds.shapeType != shapefile.POLYGON:
+                    print("warning: the transposition domain shapefile is not a polygon datatype. ")
                 tempbox= ds.bbox
                 inarea=np.array([tempbox[0],tempbox[2],tempbox[1],tempbox[3]],dtype='float32')
                 # DCL WORK
