@@ -1,0 +1,19 @@
+{
+"MAINPATH" : "/Volumes/TheCordex/Michigan_test" ,
+"SCENARIONAME" : "nlcim_RainyDay_Michigan_48hr_empirical",
+"RAINPATH" : "/Volumes/TheCordex/Michigan_test/nClimGrid-Daily/nClimGrid-Daily_precip_*.nc",
+"CATALOGNAME" : "Southeast_Michigan_test",
+"CREATECATALOG" : "false", "DURATION" : 48,
+"NYEARS" : 500 , "NSTORMS" : 800, "NREALIZATIONS" : 100,
+"TIMESEPARATION" : 12, "DOMAINTYPE" : "irregular",
+"DIAGNOSTICPLOTS" : "false", "FREQANALYSIS" : "false", 
+"EXCLUDESTORMS" : [1,3,4], "EXCLUDEMONTHS": [1,2,3,12],
+"INCLUDEYEARS" : [2014,2018], 
+"Area_Extent"  : {"LATITUDE_MIN":42.5,"LATITUDE_MAX":44.0,"LONGITUDE_MIN": -90.5, "LONGITUDE_MAX": -88.0},
+"DURATIONCORRECTION" : "false", "TRANSPOSITION" : "uniform", "RESAMPLING" : "empirical", "RETURNLEVELS": [2,5,10,25,50,100,200,500], "RETURNTHRESHOLD" : 1 , 
+"POINTAREA" : "point", "POINTLAT": 42.299 , 
+"POINTLON": -83.230, "BOX_YMIN": 43.0, "BOX_YMAX": 43.25, "BOX_XMIN" : -89.5, "BOX_XMAX" : -89.25,
+"CALCTYPE" : "PDS",
+"VARIABLES" : {"rainname": "prcp","latname":"lat","longname":"lon"},
+"DOMAINSHP" : "/Users/ashar/Library/CloudStorage/OneDrive-UW-Madison/Extreme_Paper/Shapefiles/mygeodata/1attempt_transposition_domain-polygon.shp"
+}
