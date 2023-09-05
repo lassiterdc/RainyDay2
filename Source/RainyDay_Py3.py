@@ -607,9 +607,9 @@ except Exception:
 if Scenarios and areatype.lower()!="pointlist":
     try:
         nperyear=cardinfo["NPERYEAR"]
-        if nperyear!='false' or np.int(nperyear)!=1:
-            print("RainyDay will output "+str(np.int(nperyear))+" storms per synthetic year! If this is a big number, this could be very slow!")
-            nperyear=np.int(nperyear)
+        if nperyear!='false' or np.int32(nperyear)!=1:
+            print("RainyDay will output "+str(np.int32(nperyear))+" storms per synthetic year! If this is a big number, this could be very slow!")
+            nperyear=np.int32(nperyear)
             #if nperyear==1:
             #    nperyear='false'
     #        else:
@@ -884,7 +884,7 @@ ingridx,ingridy=np.meshgrid(lonrange,latrange)
 #     except Exception:
 #         sys.exit("Can't find the input files necessary for setup to calculate time-of-day-specific IDF curves")
 
-#     starthour=starthour+np.float(rainprop.timeres/60)   # because the netcdf file timestamps correspond to the end of the accumulation period
+#     starthour=starthour+np.float32(rainprop.timeres/60)   # because the netcdf file timestamps correspond to the end of the accumulation period
 #     hourinclude=np.zeros((24*60/rainprop.timeres),dtype='int32')
 #     temphour=np.zeros((24*60/rainprop.timeres),dtype='float32')
 
@@ -986,8 +986,8 @@ maskheight=trimmask.shape[0]
 trimmask=np.array(trimmask,dtype='float32')
 catmask=np.array(catmask,dtype='float32')
 
-timeseparation=np.timedelta64(np.int(timeseparation*60.),'m')
-timestep=np.timedelta64(np.int(rainprop.timeres),'m')
+timeseparation=np.timedelta64(np.int32(timeseparation*60.),'m')
+timestep=np.timedelta64(np.int32(rainprop.timeres),'m')
 
 mnorm=np.sum(trimmask)
 
@@ -1312,7 +1312,7 @@ else:
 
 # DBW, 08012023: currently this is inactive, 
 
-durationcheck=60./rainprop.timeres*duration==np.float(catrain.shape[0])
+durationcheck=60./rainprop.timeres*duration==np.float32(catrain.shape[0])
 if durationcheck==False:
     print("Storm catalog duration is longer than the specified duration...")
     print("Sorry, but we're turning DURATIONCORRECTION on. While there might be specific use cases where what you're trying to do makes sense, it is more likely that it doesn't. And it is difficult to sort out how to handle this situation in the refactored code.")
@@ -1483,10 +1483,10 @@ if DoDiagnostics:
     
     if rainprop.subdimensions[0]>rainprop.subdimensions[1]:
         figsizex=5
-        figsizey=5+0.25*5*np.float(rainprop.subdimensions[0])/rainprop.subdimensions[1]
+        figsizey=5+0.25*5*np.float32(rainprop.subdimensions[0])/rainprop.subdimensions[1]
     elif rainprop.subdimensions[0]<rainprop.subdimensions[1]: 
         figsizey=5
-        figsizex=5+0.25*5*np.float(rainprop.subdimensions[0])/rainprop.subdimensions[1]
+        figsizex=5+0.25*5*np.float32(rainprop.subdimensions[0])/rainprop.subdimensions[1]
     else:
         figsizey=5   
         figsizex=5
@@ -2054,8 +2054,8 @@ if FreqAnalysis:
         print('Resampling and transposing storm '+str(i+1)+' out of '+str(nstorms)+' ('"{0:0.0f}".format(100*(i+1)/nstorms)+'%)')
         # UNIFORM RESAMPLING
         if transpotype=='uniform' and domain_type=='rectangular':
-            whichx[whichstorms==i,0]=np.random.randint(0,np.int(rainprop.subdimensions[1])-maskwidth+1,len(whichx[whichstorms==i]))
-            whichy[whichstorms==i,0]=np.random.randint(0,np.int(rainprop.subdimensions[0])-maskheight+1,len(whichy[whichstorms==i]))
+            whichx[whichstorms==i,0]=np.random.randint(0,np.int32(rainprop.subdimensions[1])-maskwidth+1,len(whichx[whichstorms==i]))
+            whichy[whichstorms==i,0]=np.random.randint(0,np.int32(rainprop.subdimensions[0])-maskheight+1,len(whichy[whichstorms==i]))
      
         # KERNEL-BASED AND INTENSITY-BASED RESAMPLING (ALSO NEEDED FOR IRREGULAR TRANSPOSITION DOMAINS)
         elif transpotype=='nonuniform':

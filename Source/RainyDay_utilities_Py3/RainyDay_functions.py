@@ -521,8 +521,8 @@ def killerloop_singlecell(passrain,rainsum,whichstep,nreals,ssty,sstx,nsteps,dur
 # THIS VARIANT IS SIMPLER AND UNLIKE SSTWRITE, IT ACTUALLY WORKS RELIABLY!
 #==============================================================================
 #def SSTwriteAlt(catrain,rlzx,rlzy,rlzstm,trimmask,xmin,xmax,ymin,ymax,maskheight,maskwidth):
-#    nyrs=np.int(rlzx.shape[0])
-#    raindur=np.int(catrain.shape[1])
+#    nyrs=np.int32(rlzx.shape[0])
+#    raindur=np.int32(catrain.shape[1])
 #    outrain=np.zeros((nyrs,raindur,maskheight,maskwidth),dtype='float32')
 #    unqstm,unqind,unqcnts=np.unique(rlzstm,return_inverse=True,return_counts=True)
 #    #ctr=0
@@ -542,8 +542,8 @@ def killerloop_singlecell(passrain,rainsum,whichstep,nreals,ssty,sstx,nsteps,dur
 #def SSTwriteAltPreCat(catrain,rlzx,rlzy,rlzstm,trimmask,xmin,xmax,ymin,ymax,maskheight,maskwidth,precat,ptime):    
 #    catyears=ptime.astype('datetime64[Y]').astype(int)+1970
 #    ptime=ptime.astype('datetime64[M]').astype(int)-(catyears-1970)*12+1
-#    nyrs=np.int(rlzx.shape[0])
-#    raindur=np.int(catrain.shape[1]+precat.shape[1])
+#    nyrs=np.int32(rlzx.shape[0])
+#    raindur=np.int32(catrain.shape[1]+precat.shape[1])
 #    outrain=np.zeros((nyrs,raindur,maskheight,maskwidth),dtype='float32')
 #    unqstm,unqind,unqcnts=np.unique(rlzstm,return_inverse=True,return_counts=True)
 #
@@ -565,8 +565,8 @@ def killerloop_singlecell(passrain,rainsum,whichstep,nreals,ssty,sstx,nsteps,dur
 ##def SSTwriteAltPreCatRotation(catrain,rlzx,rlzy,rlzstm,trimmask,xmin,xmax,ymin,ymax,maskheight,maskwidth,precat,ptime,delarray,rlzanglebin):
 #    catyears=ptime.astype('datetime64[Y]').astype(int)+1970
 #    ptime=ptime.astype('datetime64[M]').astype(int)-(catyears-1970)*12+1
-#    nyrs=np.int(rlzx.shape[0])
-#    raindur=np.int(catrain.shape[1]+precat.shape[1])
+#    nyrs=np.int32(rlzx.shape[0])
+#    raindur=np.int32(catrain.shape[1]+precat.shape[1])
 #    outrain=np.zeros((nyrs,raindur,maskheight,maskwidth),dtype='float32')
 #    unqstm,unqind,unqcnts=np.unique(rlzstm,return_inverse=True,return_counts=True)      # unqstm is the storm number
 #
@@ -601,8 +601,8 @@ def killerloop_singlecell(passrain,rainsum,whichstep,nreals,ssty,sstx,nsteps,dur
 def SSTspin_write_v2(catrain,rlzx,rlzy,rlzstm,trimmask,maskheight,maskwidth,precat,ptime,rainprop,rlzanglebin=None,delarray=None,spin=False,flexspin=True,samptype='uniform',cumkernel=None,rotation=False,domaintype='rectangular'):
     catyears=ptime.astype('datetime64[Y]').astype(int)+1970
     ptime=ptime.astype('datetime64[M]').astype(int)-(catyears-1970)*12+1
-    nyrs=np.int(rlzx.shape[0])
-    raindur=np.int(catrain.shape[1]+precat.shape[1])
+    nyrs=np.int32(rlzx.shape[0])
+    raindur=np.int32(catrain.shape[1]+precat.shape[1])
     outrain=np.zeros((nyrs,raindur,maskheight,maskwidth),dtype='float32')
     unqstm,unqind,unqcnts=np.unique(rlzstm,return_inverse=True,return_counts=True)      # unqstm is the storm number
     
@@ -617,8 +617,8 @@ def SSTspin_write_v2(catrain,rlzx,rlzy,rlzstm,trimmask,maskheight,maskwidth,prec
                 rndloc=np.random.random_sample(len(unqwhere))
                 shiftprex,shiftprey=numbakernel(rndloc,cumkernel)
             else:
-                shiftprex=np.random.random_integers(0,np.int(rainprop.subdimensions[1])-maskwidth-1,len(unqwhere))
-                shiftprey=np.random.random_integers(0,np.int(rainprop.subdimensions[0])-maskheight-1,len(unqwhere))
+                shiftprex=np.random.random_integers(0,np.int32(rainprop.subdimensions[1])-maskwidth-1,len(unqwhere))
+                shiftprey=np.random.random_integers(0,np.int32(rainprop.subdimensions[0])-maskheight-1,len(unqwhere))
             
         ctr=0   
         for j in unqwhere:
@@ -660,8 +660,8 @@ def SSTspin_write_v2(catrain,rlzx,rlzy,rlzstm,trimmask,maskheight,maskwidth,prec
 #def SSTspin_write_v2(catrain,rlzx,rlzy,rlzstm,trimmask,xmin,xmax,ymin,ymax,maskheight,maskwidth,precat,ptime,rainprop,rlzanglebin=None,delarray=None,spin=False,flexspin=True,samptype='uniform',cumkernel=None,rotation=False,domaintype='rectangular',intense_data=False):
 #    catyears=ptime.astype('datetime64[Y]').astype(int)+1970
 #    ptime=ptime.astype('datetime64[M]').astype(int)-(catyears-1970)*12+1
-#    nyrs=np.int(rlzx.shape[0])
-#    raindur=np.int(catrain.shape[1]+precat.shape[1])
+#    nyrs=np.int32(rlzx.shape[0])
+#    raindur=np.int32(catrain.shape[1]+precat.shape[1])
 #    outrain=np.zeros((nyrs,raindur,maskheight,maskwidth),dtype='float32')
 #    unqstm,unqind,unqcnts=np.unique(rlzstm,return_inverse=True,return_counts=True)      # unqstm is the storm number
 #    
@@ -689,8 +689,8 @@ def SSTspin_write_v2(catrain,rlzx,rlzy,rlzstm,trimmask,maskheight,maskwidth,prec
 #                rndloc=np.random.random_sample(len(unqwhere))
 #                shiftprex,shiftprey=numbakernel(rndloc,cumkernel)
 #            else:
-#                shiftprex=np.random.random_integers(0,np.int(rainprop.subdimensions[1])-maskwidth-1,len(unqwhere))
-#                shiftprey=np.random.random_integers(0,np.int(rainprop.subdimensions[0])-maskheight-1,len(unqwhere))
+#                shiftprex=np.random.random_integers(0,np.int32(rainprop.subdimensions[1])-maskwidth-1,len(unqwhere))
+#                shiftprey=np.random.random_integers(0,np.int32(rainprop.subdimensions[0])-maskheight-1,len(unqwhere))
 #            
 #        ctr=0   
 #        for j in unqwhere:
@@ -921,7 +921,7 @@ def rastermask(shpname,rainprop,masktype='simple',dissolve=True,ngenfile=False):
     elif masktype=="fraction":
         print('creating fractional mask (range from 0.0-1.0)')
         n=10
-        trans = from_origin(bndcoords[0], bndcoords[3], rainprop.spatialres[0]/np.float(n), rainprop.spatialres[1]/np.float(n))
+        trans = from_origin(bndcoords[0], bndcoords[3], rainprop.spatialres[0]/np.float32(n), rainprop.spatialres[1]/np.float32(n))
         rastertemplate=np.ones((ydim,xdim),dtype='float32')
 
         memfile = MemoryFile()
@@ -1219,7 +1219,7 @@ def readcatalog(rfile) :
     cattime = np.array(infile['cattime'],dtype='datetime64[m]')
 
     try:
-        timeresolution=np.int(infile.timeresolution)
+        timeresolution=np.int32(infile.timeresolution)
         resexists=True
     except:
         resexists=False
@@ -1664,7 +1664,7 @@ def rainprop_setup(infile,rainprop,variables,catalog=False):
     # print(type(tempres) , type(tdiff))
     if len(intime)*np.float32(tempres)!=1440. and catalog==False:
         sys.exit("RainyDay requires daily input files, but has detected something different.")
-    tempres=np.int(np.float32(tempres))
+    tempres=np.int32(np.float32(tempres))
 
     nodata=np.unique(inrain[inrain<0.])
     if len(nodata)>1:
@@ -1829,14 +1829,14 @@ def read_arcascii(asciifile):
     cellsize=linecache.getline(asciifile, 5)
     nodata=linecache.getline(asciifile, 6)
     
-    #ncols=np.int(ncols.split('\n')[0].split(' ')[-1])
-    #nrows=np.int(nrows.split('\n')[0].split(' ')[-1])
+    #ncols=np.int32(ncols.split('\n')[0].split(' ')[-1])
+    #nrows=np.int32(nrows.split('\n')[0].split(' ')[-1])
     
-    xllcorner=np.float(xllcorner.split('\n')[0].split(' ')[-1])
-    yllcorner=np.float(yllcorner.split('\n')[0].split(' ')[-1])
+    xllcorner=np.float32(xllcorner.split('\n')[0].split(' ')[-1])
+    yllcorner=np.float32(yllcorner.split('\n')[0].split(' ')[-1])
     
-    cellsize=np.float(cellsize.split('\n')[0].split(' ')[-1])
-    nodata=np.float(nodata.split('\n')[0].split(' ')[-1])
+    cellsize=np.float32(cellsize.split('\n')[0].split(' ')[-1])
+    nodata=np.float32(nodata.split('\n')[0].split(' ')[-1])
     
     #asciigrid = np.loadtxt(asciifile, skiprows=6)
     asciigrid = np.array(pd.read_csv(asciifile, skiprows=6,delimiter=' ', header=None),dtype='float32')
