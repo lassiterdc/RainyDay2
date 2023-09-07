@@ -1479,28 +1479,12 @@ def extract_date(file_path, pattern):
     """
     
     base_name = os.path.basename(file_path)
-    match = re.search(pattern + r'\d+_(\d{8})\.nc', base_name)
-    if match:
-        return match.group(1)
-    
-    # DCL WORK
-    print("filepath")
-    print(file_path)
-    print("##############################")
-    print("base_name = os.path.basename(file_path)")
-    print(os.path.basename(file_path))
-    print("##############################")
-    print("pattern")
-    print(pattern)
-    print("##############################")
-    print("pattern")
-    print(pattern)
-    print("##############################")
-    print("match = re.search(pattern + r'\d+_(\d{8})\.nc', base_name)")
-    print(re.search(pattern + r'\d+_(\d{8})\.nc', base_name))
-    print("##############################")
-    # END DCL WORK
-    return None
+    # START DCL MOD
+    yyyymmdd = base_name.split(".nc")[-2].split("_")[-1]
+    if len(yyyymmdd != 8):
+        sys.exit("Date could not be parsed from the storm catalog file. Expecting format yyyymmdd but {} was parsed as the datetime.".format(yyyymmdd))
+    return yyyymmdd
+    # END DCL MOD
 # =============================================================================
 # added DBW 08152023: delete existing scenario files recursively before writing new ones
 # this was provided by ChatGPT
