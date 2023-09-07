@@ -2694,7 +2694,7 @@ if FreqAnalysis:
                     outx=writex[stormindex==k]
                     outy=writey[stormindex==k]
                     
-                    name_scenariofile=fullpath+'/rlztns/rz'+str(trealization[0]+1)+'/scen_'+scenarioname+'_rz'+str(trealization[0]+1)+'y'+str(tyear[0]+1)+'stm'+str(tstorm[0]+1)+'.nc'
+                    name_scenariofile=fullpath+'/rlztns/scn_'+scenarioname+'_rz'+str(trealization[0]+1)+'y'+str(tyear[0]+1)+'stm'+str(tstorm[0]+1)+'.nc'
                     #outrain=RainyDay.SSTspin_write_v2(catrain,np.squeeze(writex[:,rlz]),np.squeeze(writey[:,rlz]),np.squeeze(writestorm[:,rlz]),nanmask,maskheight,maskwidth,precat,cattime[:,-1],rainprop,spin=prependrain,flexspin=False,samptype=transpotype,cumkernel=cumkernel,rotation=rotation,domaintype=domain_type)
                     RainyDay.writescenariofile(catrain,raintime,outx,outy,name_scenariofile,tstorm[0],tyear[0],trealization[0],maskheight,maskwidth,subrangelat,subrangelon,scenarioname,writemask)
     
