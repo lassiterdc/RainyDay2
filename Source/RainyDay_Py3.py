@@ -237,7 +237,7 @@ if CreateCatalog==False:
         print(np.abs(lonrange.diff(dim='longitude')).mean())
         print("####################")
         # END DCL WORK
-        if np.isclose(xres,yres)==False:
+        if np.isclose(xres,yres, atol=1e-06)==False:
             sys.exit('RainyDay currently only supports equal x and y resolutions!')
         else:
             res=np.min([yres,xres])
