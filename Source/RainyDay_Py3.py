@@ -1307,12 +1307,12 @@ if CreateCatalog==False:
                     [4:6]) not in excludemonths and np.int32(RainyDay.extract_date(storm, catalogname)[:4])\
                      in includeyears]
     # DCL WORK
-    print("catmax")
-    print(catmax)
-    print("#################################################")
-    print("catinclude")
-    print(catinclude)
-    print("#################################################")
+    # print("catmax")
+    # print(catmax)
+    # print("#################################################")
+    # print("catinclude")
+    # print(catinclude)
+    # print("#################################################")
     # END DCL WORK
     catmax=catmax[catinclude]
     catx=catx[catinclude]
