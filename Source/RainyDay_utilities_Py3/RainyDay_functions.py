@@ -31,6 +31,7 @@ from datetime import datetime, date
 import time
 import fiona
 import copy
+import pathlib
 #import nctoolkit
 
 #from netCDF4 import Dataset, num2date, date2num
@@ -1565,7 +1566,8 @@ def writescenariofile(catrain,raintime,rainlocx,rainlocy,name_scenariofile,tstor
     
     #scenario = xr.Dataset(data_vars = data_vars, coords = coords, attrs = attrs)
     #scenario.time.encoding['units'] = "minutes since 1970-01-01 00:00:00"
-
+    p = pathlib.Path(name_scenariofile).parent
+    p.mkdir(parents=True, exist_ok=True)
     data.to_netcdf(name_scenariofile)
     data.close()    
 
