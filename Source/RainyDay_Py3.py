@@ -201,8 +201,6 @@ if CreateCatalog==False:
     if stormlist_dir is not None:
         print("Using a user-defined filepath for creating the storm list.")
         stormlist = glob.glob(stormlist_dir)
-    else:
-        stormlist = glob.glob(scenarioname+'/StormCatalog/'+catalogname + '*' + '.nc')
         # dcl work
         print("stormlist")
         print(stormlist)
@@ -212,6 +210,8 @@ if CreateCatalog==False:
         print(stormlist)
         print("########################################")
         # end dcl work
+    else:
+        stormlist = glob.glob(scenarioname+'/StormCatalog/'+catalogname + '*' + '.nc')
     # END DCL MOD
     stormlist = sorted(stormlist, key=lambda path: RainyDay.extract_storm_number(path, catalogname))
     if os.path.isfile(stormlist[0])==False:
@@ -225,11 +225,16 @@ if CreateCatalog==False:
             lst_catx = []
             lst_caty = []
             lst_catmax = []
+            lst_yrs_covered = []
             for storm in stormlist:
+                yr = np.int32(RainyDay.extract_date(storm, catalogname)[:4])
+                if yr in lst_yrs_covered: # assuming the storm catalog is divided up by year, only extract the catx, caty, and catmax once per year
+                    continue
                 catrain,stormtime,latrange,lonrange,catx,caty,catmax,catmask,domainmask,cattime,timeres=RainyDay.readcatalog(storm)
                 lst_catx.append(catx)
                 lst_caty.append(caty)
                 lst_catmax.append(catmax)
+                lst_yrs_covered.append(yr)
             catx = np.concatenate(lst_catx, axis=0)
             caty = y_comb = np.concatenate(lst_caty, axis=0)
             catmax = np.concatenate(lst_catmax, axis=0)
@@ -1330,19 +1335,10 @@ if CreateCatalog==False:
         catinclude = [True if np.int32(RainyDay.extract_date(storm, catalogname)[:4])\
                  in includeyears and np.int32(RainyDay.extract_date(storm, catalogname)[4:6])\
                  not in excludemonths else False for storm in stormlist]
-        print("len(stormlist)")
-        print(len(stormlist))
-        print("#################################################")
         stormlist = [storm for storm in stormlist if np.int32(RainyDay.extract_date(storm, catalogname)\
                     [4:6]) not in excludemonths and np.int32(RainyDay.extract_date(storm, catalogname)[:4])\
                      in includeyears]
     # DCL WORK
-    print("len(stormlist)")
-    print(len(stormlist))
-    print("#################################################")
-    print("stormlist")
-    print(stormlist)
-    print("#################################################")
     print("catmax")
     print(catmax)
     print("#################################################")
