@@ -1303,10 +1303,16 @@ if CreateCatalog==False:
         catinclude = [True if np.int32(RainyDay.extract_date(storm, catalogname)[:4])\
                  in includeyears and np.int32(RainyDay.extract_date(storm, catalogname)[4:6])\
                  not in excludemonths else False for storm in stormlist]
+        print("len(stormlist)")
+        print(len(stormlist))
+        print("#################################################")
         stormlist = [storm for storm in stormlist if np.int32(RainyDay.extract_date(storm, catalogname)\
                     [4:6]) not in excludemonths and np.int32(RainyDay.extract_date(storm, catalogname)[:4])\
                      in includeyears]
     # DCL WORK
+    print("len(stormlist)")
+    print(len(stormlist))
+    print("#################################################")
     print("stormlist")
     print(stormlist)
     print("#################################################")
