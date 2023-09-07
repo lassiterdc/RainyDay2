@@ -1566,6 +1566,8 @@ def writescenariofile(catrain,raintime,rainlocx,rainlocy,name_scenariofile,tstor
     #scenario = xr.Dataset(data_vars = data_vars, coords = coords, attrs = attrs)
     #scenario.time.encoding['units'] = "minutes since 1970-01-01 00:00:00"
     
+    print(data)
+    
     data.to_netcdf(name_scenariofile, engine = "h5netcdf")
     data.close()    
 
