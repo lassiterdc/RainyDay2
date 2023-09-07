@@ -1462,8 +1462,6 @@ def extract_storm_number(file_path, catalogname):
 
 def extract_date(file_path, pattern):
     """
-    
-
     Parameters
     ----------
     file_path : string
@@ -1481,7 +1479,11 @@ def extract_date(file_path, pattern):
     base_name = os.path.basename(file_path)
     # START DCL MOD
     yyyymmdd = base_name.split(".nc")[-2].split("_")[-1]
-    if len(yyyymmdd != 8):
+    try:
+        confirm_numeric = int(yyyymmdd)
+    except:
+        sys.exit("Date could not be parsed from the storm catalog file. Expecting format yyyymmdd but {} was parsed as the datetime.".format(yyyymmdd))
+    if len(yyyymmdd) != 8:
         sys.exit("Date could not be parsed from the storm catalog file. Expecting format yyyymmdd but {} was parsed as the datetime.".format(yyyymmdd))
     return yyyymmdd
     # END DCL MOD
