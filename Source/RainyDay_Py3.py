@@ -203,12 +203,39 @@ if CreateCatalog==False:
         stormlist = glob.glob(stormlist_dir)
     else:
         stormlist = glob.glob(scenarioname+'/StormCatalog/'+catalogname + '*' + '.nc')
+        # dcl work
+        print("stormlist")
+        print(stormlist)
+        print("########################################")
+        stormlist.sort()
+        print("stormlist sorted")
+        print(stormlist)
+        print("########################################")
+        # end dcl work
+    # END DCL MOD
     stormlist = sorted(stormlist, key=lambda path: RainyDay.extract_storm_number(path, catalogname))
     if os.path.isfile(stormlist[0])==False:
         sys.exit("You need to create a storm catalog first.")
     else:
         print("Reading an existing storm catalog!")
-        catrain,stormtime,latrange,lonrange,catx,caty,catmax,catmask,domainmask,cattime,timeres=RainyDay.readcatalog(stormlist[0])
+        # DCL MOD
+        if stormlist_dir is not None:
+            catrain,stormtime,latrange,lonrange,catx,caty,catmax,catmask,domainmask,cattime,timeres=RainyDay.readcatalog(stormlist[0])
+            # catx, caty, catmax need to be combined; the other variables are storm-specific
+            lst_catx = []
+            lst_caty = []
+            lst_catmax = []
+            for storm in stormlist:
+                catrain,stormtime,latrange,lonrange,catx,caty,catmax,catmask,domainmask,cattime,timeres=RainyDay.readcatalog(storm)
+                lst_catx.append(catx)
+                lst_caty.append(caty)
+                lst_catmax.append(catmax)
+            catx = np.concatenate(lst_catx, axis=0)
+            caty = y_comb = np.concatenate(lst_caty, axis=0)
+            catmax = np.concatenate(lst_catmax, axis=0)
+        else:
+            catrain,stormtime,latrange,lonrange,catx,caty,catmax,catmask,domainmask,cattime,timeres=RainyDay.readcatalog(stormlist[0])
+        # END DCL MOD
         yres=np.abs(latrange.diff(dim='latitude')).mean()
         xres=np.abs(lonrange.diff(dim='longitude')).mean()
         catarea=[lonrange[0],lonrange[-1]+xres,latrange[-1]-yres,latrange[0]]
