@@ -199,11 +199,22 @@ except Exception:
 if CreateCatalog==False:
     # DCL MOD
     if stormlist_dir is not None:
+        print("Using a user-defined filepath for creating the storm list.")
         stormlist = glob.glob(stormlist_dir)
     else:
         stormlist = glob.glob(scenarioname+'/StormCatalog/'+catalogname + '*' + '.nc')
     # END DCL MOD
+    # DCL WORK
+    print("stormlist")
+    print(stormlist)
+    print("####################")
+    # END DCL WORK
     stormlist = sorted(stormlist, key=lambda path: RainyDay.extract_storm_number(path, catalogname))
+    # DCL WORK
+    print("stormlist after the function")
+    print(stormlist)
+    print("####################")
+    # END DCL WORK
     if os.path.isfile(stormlist[0])==False:
         sys.exit("You need to create a storm catalog first.")
     else:
@@ -212,6 +223,20 @@ if CreateCatalog==False:
         yres=np.abs(latrange.diff(dim='latitude')).mean()
         xres=np.abs(lonrange.diff(dim='longitude')).mean()
         catarea=[lonrange[0],lonrange[-1]+xres,latrange[-1]-yres,latrange[0]]
+        # DCL WORK
+        print("latrange")
+        print(latrange)
+        print("####################")
+        print("yres=np.abs(latrange.diff(dim='latitude')).mean()")
+        print(np.abs(latrange.diff(dim='latitude')).mean())
+        print("####################")
+        print("lonrange")
+        print(lonrange)
+        print("####################")
+        print("xres=np.abs(lonrange.diff(dim='longitude')).mean()")
+        print(np.abs(lonrange.diff(dim='longitude')).mean())
+        print("####################")
+        # END DCL WORK
         if np.isclose(xres,yres)==False:
             sys.exit('RainyDay currently only supports equal x and y resolutions!')
         else:
