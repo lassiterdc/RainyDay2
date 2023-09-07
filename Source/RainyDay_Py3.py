@@ -201,15 +201,7 @@ if CreateCatalog==False:
     if stormlist_dir is not None:
         print("Using a user-defined filepath for creating the storm list.")
         stormlist = glob.glob(stormlist_dir)
-        # dcl work
-        print("stormlist")
-        print(stormlist)
-        print("########################################")
         stormlist.sort()
-        print("stormlist sorted")
-        print(stormlist)
-        print("########################################")
-        # end dcl work
     else:
         stormlist = glob.glob(scenarioname+'/StormCatalog/'+catalogname + '*' + '.nc')
     # END DCL MOD
@@ -225,6 +217,7 @@ if CreateCatalog==False:
             lst_catx = []
             lst_caty = []
             lst_catmax = []
+            lst_cattime = []
             lst_yrs_covered = []
             for storm in stormlist:
                 yr = np.int32(RainyDay.extract_date(storm, catalogname)[:4])
@@ -234,10 +227,12 @@ if CreateCatalog==False:
                 lst_catx.append(catx)
                 lst_caty.append(caty)
                 lst_catmax.append(catmax)
+                lst_cattime.append(cattime)
                 lst_yrs_covered.append(yr)
             catx = np.concatenate(lst_catx, axis=0)
-            caty = y_comb = np.concatenate(lst_caty, axis=0)
+            caty = np.concatenate(lst_caty, axis=0)
             catmax = np.concatenate(lst_catmax, axis=0)
+            cattime = np.concatenate(lst_cattime, axis=0)
         else:
             catrain,stormtime,latrange,lonrange,catx,caty,catmax,catmask,domainmask,cattime,timeres=RainyDay.readcatalog(stormlist[0])
         # END DCL MOD
