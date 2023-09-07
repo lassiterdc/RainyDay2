@@ -187,8 +187,22 @@ else:
 #             raise
 #         pass
 # if you are reusing a storm catalog, identify all the associated files and create a list of them:
+
+# DCL MOD
+try:
+    stormlist_dir=cardinfo["STORMLIST_DIRECTORY"]
+except Exception:
+    stormlist_dir = None
+    print("no storm list directory specified, so the default storm list directory will be used.")
+# END DCL MOD
+
 if CreateCatalog==False:
-    stormlist = glob.glob(scenarioname+'/StormCatalog/'+catalogname + '*' + '.nc')
+    # DCL MOD
+    if stormlist_dir is not None:
+        stormlist = glob.glob(stormlist_dir)
+    else:
+        stormlist = glob.glob(scenarioname+'/StormCatalog/'+catalogname + '*' + '.nc')
+    # END DCL MOD
     stormlist = sorted(stormlist, key=lambda path: RainyDay.extract_storm_number(path, catalogname))
     if os.path.isfile(stormlist[0])==False:
         sys.exit("You need to create a storm catalog first.")
