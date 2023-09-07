@@ -435,18 +435,18 @@ if domain_type.lower()=='irregular':
                 tempbox= ds.bbox
                 inarea=np.array([tempbox[0],tempbox[2],tempbox[1],tempbox[3]],dtype='float32')
                 # DCL WORK
-                print("domainshp")
-                print(domainshp)
-                print("###################################")
-                print("ds")
-                print(ds)
-                print("###################################")
-                print("tempbox")
-                print(tempbox)
-                print("###################################")
-                print("inarea")
-                print(inarea)
-                print("###################################")
+                # print("domainshp")
+                # print(domainshp)
+                # print("###################################")
+                # print("ds")
+                # print(ds)
+                # print("###################################")
+                # print("tempbox")
+                # print(tempbox)
+                # print("###################################")
+                # print("inarea")
+                # print(inarea)
+                # print("###################################")
                 # END DCL WORK
 
         except Exception:
@@ -1333,20 +1333,6 @@ if CreateCatalog==False:
         stormlist = [storm for storm in stormlist if np.int32(RainyDay.extract_date(storm, catalogname)\
                     [4:6]) not in excludemonths and np.int32(RainyDay.extract_date(storm, catalogname)[:4])\
                      in includeyears]
-    # DCL WORK
-    print("catmax")
-    print(catmax)
-    print("#################################################")
-    print("len(catmax)")
-    print(len(catmax))
-    print("#################################################")
-    print("catinclude")
-    print(catinclude)
-    print("#################################################")
-    print("len(catinclude)")
-    print(len(catinclude))
-    print("#################################################")
-    # END DCL WORK
     catmax=catmax[catinclude]
     catx=catx[catinclude]
     caty=caty[catinclude]
