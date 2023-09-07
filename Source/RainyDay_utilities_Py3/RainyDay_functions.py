@@ -1477,10 +1477,29 @@ def extract_date(file_path, pattern):
         returns the date of the storm catalog in the YYYYMMDD format(string)
 
     """
+    
     base_name = os.path.basename(file_path)
     match = re.search(pattern + r'\d+_(\d{8})\.nc', base_name)
     if match:
         return match.group(1)
+    
+    # DCL WORK
+    print("filepath")
+    print(file_path)
+    print("##############################")
+    print("base_name = os.path.basename(file_path)")
+    print(os.path.basename(file_path))
+    print("##############################")
+    print("pattern")
+    print(pattern)
+    print("##############################")
+    print("pattern")
+    print(pattern)
+    print("##############################")
+    print("match = re.search(pattern + r'\d+_(\d{8})\.nc', base_name)")
+    print(re.search(pattern + r'\d+_(\d{8})\.nc', base_name))
+    print("##############################")
+    # END DCL WORK
     return None
 # =============================================================================
 # added DBW 08152023: delete existing scenario files recursively before writing new ones
