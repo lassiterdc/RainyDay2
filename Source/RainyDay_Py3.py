@@ -191,9 +191,10 @@ else:
 # DCL MOD
 try:
     stormlist_dir=cardinfo["STORMLIST_DIRECTORY"]
+    print("Using a user-defined directory for the storm catalog from the STORMLIST_DIRECTORY variable in the input JSON file.")
 except Exception:
     stormlist_dir = None
-    print("no storm list directory specified, so the default storm list directory will be used.")
+    # print("no storm list directory specified, so the default storm list directory will be used.")
 # END DCL MOD
 
 if CreateCatalog==False:
@@ -252,7 +253,7 @@ except Exception:
     #nstorms=100
     print("you didn't specify NSTORMS, defaulting to 20 per year, or whatever is in the catalog!")
     defaultstorms=True
-
+defaultstorms
 try:
     nsimulations=cardinfo["NYEARS"]
     print(str(nsimulations)+" years of synthetic storms will be generated, for a max recurrence interval of "+str(nsimulations)+" years!")
