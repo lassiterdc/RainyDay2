@@ -1158,7 +1158,7 @@ if CreateCatalog:
         inrain[inrain<0.]=np.nan
         
         print('Processing file '+str(i+1)+' out of '+str(len(flist))+' ('+"{0:0.0f}".format(100*(i+1)/len(flist))+'%): '+infile.split('/')[-1])
-        print("Total elapsed time (min): ".format(round((time.time() - time_benchmarking_t0)/60, 2)))
+        print("Total elapsed time (min): {}".format(round((time.time() - time_benchmarking_t0)/60, 2)))
         
 
         # THIS FIRST PART BUILDS THE STORM CATALOG
@@ -1196,7 +1196,7 @@ if CreateCatalog:
             
             rainarray[0:-1,:]=rainarray[1:int(catduration*60/rainprop.timeres),:]
             raintime[0:-1]=raintime[1:int(catduration*60/rainprop.timeres)]     
-        print("Loop time (min): ".format(round((time.time() - time_benchmarking_t1)/60, 2)))
+        print("Loop time (min): {}".format(round((time.time() - time_benchmarking_t1)/60, 2)))
 #%%
     sind=np.argsort(catmax)
     cattime=cattime[sind,:]
