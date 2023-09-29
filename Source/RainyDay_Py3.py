@@ -1162,7 +1162,11 @@ if CreateCatalog:
         
 
         # THIS FIRST PART BUILDS THE STORM CATALOG
-        for k in np.arange(0,len(intime)):     
+        print("building the storm catalog... ")
+        for k in np.arange(0,len(intime)):
+            print("Beginning loop {} out of {}...".format(k+1, len(np.arange(0,len(intime)))))
+            time_bm_whole_loop = time.time()   
+            time_bm = time.time()
             starttime=intime[k]-np.timedelta64(int(catduration*60.),'m')
             raintime[-1]=intime[k]
             rainarray[-1,:]=inrain[k,:]
@@ -1171,11 +1175,14 @@ if CreateCatalog:
             subtime=np.arange(raintime[-1],starttime,-timestep)[::-1]
             temparray=np.squeeze(np.nansum(rainarray[subtimeind,:],axis=1))
             
+            print("Time benchmark 1 (min): {}".format(round((time.time() - time_bm)/60, 2)))
+            time_bm = time.time()
             if domain_type=='irregular':
                 rainmax,ycat,xcat=RainyDay.catalogNumba_irregular(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rainsum,domainmask)
             else:
                 rainmax,ycat,xcat=RainyDay.catalogNumba(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rainsum)
-                
+            print("Time benchmark 2 (min): {}".format(round((time.time() - time_bm)/60, 2)))
+            time_bm = time.time()
             minind=np.argmin(catmax)
             tempmin=catmax[minind]
             if rainmax>tempmin:
@@ -1187,15 +1194,17 @@ if CreateCatalog:
                         cattime[checkind,:]=subtime
                         catx[checkind]=xcat
                         caty[checkind]=ycat
-
                 else:
                     catmax[minind]   =rainmax
                     cattime[minind,:]=subtime
                     catx[minind]     =xcat
                     caty[minind]     =ycat
-            
+            print("Time benchmark 3 (min): {}".format(round((time.time() - time_bm)/60, 2)))
+            time_bm = time.time()
             rainarray[0:-1,:]=rainarray[1:int(catduration*60/rainprop.timeres),:]
-            raintime[0:-1]=raintime[1:int(catduration*60/rainprop.timeres)]     
+            raintime[0:-1]=raintime[1:int(catduration*60/rainprop.timeres)]
+            print("Time benchmark 4 (min): {}".format(round((time.time() - time_bm)/60, 2)))
+            print("Time benchmark whole loop (min): {}".format(round((time.time() - time_bm_whole_loop)/60, 2)))
         print("Loop time (min): {}".format(round((time.time() - time_benchmarking_t1)/60, 2)))
 #%%
     sind=np.argsort(catmax)
