@@ -59,6 +59,7 @@ warnings.filterwarnings("ignore")
 import tracemalloc
 tracemalloc.start()
 
+time_benchmarking_t0 = time.time()
 #%%
 #==============================================================================
 # RAINFALL CLASS
@@ -1147,7 +1148,9 @@ if CreateCatalog:
     #filerange=range(2759,2763)
     #print(parameterfile_json)
     start = time.time()
-    for i in filerange: 
+    lst_times = []
+    for i in filerange:
+        time_benchmarking_t1 = time.time()
         infile=flist[i]
         inrain,intime,_,_=RainyDay.readnetcdf(infile,variables,inarea,dropvars=droplist)
         #inrain=inrain[hourinclude,:]
@@ -1155,6 +1158,8 @@ if CreateCatalog:
         inrain[inrain<0.]=np.nan
         
         print('Processing file '+str(i+1)+' out of '+str(len(flist))+' ('+"{0:0.0f}".format(100*(i+1)/len(flist))+'%): '+infile.split('/')[-1])
+        print("Total elapsed time (min): ".format(round((time.time() - time_benchmarking_t0)/60, 2)))
+        
 
         # THIS FIRST PART BUILDS THE STORM CATALOG
         for k in np.arange(0,len(intime)):     
@@ -1191,6 +1196,7 @@ if CreateCatalog:
             
             rainarray[0:-1,:]=rainarray[1:int(catduration*60/rainprop.timeres),:]
             raintime[0:-1]=raintime[1:int(catduration*60/rainprop.timeres)]     
+        print("Loop time (min): ".format(round((time.time() - time_benchmarking_t1)/60, 2)))
 #%%
     sind=np.argsort(catmax)
     cattime=cattime[sind,:]
