@@ -866,8 +866,10 @@ def findsubbox(inarea,variables,fname):
     print(infile[rain_name])
     print("################################")
     # END DCL WORK
-    outrain=infile[rain_name].sel(**{lat_name:slice(latmin,latmax)},\
+    outds=infile.sel(**{lat_name:slice(latmin,latmax)},\
                                               **{lon_name:slice(longmin,longmax)})
+    
+    outrain = outds[rain_name]
     #DCL WORK
     print("outrain")
     print(outrain)
