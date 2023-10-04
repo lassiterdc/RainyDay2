@@ -847,17 +847,28 @@ def findsubbox(inarea,variables,fname):
     infile=xr.open_dataset(fname)
     latmin,latmax,longmin,longmax = inarea[2],inarea[3],inarea[0],inarea[1]
     rain_name,lat_name,lon_name = variables.values()
-    if max(infile[lon_name].values) > 180: # convert from positive degrees west to negative degrees west
+    if (max(infile[lon_name].values) > 180) and (max(infile[lon_name].values) <= 360): # convert from positive degrees west to negative degrees west
         infile[lon_name] = infile[lon_name] - 360 # DCL MOD - IT SEEMS THE CODE ASSUMES DEGREES WEST THAT GO NEGATIVE
-    outrain=infile[rain_name].sel(**{lat_name:slice(latmin,latmax)},\
-                                              **{lon_name:slice(longmin,longmax)})
-    #DCL WORK
+    # DCL WORK
+    print("rain_name")
+    print(rain_name)
+    print("################################")
     print("(latmin,latmax)")
     print((latmin,latmax))
     print("################################")
     print("(longmin,longmax)")
     print((longmin,longmax))
     print("################################")
+    print("infile")
+    print(infile)
+    print("################################")
+    print("infile[rain_name]")
+    print(infile[rain_name])
+    print("################################")
+    # END DCL WORK
+    outrain=infile[rain_name].sel(**{lat_name:slice(latmin,latmax)},\
+                                              **{lon_name:slice(longmin,longmax)})
+    #DCL WORK
     print("outrain")
     print(outrain)
     print("################################")
@@ -1182,12 +1193,31 @@ def readnetcdf(rfile,variables,inbounds=False,dropvars=False):
         DESCRIPTION.
 
     """
+    # DCL WORK
+    print("rfile")
+    print(rfile)
+    print("#####################")
+    print("variables")
+    print(variables)
+    print("#####################")
+    print("inbounds")
+    print(inbounds)
+    print("#####################")
+    print("dropvars")
+    print(dropvars)
+    print("#####################")
+    # END DCL WORK
     if dropvars==False:
         infile=xr.open_dataset(rfile)
     else:
         infile=xr.open_dataset(rfile,drop_variables=dropvars)  # added DBW 07282023 to avoid reading in unnecessary variables
+        # DCL WORK
+        print("infile")
+        print(infile)
+        print("#####################")
+        # END DCL WORK
     rain_name,lat_name,lon_name = variables.values()
-    if max(infile[lon_name].values) > 180: # convert from positive degrees west to negative degrees west
+    if (max(infile[lon_name].values) > 180) and (max(infile[lon_name].values) <= 360): # convert from positive degrees west to negative degrees west
         infile[lon_name] = infile[lon_name] - 360 # DCL MOD - IT SEEMS THE CODE ASSUMES DEGREES WEST THAT GO NEGATIVE
     if np.any(inbounds!=False):
         latmin,latmax,longmin,longmax = inbounds[2],inbounds[3],inbounds[0],inbounds[1]
@@ -1197,8 +1227,26 @@ def readnetcdf(rfile,variables,inbounds=False,dropvars=False):
         outlongitude=outrain[lon_name]        
     else:
         outrain=infile[rain_name]
-        outlatitude=outrain[lat_name]
-        outlongitude=outrain[lat_name] 
+        # DCL WORK
+        print("anchor 1")
+        print("infile")
+        print(infile)
+        print("#####################")
+        print("outrain")
+        print(outrain)
+        print("#####################")
+        print("rain_name")
+        print(rain_name)
+        print("#####################")
+        print("lat_name")
+        print(lat_name)
+        print("#####################")
+        print("lat_name")
+        print(lat_name)
+        print("#####################")
+        # END DCL WORK
+        outlatitude=infile[lat_name] # DCL MOD
+        outlongitude=infile[lon_name]  # DCL MOD
     outtime=np.array(infile['time'],dtype='datetime64[m]')
     infile.close()
     return np.array(outrain),outtime,np.array(outlatitude),np.array(outlongitude)
@@ -1620,6 +1668,14 @@ def createfilelist(inpath, includeyears, excludemonths):
 
     """
     flist = sorted(glob.glob(inpath))
+    # DCL WORK
+    # print("#######################")
+    # print("inpath")
+    # print(inpath)
+    # print("#######################")
+    # print("flist")
+    # print(flist)
+    # END DCL WORK
     new_list = [] ; years = set()
     for file in flist:
         base = os.path.basename(file)
@@ -1662,7 +1718,11 @@ def rainprop_setup(infile,rainprop,variables,catalog=False):
         # this will only keep the variables that we need to read in. 
         droplist=find_unique_elements(inds.keys(),keepvars) # droplist will be passed to the 'drop_variables=' in xr.open_dataset within the storm catalog creation loop in RainyDay
         inds.close()
-        
+        # DCL WORK
+        # print("droplist")
+        # print(droplist)
+        droplist = False # DCL MOD
+        # END DCL WORK
         inrain,intime,inlatitude,inlongitude=readnetcdf(infile,variables,dropvars=droplist)
 
     if len(inlatitude.shape)>1 or len(inlongitude.shape)>1:
@@ -1889,6 +1949,16 @@ def find_unique_elements(list1, list2):
     list with only the values in list1 that were not present in list2
 
     """
+    # DCL WORK
+    print("Running find_unique_elements(list1, list2).....")
+    print("##############################")
+    print("list1")
+    print(list1)
+    print("##############################")
+    print("list2")
+    print(list2)
+    print("##############################")
+    # END DCL WORK
     unique_elements_in_list1 = [x for x in list1 if x not in list2]
     #unique_elements_in_list2 = [x for x in list2 if x not in list1]
     return unique_elements_in_list1

@@ -124,15 +124,15 @@ print('''Welcome to RainyDay, a framework for coupling remote sensing precipitat
 #==============================================================================
 start = time.time()
 parameterfile='ttt'
-try:
-    parameterfile=sys.argv[1]
-    #parameterfile='/Users/daniel/Google_Drive/RainyDay2/Summer2023_RefactorTesting/CONUS_Madison.json'
-    print("reading in the parameter file...")
-    ### Cardinfo takes in the  'JSON' file parameters
-    with open(parameterfile, 'r') as read_file:
-        cardinfo = json.loads(read_file.read(), object_pairs_hook=RainyDay.dict_raise_on_duplicates)   # the "hook" catches instances of duplicate keys in the json file
-except :
-    print("You either didn't specify a parameter file, or it doesn't exist on the source path given.")
+# try:
+parameterfile=sys.argv[1]
+#parameterfile='/Users/daniel/Google_Drive/RainyDay2/Summer2023_RefactorTesting/CONUS_Madison.json'
+print("reading in the parameter file...")
+### Cardinfo takes in the  'JSON' file parameters
+with open(parameterfile, 'r') as read_file:
+    cardinfo = json.loads(read_file.read(), object_pairs_hook=RainyDay.dict_raise_on_duplicates)   # the "hook" catches instances of duplicate keys in the json file
+# except :
+#     print("You either didn't specify a parameter file, or it doesn't exist on the source path given.")
 #%%
 
 
@@ -861,6 +861,11 @@ if CreateCatalog:
     print("creating a new storm catalog...")
     
     flist,nyears=RainyDay.createfilelist(inpath,includeyears,excludemonths)
+    # DCL WORK
+    # print("########################")
+    # print("flist")
+    # print(flist)
+    # END DCL WORK
     if defaultstorms:
         nstorms=nyears*20
   
