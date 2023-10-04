@@ -846,8 +846,15 @@ def findsubbox(inarea,variables,fname):
     outdim=np.empty([2], dtype= 'int')
     infile=xr.open_dataset(fname)
     # DCL WORK
+    print("fname")
+    print(fname)
+    print("################################")
     print("infile.coords")
     print(infile.coords)
+    print("################################")
+    print("infile")
+    print(infile)
+    print("################################")
     # END DCL WORK
     latmin,latmax,longmin,longmax = inarea[2],inarea[3],inarea[0],inarea[1]
     rain_name,lat_name,lon_name = variables.values()
@@ -863,12 +870,12 @@ def findsubbox(inarea,variables,fname):
     print("(longmin,longmax)")
     print((longmin,longmax))
     print("################################")
-    print("infile")
-    print(infile)
-    print("################################")
-    print("infile[rain_name]")
-    print(infile[rain_name])
-    print("################################")
+    # print("infile")
+    # print(infile)
+    # print("################################")
+    # print("infile[rain_name]")
+    # print(infile[rain_name])
+    # print("################################")
     # END DCL WORK
     outrain=infile[rain_name].sel(**{lat_name:slice(latmin,latmax)},\
                                               **{lon_name:slice(longmin,longmax)})
