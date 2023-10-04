@@ -845,6 +845,10 @@ def findsubbox(inarea,variables,fname):
     outextent = np.empty([4])
     outdim=np.empty([2], dtype= 'int')
     infile=xr.open_dataset(fname)
+    # DCL WORK
+    print("infile.coords")
+    print(infile.coords)
+    # END DCL WORK
     latmin,latmax,longmin,longmax = inarea[2],inarea[3],inarea[0],inarea[1]
     rain_name,lat_name,lon_name = variables.values()
     if (max(infile[lon_name].values) > 180) and (max(infile[lon_name].values) <= 360): # convert from positive degrees west to negative degrees west
@@ -866,10 +870,9 @@ def findsubbox(inarea,variables,fname):
     print(infile[rain_name])
     print("################################")
     # END DCL WORK
-    outds=infile.sel(**{lat_name:slice(latmin,latmax)},\
+    outrain=infile[rain_name].sel(**{lat_name:slice(latmin,latmax)},\
                                               **{lon_name:slice(longmin,longmax)})
-    
-    outrain = outds[rain_name]
+
     #DCL WORK
     print("outrain")
     print(outrain)
@@ -1209,15 +1212,11 @@ def readnetcdf(rfile,variables,inbounds=False,dropvars=False):
     print(dropvars)
     print("#####################")
     # END DCL WORK
-    if dropvars==False:
-        infile=xr.open_dataset(rfile)
-    else:
-        infile=xr.open_dataset(rfile,drop_variables=dropvars)  # added DBW 07282023 to avoid reading in unnecessary variables
-        # DCL WORK
-        print("infile")
-        print(infile)
-        print("#####################")
-        # END DCL WORK
+    infile=xr.open_dataset(rfile) # DCL MOD
+    # if dropvars==False:
+    #     infile=xr.open_dataset(rfile)
+    # else:
+    #     infile=xr.open_dataset(rfile,drop_variables=dropvars)  # added DBW 07282023 to avoid reading in unnecessary variables
     rain_name,lat_name,lon_name = variables.values()
     if (max(infile[lon_name].values) > 180) and (max(infile[lon_name].values) <= 360): # convert from positive degrees west to negative degrees west
         infile[lon_name] = infile[lon_name] - 360 # DCL MOD - IT SEEMS THE CODE ASSUMES DEGREES WEST THAT GO NEGATIVE
