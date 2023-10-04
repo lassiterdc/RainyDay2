@@ -1221,6 +1221,9 @@ def readnetcdf(rfile,variables,inbounds=False,dropvars=False):
     rain_name,lat_name,lon_name = variables.values()
     if (max(infile[lon_name].values) > 180) and (max(infile[lon_name].values) <= 360): # convert from positive degrees west to negative degrees west
         infile[lon_name] = infile[lon_name] - 360 # DCL MOD - IT SEEMS THE CODE ASSUMES DEGREES WEST THAT GO NEGATIVE
+    if (max(infile[lon_name].values) > 360) or (max(infile[lon_name].values) > 360): # DCL MOD - this means that the coordinates are in indices and not in acutal coordinates (as in Dan's Stage IV data)
+        infile[lat_name] = infile.latitude
+        infile[lon_name] = infile.longitude
     if np.any(inbounds!=False):
         latmin,latmax,longmin,longmax = inbounds[2],inbounds[3],inbounds[0],inbounds[1]
         outrain=infile[rain_name].sel(**{lat_name:slice(latmin,latmax)},\
