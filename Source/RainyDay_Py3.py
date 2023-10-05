@@ -1216,9 +1216,9 @@ if CreateCatalog:
             avg_time_per_tstep_min = round(np.average(lst_tstep_loop_time)/60, 3)
             n_tsteps_per_day = len(np.arange(0,len(intime)))
             n_days = len(filerange)
-            expected_time_per_day = avg_time_per_tstep_min * n_tsteps_per_day
-            expected_time_to_build_catalog= expected_time_per_day * n_days
-            print("Average time per timestep: {}; expected time to complete 1 day; {}; expected time to build storm catalog: {}".format(avg_time_per_tstep_min, expected_time_per_day, expected_time_to_build_catalog))
+            expected_time_per_day = round(avg_time_per_tstep_min * n_tsteps_per_day, 3)
+            expected_time_to_build_catalog= round(expected_time_per_day * n_days, 3)
+            print("[minutes] Average time per timestep: {}; expected time to complete 1 day; {}; expected time to build storm catalog: {}".format(avg_time_per_tstep_min, expected_time_per_day, expected_time_to_build_catalog))
         # print("Loop time (min): {}".format(round((time.time() - time_benchmarking_t1)/60, 2)))
 #%%
     sind=np.argsort(catmax)
