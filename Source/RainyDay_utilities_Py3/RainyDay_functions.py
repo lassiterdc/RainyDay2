@@ -847,6 +847,9 @@ def findsubbox(inarea,variables,fname):
     infile=xr.open_dataset(fname)
     # DCL MOD
     # DCL WORK
+    print("variables")
+    print(variables)
+    print("######################")
     print("lon_name")
     print(lon_name)
     print("######################")
