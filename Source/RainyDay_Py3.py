@@ -1167,6 +1167,12 @@ if CreateCatalog:
         #intime=intime[hourinclude]
         inrain[inrain<0.]=np.nan
         
+        # DCL WORK
+        ds = xr.open_dataset(infile)
+        if (max(infile[lon_name].values) > 360) or (max(infile[lon_name].values) > 360): # DCL MOD - this means that the coordinates are in indices and not in acutal coordinates (as in Dan's Stage IV data)
+            infile[lat_name] = np.sort(infile.latitude.values)
+            infile[lon_name] = np.sort(infile.longitude.values)
+        # END DCL WORK
         print('Processing file '+str(i+1)+' out of '+str(len(flist))+' ('+"{0:0.0f}".format(100*(i+1)/len(flist))+'%): '+infile.split('/')[-1])
         print("Total elapsed time (min): {}".format(round((time.time() - time_benchmarking_t0)/60, 2)))
         
@@ -1184,22 +1190,39 @@ if CreateCatalog:
             subtimeind=np.where(np.logical_and(raintime>starttime,raintime<=raintime[-1]))
             subtime=np.arange(raintime[-1],starttime,-timestep)[::-1]
             temparray=np.squeeze(np.nansum(rainarray[subtimeind,:],axis=1))
-            
+            print("features using netcdf library............")
+            print("starttime")
+            print(starttime)
+            print("raintime")
+            print(raintime)
+            print("rainarray")
+            print(rainarray)
+            print("subtimeind")
+            print(subtimeind)
+            print("subtime")
+            print(subtime)
+            print("temparray")
+            print(temparray)
+            print("##########################################################")
+
+            print("features using xarray library....")
+            print(ds)
+            # print(ds.time.values)
             # print("Time benchmark 1 (min): {}".format(round((time.time() - time_bm)/60, 2)))
             time_bm = time.time()
             if domain_type=='irregular':
                 rainmax,ycat,xcat=RainyDay.catalogNumba_irregular(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rainsum,domainmask)
                 # DCL WORK
                 sys.exit()
-                print("rainmax")
-                print(rainmax)
-                print("############")
-                print("ycat")
-                print(ycat)
-                print("############")
-                print("xcat")
-                print(xcat)
-                print("############")
+                # print("rainmax")
+                # print(rainmax)
+                # print("############")
+                # print("ycat")
+                # print(ycat)
+                # print("############")
+                # print("xcat")
+                # print(xcat)
+                # print("############")
                 # DCL WORK
             else:
                 rainmax,ycat,xcat=RainyDay.catalogNumba(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rainsum)

@@ -197,6 +197,21 @@ def catalogAlt_irregular(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rains
 
 @jit(nopython=True,fastmath=True)  
 def catalogNumba_irregular(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rainsum,domainmask):
+    """
+    DCL Notes:
+    What is this script doing?
+        it seems to be returning the x and y coordinates of the maximum rainfall in the transposition domain for the timestep
+
+    Description of each input variable:
+        temparray
+        trimmaxk
+        xlen
+        ylen
+        maskheight
+        maskwidth
+        rainsum
+        domainmask
+    """
     rainsum[:]=0.
     halfheight=int32(np.ceil(maskheight/2))
     halfwidth=int32(np.ceil(maskwidth/2))
@@ -270,7 +285,6 @@ def catalogNumba_irregular(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rai
     print(len(lst_rain))
     print("lst_rain[0:10]")
     print(lst_rain[0:10])
-
     return rmax, wheremax[0][0], wheremax[1][0]
 
 
