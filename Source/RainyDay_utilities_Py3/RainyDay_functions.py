@@ -842,6 +842,8 @@ def kernelloop(nlocs,rndloc,flatkern,ncols,tempx,tempy):
 
 
 def findsubbox(inarea,variables,fname):
+    latmin,latmax,longmin,longmax = inarea[2],inarea[3],inarea[0],inarea[1]
+    rain_name,lat_name,lon_name = variables.values()
     outextent = np.empty([4])
     outdim=np.empty([2], dtype= 'int')
     infile=xr.open_dataset(fname)
@@ -872,8 +874,6 @@ def findsubbox(inarea,variables,fname):
     print(infile)
     print("################################")
     # END DCL WORK
-    latmin,latmax,longmin,longmax = inarea[2],inarea[3],inarea[0],inarea[1]
-    rain_name,lat_name,lon_name = variables.values()
     if (max(infile[lon_name].values) > 180) and (max(infile[lon_name].values) <= 360): # convert from positive degrees west to negative degrees west
         infile[lon_name] = infile[lon_name] - 360 # DCL MOD - IT SEEMS THE CODE ASSUMES DEGREES WEST THAT GO NEGATIVE
     # DCL WORK
