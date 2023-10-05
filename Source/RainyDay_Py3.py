@@ -1212,6 +1212,7 @@ if CreateCatalog:
             raintime[0:-1]=raintime[1:int(catduration*60/rainprop.timeres)]
             # print("Time benchmark 4 (min): {}".format(round((time.time() - time_bm)/60, 2)))
             # print("Time benchmark whole loop (min): {}".format(round((time.time() - time_bm_whole_loop)/60, 2)))
+            lst_tstep_loop_time.append(time.time() - time_bm_whole_loop)
             avg_time_per_tstep_min = round(np.average(lst_tstep_loop_time)/60, 3)
             n_tsteps_per_day = len(np.arange(0,len(intime)))
             n_days = len(filerange)
