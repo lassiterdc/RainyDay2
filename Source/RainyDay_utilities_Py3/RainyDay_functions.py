@@ -245,7 +245,8 @@ def catalogNumba_irregular(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rai
             print(rainsum[y,x])
             print("np.multiply(temparray[y:(y+maskheight),x:(x+maskwidth)],trimmask)")
             print(np.multiply(temparray[y:(y+maskheight),x:(x+maskwidth)],trimmask))
-            sys.exit("DCL TESTING - if statement triggered....")
+            print("#############################################################################################")
+            # sys.exit("DCL TESTING - if statement triggered....")
         else:
             rainsum[y,x]=0.
     #wheremax=np.argmax(rainsum)
