@@ -1154,6 +1154,8 @@ if CreateCatalog:
     #print(parameterfile_json)
     start = time.time()
     lst_times = []
+    lst_tstep_loop_time = [] # DCL WORK
+    lst_day_loop_time = [] # DCL WORK
     for i in filerange:
         time_benchmarking_t1 = time.time()
         infile=flist[i]
@@ -1169,7 +1171,7 @@ if CreateCatalog:
         # THIS FIRST PART BUILDS THE STORM CATALOG
         print("building the storm catalog... ")
         for k in np.arange(0,len(intime)):
-            print("Beginning loop {} out of {}...".format(k+1, len(np.arange(0,len(intime)))))
+            # print("Beginning loop {} out of {}...".format(k+1, len(np.arange(0,len(intime)))))
             time_bm_whole_loop = time.time()   
             time_bm = time.time()
             starttime=intime[k]-np.timedelta64(int(catduration*60.),'m')
@@ -1180,13 +1182,13 @@ if CreateCatalog:
             subtime=np.arange(raintime[-1],starttime,-timestep)[::-1]
             temparray=np.squeeze(np.nansum(rainarray[subtimeind,:],axis=1))
             
-            print("Time benchmark 1 (min): {}".format(round((time.time() - time_bm)/60, 2)))
+            # print("Time benchmark 1 (min): {}".format(round((time.time() - time_bm)/60, 2)))
             time_bm = time.time()
             if domain_type=='irregular':
                 rainmax,ycat,xcat=RainyDay.catalogNumba_irregular(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rainsum,domainmask)
             else:
                 rainmax,ycat,xcat=RainyDay.catalogNumba(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rainsum)
-            print("Time benchmark 2 (min): {}".format(round((time.time() - time_bm)/60, 2)))
+            # print("Time benchmark 2 (min): {}".format(round((time.time() - time_bm)/60, 2)))
             time_bm = time.time()
             minind=np.argmin(catmax)
             tempmin=catmax[minind]
@@ -1204,13 +1206,19 @@ if CreateCatalog:
                     cattime[minind,:]=subtime
                     catx[minind]     =xcat
                     caty[minind]     =ycat
-            print("Time benchmark 3 (min): {}".format(round((time.time() - time_bm)/60, 2)))
+            # print("Time benchmark 3 (min): {}".format(round((time.time() - time_bm)/60, 2)))
             time_bm = time.time()
             rainarray[0:-1,:]=rainarray[1:int(catduration*60/rainprop.timeres),:]
             raintime[0:-1]=raintime[1:int(catduration*60/rainprop.timeres)]
-            print("Time benchmark 4 (min): {}".format(round((time.time() - time_bm)/60, 2)))
-            print("Time benchmark whole loop (min): {}".format(round((time.time() - time_bm_whole_loop)/60, 2)))
-        print("Loop time (min): {}".format(round((time.time() - time_benchmarking_t1)/60, 2)))
+            # print("Time benchmark 4 (min): {}".format(round((time.time() - time_bm)/60, 2)))
+            # print("Time benchmark whole loop (min): {}".format(round((time.time() - time_bm_whole_loop)/60, 2)))
+            avg_time_per_tstep_min = round(np.average(lst_tstep_loop_time)/60, 3)
+            n_tsteps_per_day = len(np.arange(0,len(intime)))
+            n_days = len(filerange)
+            expected_time_per_day = avg_time_per_tstep_min * n_tsteps_per_day
+            expected_time_to_build_catalog= expected_time_per_day * n_days
+            print("Average time per timestep: {}; expected time to complete 1 day; {}; expected time to build storm catalog: {}".format(avg_time_per_tstep_min, expected_time_per_day, expected_time_to_build_catalog))
+        # print("Loop time (min): {}".format(round((time.time() - time_benchmarking_t1)/60, 2)))
 #%%
     sind=np.argsort(catmax)
     cattime=cattime[sind,:]
