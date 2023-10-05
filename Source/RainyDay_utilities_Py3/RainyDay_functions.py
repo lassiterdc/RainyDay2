@@ -200,11 +200,40 @@ def catalogNumba_irregular(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rai
     rainsum[:]=0.
     halfheight=int32(np.ceil(maskheight/2))
     halfwidth=int32(np.ceil(maskwidth/2))
+    # DCL WORK
+    print("beginning loop......")
+    print("ylen")
+    print(ylen)
+    print("xlen")
+    print(xlen)
+    print("####################")
+    print("temparray")
+    print(temparray)
+    print("####################")
+    print("trimmask")
+    print(trimmask)
+    print("####################")
+    print("maskheight")
+    print(maskheight)
+    print("####################")
+    print("maskwidth")
+    print(maskwidth)
+    print("####################")
+    print("rainsum")
+    print(rainsum)
+    print("####################")
+    print("domainmask")
+    print(domainmask)
+    print("#############################################################################################")
+    # END DCL WORK
     for i in range(0,ylen*xlen):
+        
         y=i//xlen
         x=i-y*xlen
-        #print x,y
+        
+
         if np.any(np.equal(domainmask[y+halfheight,x:x+maskwidth],1.)) and np.any(np.equal(domainmask[y:y+maskheight,x+halfwidth],1.)):
+            
             rainsum[y,x]=np.nansum(np.multiply(temparray[y:(y+maskheight),x:(x+maskwidth)],trimmask))
         else:
             rainsum[y,x]=0.
