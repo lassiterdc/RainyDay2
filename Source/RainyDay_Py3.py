@@ -1170,9 +1170,9 @@ if CreateCatalog:
         # DCL WORK
         rain_name,lat_name,lon_name = variables.values()
         ds = xr.open_dataset(infile)
-        if (max(infile[lon_name].values) > 360) or (max(infile[lon_name].values) > 360): # DCL MOD - this means that the coordinates are in indices and not in acutal coordinates (as in Dan's Stage IV data)
-            infile[lat_name] = np.sort(infile.latitude.values)
-            infile[lon_name] = np.sort(infile.longitude.values)
+        if (max(ds[lon_name].values) > 360) or (max(ds[lon_name].values) > 360): # DCL MOD - this means that the coordinates are in indices and not in acutal coordinates (as in Dan's Stage IV data)
+            ds[lat_name] = np.sort(ds.latitude.values)
+            ds[lon_name] = np.sort(ds.longitude.values)
         # END DCL WORK
         print('Processing file '+str(i+1)+' out of '+str(len(flist))+' ('+"{0:0.0f}".format(100*(i+1)/len(flist))+'%): '+infile.split('/')[-1])
         print("Total elapsed time (min): {}".format(round((time.time() - time_benchmarking_t0)/60, 2)))
