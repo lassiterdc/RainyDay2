@@ -860,8 +860,8 @@ def findsubbox(inarea,variables,fname):
     print("######################")
     # END DCL WORK
     if (max(infile[lon_name].values) > 360) or (max(infile[lon_name].values) > 360): # DCL MOD - this means that the coordinates are in indices and not in acutal coordinates (as in Dan's Stage IV data)
-        infile[lat_name] = infile.latitude
-        infile[lon_name] = infile.longitude
+        infile[lat_name] = np.sort(infile.latitude.values)
+        infile[lon_name] = np.sort(infile.longitude.values)
     # END DLC MOD
     # DCL WORK
     print("fname")
@@ -1244,8 +1244,8 @@ def readnetcdf(rfile,variables,inbounds=False,dropvars=False):
     if (max(infile[lon_name].values) > 180) and (max(infile[lon_name].values) <= 360): # convert from positive degrees west to negative degrees west
         infile[lon_name] = infile[lon_name] - 360 # DCL MOD - IT SEEMS THE CODE ASSUMES DEGREES WEST THAT GO NEGATIVE
     if (max(infile[lon_name].values) > 360) or (max(infile[lon_name].values) > 360): # DCL MOD - this means that the coordinates are in indices and not in acutal coordinates (as in Dan's Stage IV data)
-        infile[lat_name] = infile.latitude
-        infile[lon_name] = infile.longitude
+        infile[lat_name] = np.sort(infile.latitude.values)
+        infile[lon_name] = np.sort(infile.longitude.values)
     if np.any(inbounds!=False):
         latmin,latmax,longmin,longmax = inbounds[2],inbounds[3],inbounds[0],inbounds[1]
         outrain=infile[rain_name].sel(**{lat_name:slice(latmin,latmax)},\
