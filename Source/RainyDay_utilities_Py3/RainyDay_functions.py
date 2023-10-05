@@ -246,7 +246,7 @@ def catalogNumba_irregular(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rai
             print("np.multiply(temparray[y:(y+maskheight),x:(x+maskwidth)],trimmask)")
             print(np.multiply(temparray[y:(y+maskheight),x:(x+maskwidth)],trimmask))
             print("#############################################################################################")
-            break
+            break # DCL MOD TESTING
         else:
             rainsum[y,x]=0.
     #wheremax=np.argmax(rainsum)
@@ -258,7 +258,6 @@ def catalogNumba_irregular(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rai
     print(wheremax[0][0])
     print("xcat")
     print(wheremax[1][0])
-    sys.exit()
     return rmax, wheremax[0][0], wheremax[1][0]
 
 
