@@ -1189,6 +1189,17 @@ if CreateCatalog:
             time_bm = time.time()
             if domain_type=='irregular':
                 rainmax,ycat,xcat=RainyDay.catalogNumba_irregular(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rainsum,domainmask)
+                # DCL WORK
+                print("rainmax")
+                print(rainmax)
+                print("############")
+                print("ycat")
+                print(ycat)
+                print("############")
+                print("xcat")
+                print(xcat)
+                print("############")
+                # DCL WORK
             else:
                 rainmax,ycat,xcat=RainyDay.catalogNumba(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rainsum)
             # print("Time benchmark 2 (min): {}".format(round((time.time() - time_bm)/60, 2)))

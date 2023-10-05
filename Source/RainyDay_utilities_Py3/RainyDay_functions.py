@@ -233,8 +233,19 @@ def catalogNumba_irregular(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rai
         
 
         if np.any(np.equal(domainmask[y+halfheight,x:x+maskwidth],1.)) and np.any(np.equal(domainmask[y:y+maskheight,x+halfwidth],1.)):
-            
+            print("statement triggered.........")
+            print("x")
+            print(x)
+            print("y")
+            print(y)
             rainsum[y,x]=np.nansum(np.multiply(temparray[y:(y+maskheight),x:(x+maskwidth)],trimmask))
+            print("rainsum")
+            print(rainsum)
+            print("rainsum[y,x]")
+            print(rainsum[y,x])
+            print("np.multiply(temparray[y:(y+maskheight),x:(x+maskwidth)],trimmask)")
+            print(np.multiply(temparray[y:(y+maskheight),x:(x+maskwidth)],trimmask))
+            sys.exit("DCL TESTING - if statement triggered....")
         else:
             rainsum[y,x]=0.
     #wheremax=np.argmax(rainsum)
