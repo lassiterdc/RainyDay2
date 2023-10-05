@@ -846,6 +846,14 @@ def findsubbox(inarea,variables,fname):
     outdim=np.empty([2], dtype= 'int')
     infile=xr.open_dataset(fname)
     # DCL MOD
+    # DCL WORK
+    print("lon_name")
+    print(lon_name)
+    print("######################")
+    print("lat_name")
+    print(lat_name)
+    print("######################")
+    # END DCL WORK
     if (max(infile[lon_name].values) > 360) or (max(infile[lon_name].values) > 360): # DCL MOD - this means that the coordinates are in indices and not in acutal coordinates (as in Dan's Stage IV data)
         infile[lat_name] = infile.latitude
         infile[lon_name] = infile.longitude
@@ -1979,3 +1987,5 @@ def find_unique_elements(list1, list2):
     #unique_elements_in_list2 = [x for x in list2 if x not in list1]
     return unique_elements_in_list1
 
+
+# %%
