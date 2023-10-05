@@ -1168,6 +1168,7 @@ if CreateCatalog:
         inrain[inrain<0.]=np.nan
         
         # DCL WORK
+        rain_name,lat_name,lon_name = variables.values()
         ds = xr.open_dataset(infile)
         if (max(infile[lon_name].values) > 360) or (max(infile[lon_name].values) > 360): # DCL MOD - this means that the coordinates are in indices and not in acutal coordinates (as in Dan's Stage IV data)
             infile[lat_name] = np.sort(infile.latitude.values)
