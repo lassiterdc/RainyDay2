@@ -1190,6 +1190,7 @@ if CreateCatalog:
             if domain_type=='irregular':
                 rainmax,ycat,xcat=RainyDay.catalogNumba_irregular(temparray,trimmask,xlen,ylen,maskheight,maskwidth,rainsum,domainmask)
                 # DCL WORK
+                sys.exit()
                 print("rainmax")
                 print(rainmax)
                 print("############")
