@@ -845,6 +845,11 @@ def findsubbox(inarea,variables,fname):
     outextent = np.empty([4])
     outdim=np.empty([2], dtype= 'int')
     infile=xr.open_dataset(fname)
+    # DCL MOD
+    if (max(infile[lon_name].values) > 360) or (max(infile[lon_name].values) > 360): # DCL MOD - this means that the coordinates are in indices and not in acutal coordinates (as in Dan's Stage IV data)
+        infile[lat_name] = infile.latitude
+        infile[lon_name] = infile.longitude
+    # END DLC MOD
     # DCL WORK
     print("fname")
     print(fname)
