@@ -862,9 +862,12 @@ if CreateCatalog:
     
     flist,nyears=RainyDay.createfilelist(inpath,includeyears,excludemonths)
     # DCL WORK
-    # print("########################")
-    # print("flist")
-    # print(flist)
+    print("inpath")
+    print(inpath)
+    print("########################")
+    print("flist")
+    print(flist)
+    print("########################")
     # END DCL WORK
     if defaultstorms:
         nstorms=nyears*20
