@@ -1206,18 +1206,18 @@ def readnetcdf(rfile,variables,inbounds=False,dropvars=False):
 
     """
     # DCL WORK
-    print("rfile")
-    print(rfile)
-    print("#####################")
-    print("variables")
-    print(variables)
-    print("#####################")
-    print("inbounds")
-    print(inbounds)
-    print("#####################")
-    print("dropvars")
-    print(dropvars)
-    print("#####################")
+    # print("rfile")
+    # print(rfile)
+    # print("#####################")
+    # print("variables")
+    # print(variables)
+    # print("#####################")
+    # print("inbounds")
+    # print(inbounds)
+    # print("#####################")
+    # print("dropvars")
+    # print(dropvars)
+    # print("#####################")
     # END DCL WORK
     infile=xr.open_dataset(rfile) # DCL MOD
     # if dropvars==False:
@@ -1239,22 +1239,22 @@ def readnetcdf(rfile,variables,inbounds=False,dropvars=False):
     else:
         outrain=infile[rain_name]
         # DCL WORK
-        print("anchor 1")
-        print("infile")
-        print(infile)
-        print("#####################")
-        print("outrain")
-        print(outrain)
-        print("#####################")
-        print("rain_name")
-        print(rain_name)
-        print("#####################")
-        print("lat_name")
-        print(lat_name)
-        print("#####################")
-        print("lat_name")
-        print(lat_name)
-        print("#####################")
+        # print("anchor 1")
+        # print("infile")
+        # print(infile)
+        # print("#####################")
+        # print("outrain")
+        # print(outrain)
+        # print("#####################")
+        # print("rain_name")
+        # print(rain_name)
+        # print("#####################")
+        # print("lat_name")
+        # print(lat_name)
+        # print("#####################")
+        # print("lat_name")
+        # print(lat_name)
+        # print("#####################")
         # END DCL WORK
         outlatitude=infile[lat_name] # DCL MOD
         outlongitude=infile[lon_name]  # DCL MOD
@@ -1961,14 +1961,14 @@ def find_unique_elements(list1, list2):
 
     """
     # DCL WORK
-    print("Running find_unique_elements(list1, list2).....")
-    print("##############################")
-    print("list1")
-    print(list1)
-    print("##############################")
-    print("list2")
-    print(list2)
-    print("##############################")
+    # print("Running find_unique_elements(list1, list2).....")
+    # print("##############################")
+    # print("list1")
+    # print(list1)
+    # print("##############################")
+    # print("list2")
+    # print(list2)
+    # print("##############################")
     # END DCL WORK
     unique_elements_in_list1 = [x for x in list1 if x not in list2]
     #unique_elements_in_list2 = [x for x in list2 if x not in list1]
