@@ -435,7 +435,7 @@ if domain_type.lower()=='irregular':
                 if ds.shapeType != shapefile.POLYGON:
                     print("warning: the transposition domain shapefile is not a polygon datatype. ")
                 tempbox= ds.bbox
-                inarea=np.array([tempbox[0],tempbox[2],tempbox[1],tempbox[3]],dtype='float32')
+                inarea=np.array([tempbox[0],tempbox[2],tempbox[1],tempbox[3]],dtype='float32') # this is the bounding box around the transposition domain
                 # DCL WORK
                 # print("domainshp")
                 # print(domainshp)
@@ -1081,7 +1081,10 @@ if CreateCatalog:
         domainmask=RainyDay.rastermask(domainshp,rainprop,'simple').astype('float32')
         # DBW 08072023-this is to ensure consistency in orientation with precipitation fields from xarray:
         domainmask=np.flipud(domainmask)
-
+        print("defined domainmask variable for irregular domain time defined using a shapefile for creating a storm catalog.....")
+        print("domainmask")
+        print(domainmask)
+        print("################################")
     elif domain_type.lower()=='rectangular':
         domainmask=np.ones((catmask.shape),dtype='float32')    
     else:
@@ -1159,6 +1162,7 @@ if CreateCatalog:
     lst_times = []
     lst_tstep_loop_time = [] # DCL WORK
     lst_day_loop_time = [] # DCL WORK
+    latmin,latmax,longmin,longmax = inarea[2],inarea[3],inarea[0],inarea[1]
     for i in filerange:
         time_benchmarking_t1 = time.time()
         infile=flist[i]
@@ -1173,6 +1177,9 @@ if CreateCatalog:
         if (max(ds[lon_name].values) > 360) or (max(ds[lon_name].values) > 360): # DCL MOD - this means that the coordinates are in indices and not in acutal coordinates (as in Dan's Stage IV data)
             ds[lat_name] = np.sort(ds.latitude.values)
             ds[lon_name] = np.sort(ds.longitude.values)
+        latmin,latmax,longmin,longmax = inarea[2],inarea[3],inarea[0],inarea[1]
+        ds=ds.sel(**{lat_name:slice(latmin,latmax)},\
+                                                  **{lon_name:slice(longmin,longmax)})
         # END DCL WORK
         print('Processing file '+str(i+1)+' out of '+str(len(flist))+' ('+"{0:0.0f}".format(100*(i+1)/len(flist))+'%): '+infile.split('/')[-1])
         print("Total elapsed time (min): {}".format(round((time.time() - time_benchmarking_t0)/60, 2)))
