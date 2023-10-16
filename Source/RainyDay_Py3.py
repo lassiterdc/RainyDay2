@@ -24,6 +24,7 @@
 # IMPORT STUFF!
 #==============================================================================
 #%%
+from pathlib import Path # DCL MOD
 import os
 import re
 import sys
@@ -1298,7 +1299,10 @@ if CreateCatalog:
     # we might need something here that catches instances when NSTORMS is big, but the actual amount of data fed in isn't enough to find that many storms. This produced problems for me.
     if os.path.exists(scenarioname + '/Stormcatalog'):
         shutil.rmtree(scenarioname + '/Stormcatalog')
-    os.mkdir(scenarioname + '/StormCatalog')
+    # DCL MOD BEGIN
+    # os.mkdir(scenarioname + '/StormCatalog')
+    Path(scenarioname + '/StormCatalog').mkdir(parents=True, exist_ok=True)
+    # DCL MOD END
     
     # This part saves each storm as single file #
     _,readtime,_,_ = RainyDay.readnetcdf(flist[0],variables,inarea,dropvars=droplist)
