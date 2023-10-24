@@ -1385,16 +1385,15 @@ def readcatalog(rfile) :
     outlocy=np.array(infile['ylocation'])
     outmax=np.array(infile['basinrainfall'])
     # DCL WORK
-    print("########################################")
-    print("rfile")
-    print(rfile)
-    print("########################################")
-    print("infile")
-    print(infile)
-    print("########################################")
+    # print("########################################")
+    # print("rfile")
+    # print(rfile)
+    # print("########################################")
+    # print("infile")
+    # print(infile)
+    # print("########################################")
     # END DCL WORK
     cattime = np.array(infile['cattime'],dtype='datetime64[m]')
-    sys.exit("TEST DONE") # DCL WORK
 
     try:
         timeresolution=np.int32(infile.timeresolution)
