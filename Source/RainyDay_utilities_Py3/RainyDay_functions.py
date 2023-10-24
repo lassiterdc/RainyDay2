@@ -1394,6 +1394,7 @@ def readcatalog(rfile) :
     print("########################################")
     # END DCL WORK
     cattime = np.array(infile['cattime'],dtype='datetime64[m]')
+    sys.exit("TEST DONE") # DCL WORK
 
     try:
         timeresolution=np.int32(infile.timeresolution)
