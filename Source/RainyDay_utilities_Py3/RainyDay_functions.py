@@ -1386,6 +1386,9 @@ def readcatalog(rfile) :
     outmax=np.array(infile['basinrainfall'])
     # DCL WORK
     print("########################################")
+    print("rfile")
+    print(rfile)
+    print("########################################")
     print("infile")
     print(infile)
     print("########################################")
