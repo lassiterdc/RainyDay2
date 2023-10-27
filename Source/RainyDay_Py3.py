@@ -1370,15 +1370,15 @@ print("trimming storm catalog...")
 
 if CreateCatalog==False:
     # DCL WORK
-    print("duration")
-    print(duration)
-    print("#################################")
-    print("catrain.shape[0]")
-    print(catrain.shape[0])
-    print("#################################")
-    print("rainprop.timeres")
-    print(rainprop.timeres)
-    print("#################################")
+    # print("duration")
+    # print(duration)
+    # print("#################################")
+    # print("catrain.shape[0]")
+    # print(catrain.shape[0])
+    # print("#################################")
+    # print("rainprop.timeres")
+    # print(rainprop.timeres)
+    # print("#################################")
     # END DCL WORK
     if duration>catrain.shape[0]*rainprop.timeres/60.:
         sys.exit("The specified duration is longer than the length of the storm catalog")
