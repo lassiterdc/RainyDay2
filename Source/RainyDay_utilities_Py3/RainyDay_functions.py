@@ -1309,7 +1309,7 @@ def readnetcdf(rfile,variables,inbounds=False,dropvars=False):
     # print(dropvars)
     # print("#####################")
     # END DCL WORK
-    infile=xr.open_dataset(rfile) # DCL MOD
+    infile=xr.open_dataset(rfile, engine = "h5netcdf") # DCL MOD
     # if dropvars==False:
     #     infile=xr.open_dataset(rfile)
     # else:
