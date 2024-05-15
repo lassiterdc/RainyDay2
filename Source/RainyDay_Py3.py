@@ -1308,6 +1308,9 @@ if CreateCatalog:
     _,readtime,_,_ = RainyDay.readnetcdf(flist[0],variables,inarea,dropvars=droplist)
     print("Writing Storm Catalog!")
     for i in range(nstorms):
+        # dcl work
+        print("processing storm {} out of {}".format(i, nstorms))
+        # end dcl work
         start_time = cattime[i,0]
         end_time   = cattime[i,-1]
         current_datetime = start_time
@@ -1331,7 +1334,12 @@ if CreateCatalog:
                     if current_date.replace("-","") == match.group().replace("-","").replace("/",""):
                         stm_file = file
                         break
+                # dcl work
                 stm_rain,stm_time,_,_ = RainyDay.readnetcdf(stm_file,variables,inbounds=inarea,dropvars=droplist)
+                if stm_rain is None:
+                    print("skipping this storm...")
+                    break
+                # end dcl work
             cind = np.where(stm_time == current_datetime)[0][0]
             catrain[k,:] = stm_rain[cind,:]
             current_datetime += rainprop.timeres 

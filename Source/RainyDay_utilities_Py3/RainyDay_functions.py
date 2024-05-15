@@ -1296,20 +1296,25 @@ def readnetcdf(rfile,variables,inbounds=False,dropvars=False):
 
     """
     # DCL WORK
-    # print("rfile")
-    # print(rfile)
-    # print("#####################")
-    # print("variables")
-    # print(variables)
-    # print("#####################")
-    # print("inbounds")
-    # print(inbounds)
-    # print("#####################")
-    # print("dropvars")
-    # print(dropvars)
-    # print("#####################")
+    print("rfile")
+    print(rfile)
+    print("#####################")
+    print("variables")
+    print(variables)
+    print("#####################")
+    print("inbounds")
+    print(inbounds)
+    print("#####################")
+    print("dropvars")
+    print(dropvars)
+    print("#####################")
+    try:
+        infile=xr.open_dataset(rfile, engine = "h5netcdf") # DCL MOD
+    except Exception as e:
+        print("Ran into error when trying to run line infile=xr.open_dataset(rfile, engine = 'h5netcdf')")
+        print(e)
+        return None,None,None,None
     # END DCL WORK
-    infile=xr.open_dataset(rfile, engine = "h5netcdf") # DCL MOD
     # if dropvars==False:
     #     infile=xr.open_dataset(rfile)
     # else:
@@ -1329,22 +1334,21 @@ def readnetcdf(rfile,variables,inbounds=False,dropvars=False):
     else:
         outrain=infile[rain_name]
         # DCL WORK
-        # print("anchor 1")
-        # print("infile")
-        # print(infile)
-        # print("#####################")
-        # print("outrain")
-        # print(outrain)
-        # print("#####################")
-        # print("rain_name")
-        # print(rain_name)
-        # print("#####################")
-        # print("lat_name")
-        # print(lat_name)
-        # print("#####################")
-        # print("lat_name")
-        # print(lat_name)
-        # print("#####################")
+        print("infile")
+        print(infile)
+        print("#####################")
+        print("outrain")
+        print(outrain)
+        print("#####################")
+        print("rain_name")
+        print(rain_name)
+        print("#####################")
+        print("lat_name")
+        print(lat_name)
+        print("#####################")
+        print("lat_name")
+        print(lat_name)
+        print("#####################")
         # END DCL WORK
         outlatitude=infile[lat_name] # DCL MOD
         outlongitude=infile[lon_name]  # DCL MOD
