@@ -1481,9 +1481,24 @@ def writecatalog(scenarioname, catrain, catmax, catx, caty, cattime, latrange, l
 
 
     attrs  = dict(history =history, source =  source, missing = missing, description = str(params),  calendar = times_calendar)
+
     catalog = xr.Dataset(data_vars = data_vars, coords = coords, attrs = attrs)
     catalog.time.encoding['units'] = "minutes since 1970-01-01 00:00:00"
-
+    # DCL WORK
+    print("###################################")
+    print("data_vars")
+    print(data_vars)
+    print("###################################")
+    print("coords")
+    print(coords)
+    print("###################################")
+    print("catalog")
+    print(catalog)
+    print("###################################")
+    print("catalogname")
+    print(catalogname)
+    print("###################################")
+    # END DCL WORK
     catalog.to_netcdf(catalogname)
     catalog.close()
 
